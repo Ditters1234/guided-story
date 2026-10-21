@@ -11,6 +11,7 @@
     "node": ">=24"
   },
   "scripts": {
+    "git:audit": "node scripts/git-audit.mjs",
     "dev": "node scripts/start.mjs dev",
     "play": "node scripts/start.mjs play --production",
     "play:dev": "node scripts/start.mjs play",

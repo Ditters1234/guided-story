@@ -1,0 +1,2 @@
+# The Git hook must remain executable shell text on Windows.
+.githooks/* text eol=lf

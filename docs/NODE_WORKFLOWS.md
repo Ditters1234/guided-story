@@ -1,8 +1,8 @@
 # Node-based story workflows — next project milestone
 
-Decision date: October 21, 2026. **Approved as the next development milestone; implementation has not started.** This is an evolution of the existing Storyweaver project and its TypeScript/SvelteKit engine. The user asked to make the architectural review an official next step. This document defines the plan; it does not claim a working graph editor or runner.
+Decision date: October 21, 2026. **Approved as the next development milestone; phase-1 contracts/default graph are implemented.** This is an evolution of the existing Storyweaver project and its TypeScript/SvelteKit engine. [Phase-1 preparation and operation map](NODE_WORKFLOW_PHASE_ONE.md) records the isolated descriptors, validation, storage boundaries and controlled characterization. There is no executable graph runner or canvas yet; production generation still uses the existing engine.
 
-The latest implemented checkpoint remains [the recovery review](PASSAGE_RECOVERY_REVIEW.md): 366 automated tests, clean type/build checks and four isolated browser suites. Those results belong to that checkpoint and have not been rerun for this documentation change.
+The prior application checkpoint is [the recovery review](PASSAGE_RECOVERY_REVIEW.md): 366 automated tests, clean type/build checks and four isolated browser suites. Phase-1 verification is recorded separately in the [implementation notes](NODE_WORKFLOW_PHASE_ONE.md); historical browser results are not new workflow verification.
 
 ## Intended outcome
 
@@ -140,4 +140,4 @@ The milestone is complete when the default pipeline runs through the new engine,
 
 ## Starting point for the next implementation turn
 
-Start with **phase 1 only**: inspect the existing operation boundaries, define the minimal contracts and default graph fixture, add meaningful deterministic contract/equivalence checks, and document what remains coupled. Establish those contracts before choosing a canvas library or rewriting the main reader. Continue subsequent phases in order as their gates are met.
+Phase 1 is implemented as descriptors/validation and existing-engine characterization, without production integration. Next proceed to **phase 2**, starting with continuation adapters and authoritative artifact persistence. Prove controlled behavior parity before opening/replacement and before switching entry points. Establish runner/recovery behavior before choosing a canvas library or rewriting the main reader. Continue subsequent phases in order as their gates are met.

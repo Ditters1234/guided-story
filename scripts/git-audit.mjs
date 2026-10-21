@@ -5,6 +5,7 @@ import { unzipSync } from 'fflate';
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
 const paths = git('ls-files', '--cached', '-z').split('\0').filter(Boolean);
+if (!paths.length) { console.log('Git audit: no staged/tracked files.'); process.exit(0); }
 const failures = [];
 const ignored = spawnSync('git', ['check-ignore', '--no-index', '--stdin', '-z'], {
   input: paths.join('\0') + '\0', encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'],
@@ -22,7 +23,8 @@ function collect(value) {
 }
 for (const name of readdirSync('config').filter(name => name.includes('.local.') && name.endsWith('.json'))) {
   // Read only configured credential fields; values never appear in audit output.
-  collect(JSON.parse(readFileSync(`config/${name}`, 'utf8')));
+  try { collect(JSON.parse(readFileSync(`config/${name}`, 'utf8'))); }
+  catch { throw new Error('Cannot parse local connection settings for the Git audit. Contents are withheld.'); }
 }
 const token = /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[A-Z0-9]{16}/;
 function inspect(path, bytes) {
