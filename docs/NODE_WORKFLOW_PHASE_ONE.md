@@ -4,7 +4,7 @@ October 21, 2026. Phase 1 adds descriptors and validation inside the existing ap
 
 ## Source checkpoint and Git hygiene
 
-The existing application is checkpointed in local commit `fb8a6cc`. Work continues on `codex/story-workflow-contracts`; no remote repository or publication was created.
+The existing application is checkpointed in commit `fb8a6cc`, and the phase-1 implementation is `2ae0a4c`. The user subsequently requested GitHub hosting and explicitly selected public visibility: [Ditters1234/guided-story](https://github.com/Ditters1234/guided-story) is linked as `origin`. The initial upload includes the complete audited history and phase 1 on `main`, plus `codex/story-workflow-contracts`. The local `master` branch retains the original baseline checkpoint.
 
 `.gitignore` excludes saved libraries/media, local connection files, imported private workflows, environment files, databases, credential/key files, build/release output, test output, reference checkouts, editor caches and model scratch files. Only the three existing documented fictional fixture directories are allowed under `exports/`; a new personal export directory is ignored by default. Keep personal exports in ignored data/export locations rather than adding them to a fixture directory.
 
