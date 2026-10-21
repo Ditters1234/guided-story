@@ -35,6 +35,7 @@ import { retainedPassageSchema, recoveryActionSchema, type RetainedPassage, type
 import { passageContentSchema, passageProposalSchema as recoveredProposalSchema, type PassageContent, type PassageProposal } from '../passage-proposal';
 import { recoveryHistoryHash, recoverySourceHash, recoveryFacts, recoveryBaseline } from './passage-recovery-state';
 import { StoryWorkflowStore } from './story-workflow/store';
+import { WorkflowPresetStore } from './story-workflow/presets';
 export { StoryError } from '../errors';
 export type PreparationSourceKind = 'setup' | 'story';
 const id = z.string().min(1).max(100);
@@ -70,6 +71,8 @@ export class StoryRepository {
   private db: DatabaseSync;
   readonly mediaStore: MediaStore;
   private workflowStore?: StoryWorkflowStore;
+  private presetStore?: WorkflowPresetStore;
+  get workflowPresets(){return this.presetStore??=new WorkflowPresetStore(this.db);}
   /** Experimental workflow state is opt-in; ordinary repository use creates no workflow tables. */
   get workflows() { return this.workflowStore ??= new StoryWorkflowStore(this.db); }
   constructor(path: string, seed = false, mediaRoot?: string) {

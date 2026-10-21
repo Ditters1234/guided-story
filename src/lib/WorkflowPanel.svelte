@@ -6,7 +6,7 @@
   import { workflowNodeName, workflowModeName } from './story-workflow/presentation';
   import WorkflowGraph from './WorkflowGraph.svelte';
   import PassageRecovery from './PassageRecovery.svelte';
-  let {busy=$bindable(false),canGenerate=false,onDirty=()=>{},onOpenSource,onSaved}:{busy?:boolean;canGenerate?:boolean;onDirty?:(value:boolean)=>void;onOpenSource:(kind:'setup'|'story',id:string,record?:{kind:'item'|'character'|'place';id:string})=>void;onSaved:(story:Story)=>void}=$props();
+  let {busy=$bindable(false),canGenerate=false,onDirty=()=>{},onEditPresets=()=>{},onOpenSource,onSaved}:{busy?:boolean;canGenerate?:boolean;onDirty?:(value:boolean)=>void;onEditPresets?:()=>void;onOpenSource:(kind:'setup'|'story',id:string,record?:{kind:'item'|'character'|'place';id:string})=>void;onSaved:(story:Story)=>void}=$props();
   let runs=$state<WorkflowRunList['runs']>([]),next=$state<number|null>(null),query=$state(''),listLoading=$state(false),listFailed=$state(false);
   let selected=$state(''),detail=$state<WorkflowInspection|null>(null),node=$state<WorkflowNodeInspection|null>(null),nodeId=$state(''),source=$state<Story|SetupDraft|null>(null);
   let loading=$state(false),nodeLoading=$state(false),detailFailed=$state(false),problem=$state(''),nodeProblem=$state(''),note=$state(''),dirty=$state(false),showGraph=$state(false),refreshKey=$state(0);
@@ -78,6 +78,7 @@
 <main class="workflow-view">
   <div class="eyebrow">Story workflows</div><h1>Workflow history</h1>
   <p>Inspect how a passage was written and checked. A new world-update check reuses retained prose and still requires your review before saving.</p>
+  <button onclick={onEditPresets} disabled={busy}>Edit workflow presets</button>
   {#if problem}<p class="notice" role="alert">{problem}</p>{/if}{#if note}<p role="status">{note}</p>{/if}
   <div class="controls"><label>Find a run<input bind:value={query} placeholder="Story, opening, failed…" /></label><button type="button" onclick={refresh} disabled={busy||loading||listLoading}>{listLoading?'Loading history…':'Refresh workflow history'}</button></div>
   <div class="run-list" aria-label="Workflow runs">{#each visible as row}<button type="button" class:chosen={selected===row.run.id} aria-pressed={selected===row.run.id} onclick={()=>selectRun(row.run.id)} disabled={busy||loading}><strong>{row.title} · {workflowModeName(row.run.mode)}</strong><span>{row.run.status.replaceAll('-',' ')} · {row.removedAt?'Detailed calls removed':`${row.calls} provider calls`} · {new Date(row.run.createdAt).toLocaleString()}{row.removedAt?' · Details removed':''}</span><small>{row.run.id}</small></button>{:else}<p class="muted">{listLoading?'Loading runs…':query?'No matching runs in this page of history.':'No story workflow runs yet. New generated passages will appear here.'}</p>{/each}</div>

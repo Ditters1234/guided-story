@@ -4,6 +4,7 @@
   import type { Character, LibraryEntry, Story } from '#lib/story';
   import DevMenu from '#lib/DevMenu.svelte';
   import WorkflowPanel from '#lib/WorkflowPanel.svelte';
+  import WorkflowPresetEditor from '#lib/WorkflowPresetEditor.svelte';
   import SettingsPanel from '#lib/SettingsPanel.svelte';
   import MediaPanel from '#lib/MediaPanel.svelte';
   import { mediaUrl } from '#lib/media';
@@ -55,6 +56,7 @@
   let recordsKind=$state<RecordKind>('place'),recordsId=$state(''),recordsSession=$state(0),recordsDirty=$state(false);
   let pinsDirty=$state(false);
   let mapDirty=$state(false);
+  let presetDirty=$state(false);
   let preparationDirty=$state(false),devDirty=$state(false),workflowDirty=$state(false),backgroundDirty=$state(false);
   let librarySearch=$state(''),contentsSearch=$state(''),libraryLoading=$state(false);
   let libraryRenameDrafts=$state<Record<string,boolean>>({});
@@ -70,6 +72,7 @@
   async function closeCorrection(){showCorrection=false;correctionDirty=false;await tick();correctionTrigger?.focus({preventScroll:true});correctionTrigger?.scrollIntoView({block:'nearest'});}
   function correctionSaved(saved:Story){if(story)reconcileNotebook(story,saved);story=saved;refreshCharacterDraft(saved);updateLibrary(saved);if(saved.recap?.stale)recapCurrent=false;status='Reviewed corrections saved to current story records';}
   function leaveEditor(){
+    if(view==='workflow-presets'&&presetDirty)return confirm('Discard the unsaved workflow preset edits? Save draft first to keep them.');
     if(view==='map'&&mapDirty)return confirm('Discard the unsaved world map record edits or AI instructions? Save them first to keep them.');
     if(view==='workflows'&&workflowDirty)return confirm('Discard the unsubmitted workflow rechecking guidance? Submit it with Retry world updates first to keep it.');
     if(view==='prepare'&&preparationDirty)return confirm('Discard the scene preparation draft? Saved previews remain available.');
@@ -369,7 +372,7 @@
   });
 </script>
 
-<svelte:window onbeforeunload={e=>{if(mapDirty||preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
+<svelte:window onbeforeunload={e=>{if(presetDirty||mapDirty||preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
 
 <svelte:head><title>{story?.title || 'Library'} · Storyweaver</title><meta name="description" content="Read, direct and illustrate your own ongoing novel." /></svelte:head>
 
@@ -391,7 +394,9 @@
   {:else if view === 'new'}
     {#key setupSession}<NewStory initial={setupInitial} canGenerate={Boolean(connections?.text.model.trim())} bind:busy onSaved={draftSaved} onCreated={storyCreated} onDirty={dirty=>setupDirty=dirty} />{/key}
   {:else if view === 'workflows'}
-    <WorkflowPanel bind:busy canGenerate={Boolean(connections?.text.model.trim())} onDirty={value=>workflowDirty=value} onOpenSource={openWorkflowSource} onSaved={saved=>{prepare(saved);updateLibrary(saved);status='Recovered passage saved';}} />
+    <WorkflowPanel bind:busy canGenerate={Boolean(connections?.text.model.trim())} onEditPresets={()=>navigate('workflow-presets')} onDirty={value=>workflowDirty=value} onOpenSource={openWorkflowSource} onSaved={saved=>{prepare(saved);updateLibrary(saved);status='Recovered passage saved';}} />
+  {:else if view === 'workflow-presets'}
+    <WorkflowPresetEditor bind:busy canGenerate={Boolean(connections?.text.model.trim())} onDirty={value=>presetDirty=value} onBack={()=>navigate('workflows')}/>
   {:else if view === 'dev'}
     <DevMenu {story} {busy} onDirty={value=>devDirty=value} onReload={reloadRecords} canGenerate={Boolean(connections?.text.model.trim())} bind:direction={() => direction, value => { direction=value;rememberDirectionDraft(); }} onMutate={mutate} onStorySaved={saved => { story = saved; updateLibrary(saved); status = 'Continuity memory saved locally'; }} />
   {:else if view === 'illustrate' && story}
