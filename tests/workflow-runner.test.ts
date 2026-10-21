@@ -105,6 +105,10 @@ test('cancellation during extraction retains prose, releases the source job and 
     assert.equal(r.listRetained('story',story.id)[0].status,'blocked');
     assert.equal(getJobs().find({storyId:story.id,requestId:input.requestId})!.state,'cancelled');
     assert.ok(r.workflows.providerIO(run.id).at(-1)!.response);
+    await assert.rejects(runContinuationWorkflow(r,story.id,input,workflowSettings(),signal(),{fetcher:provider.fetcher}),/already started/);
+    assert.equal(getJobs().find({storyId:story.id,requestId:input.requestId})!.state,'cancelled');
+    assert.equal(getJobs().find({storyId:story.id,requestId:input.requestId})!.attempt,1);
+    assert.deepEqual(provider.stages,['narrate','extract']);
   }finally{r.close();}
 });
 

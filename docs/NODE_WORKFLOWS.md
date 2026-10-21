@@ -1,6 +1,6 @@
 # Node-based story workflows — next project milestone
 
-Decision date: October 21, 2026. **Approved as the next development milestone; phase 1 and phase 2's continuation runner/artifact slice are implemented. Phase 2 remains incomplete.** This is an evolution of the existing Storyweaver project and its TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records the contracts and operation map; [phase 2's first slice](NODE_WORKFLOW_PHASE_TWO.md) adds opt-in continuation execution and durable recovery/artifacts. Opening/replacement execution, production integration and the canvas remain pending; normal generation still uses the legacy orchestration over shared engine operations.
+Decision date: October 21, 2026. **Phases 1 and 2 are implemented.** This evolves the existing Storyweaver TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records contracts and operation ownership; [phase 2](NODE_WORKFLOW_PHASE_TWO.md) implements all passage modes, durable outputs, reviewed recovery and production entry-point integration. New generation requests use the runner, with legacy replay/fallback preserved. The canvas and editable graph UI remain pending.
 
 The prior application checkpoint is [the recovery review](PASSAGE_RECOVERY_REVIEW.md): 366 automated tests, clean type/build checks and four isolated browser suites. Phase-1 verification is recorded separately in the [implementation notes](NODE_WORKFLOW_PHASE_ONE.md); historical browser results are not new workflow verification.
 
@@ -76,7 +76,7 @@ Model/API configuration supplies an existing connection; it does not itself make
 
 ### 2. Executable runner with current-behavior parity
 
-**Implemented first slice:** opt-in continuation execution, durable attempts/artifacts/provider bodies, effects-only retry, reviewed atomic acceptance and explicit complete-content recovery. See [implementation and remaining gate](NODE_WORKFLOW_PHASE_TWO.md). This does not complete phase 2 or authorize switching normal generation routes yet.
+**Implemented:** opening, continuation and latest replacement, durable attempts/artifacts/provider bodies, effects-only retry, reviewed atomic acceptance, complete-content recovery and post-commit memory/HTTP integration. See [implementation and verification](NODE_WORKFLOW_PHASE_TWO.md).
 
 - Implement a dependency runner and adapters for the default graph. Begin with continuation, then opening and latest replacement before switching the normal generation entry points.
 - Serialize conflicting work per story/setup initially. Conditional branches evaluate the needed work; neither a graph edge nor a retry should duplicate an already completed model request accidentally.
@@ -142,4 +142,4 @@ The milestone is complete when the default pipeline runs through the new engine,
 
 ## Starting point for the next implementation turn
 
-Phase 1 and phase 2's continuation/artifact slice are implemented without switching production entry points. Next continue **phase 2** with opening/latest-replacement adapters and their recovery/parity cases, then post-commit memory/entry-point integration checks. Preserve legacy orchestration until those gates pass. Establish runner/recovery behavior before choosing a canvas library or rewriting the main reader. Continue subsequent phases in order as their gates are met.
+Phases 1 and 2 are implemented. Next start **phase 3** with persisted-run inspection, typed outputs/checks, stale-result explanations, supported explicit reruns and artifact lifecycle controls. Keep the legacy path available and preserve the existing provider/context/recovery constraints. Continue to the location-first map and editable built-ins in order after their gates are met.

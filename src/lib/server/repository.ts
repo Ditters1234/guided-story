@@ -238,16 +238,19 @@ export class StoryRepository {
       this.writeRetained(record);this.db.exec('COMMIT');return {record,replay:false,source,previousIssues};
     }catch(e){this.db.exec('ROLLBACK');throw e;}
   }
-  readyRetained(kind:PreparationSourceKind,id:string,draftId:string,requestId:string,source:Story,value:PassageProposal) {
-    const record=this.readRetained(kind,id,draftId),proposal=recoveredProposalSchema.parse(value),{effects,memory,...content}=proposal;
-    if(record.status!=='checking'||record.activeRequestId!==requestId)throw new StoryError('This retained passage check is no longer active.',409);
-    if(JSON.stringify(content)!==JSON.stringify(record.content))throw new StoryError('A world-update retry cannot change the retained prose.',409);
-    const current=this.readPreparationSource(kind,id);
-    if(recoverySourceHash(current)!==recoverySourceHash(source))throw new StoryError('The saved facts changed during checking. Retry the updates against the current saved facts.',409);
-    // The complete commit must pass, including references, pins, memory and replacement recovery.
-    if(kind==='setup')prepareOpening(this.readSetup(id),proposal,record.requestId);else preparePassageCommit(current,proposal,randomUUID,record.requestId);
-    record.status='ready';record.proposal=proposal;record.rawEffects=effects;record.checkedRevision=source.revision;record.checkedHash=recoverySourceHash(source);record.issues=[];record.activeRequestId=null;record.version++;record.updatedAt=new Date().toISOString();
-    return this.writeRetained(record);
+  readyRetained(kind:PreparationSourceKind,id:string,draftId:string,requestId:string,source:Story,value:PassageProposal,onReady?:(record:RetainedPassage)=>void) {
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const record=this.readRetained(kind,id,draftId),proposal=recoveredProposalSchema.parse(value),{effects,memory,...content}=proposal;
+      if(record.status!=='checking'||record.activeRequestId!==requestId)throw new StoryError('This retained passage check is no longer active.',409);
+      if(JSON.stringify(content)!==JSON.stringify(record.content))throw new StoryError('A world-update retry cannot change the retained prose.',409);
+      const current=this.readPreparationSource(kind,id);
+      if(recoverySourceHash(current)!==recoverySourceHash(source))throw new StoryError('The saved facts changed during checking. Retry the updates against the current saved facts.',409);
+      // The complete commit must pass, including references, pins, memory and replacement recovery.
+      if(kind==='setup')prepareOpening(this.readSetup(id),proposal,record.requestId);else preparePassageCommit(current,proposal,randomUUID,record.requestId);
+      record.status='ready';record.proposal=proposal;record.rawEffects=effects;record.checkedRevision=source.revision;record.checkedHash=recoverySourceHash(source);record.issues=[];record.activeRequestId=null;record.version++;record.updatedAt=new Date().toISOString();
+      const saved=this.writeRetained(record);onReady?.(saved);this.db.exec('COMMIT');return saved;
+    }catch(error){this.db.exec('ROLLBACK');throw error;}
   }
   private markRetainedSaved(kind:PreparationSourceKind,id:string,requestId:string,story:Story) {
     const row=this.db.prepare('SELECT payload FROM retained_passages WHERE source_kind=? AND source_id=? AND request_id=?').get(kind,id,requestId) as {payload:string}|undefined;
@@ -564,7 +567,7 @@ export class StoryRepository {
     if(reserved?.hash==='retained-passage:'+fingerprint)return null;
     return this.setupReceipt(id, requestId, 'opening:' + fingerprint) ? this.read(this.readSetup(id).storyId!) : null;
   }
-  commitOpening(id: string, expectedRevision: number, requestId: string, fingerprint: string, proposal: z.infer<typeof passageProposalSchema>): Story {
+  commitOpening(id: string, expectedRevision: number, requestId: string, fingerprint: string, proposal: z.infer<typeof passageProposalSchema>, onCommitted?: (story:Story)=>void): Story {
     this.db.exec('BEGIN IMMEDIATE');
     try {
       const prior = this.openingResult(id, requestId, fingerprint); if (prior) { this.db.exec('COMMIT'); return prior; }
@@ -576,6 +579,7 @@ export class StoryRepository {
       this.db.prepare('UPDATE setups SET updated_at=?,payload=? WHERE id=?').run(draft.updatedAt, JSON.stringify(draft), id);
       this.db.prepare('INSERT INTO setup_operations VALUES(?,?,?) ON CONFLICT(setup_id,request_id) DO UPDATE SET hash=excluded.hash').run(id,requestId,'opening:'+fingerprint);
       this.markRetainedSaved('setup',id,requestId,story);
+      onCommitted?.(story);
       this.db.exec('COMMIT'); return story;
     } catch (e) { this.db.exec('ROLLBACK'); throw e; }
   }

@@ -10,7 +10,7 @@ export type StoredArtifact = { metadata: WorkflowArtifact; value: unknown };
 const terminal = new Set<WorkflowRun['status']>(['completed', 'awaiting-acceptance', 'blocked', 'failed', 'cancelled', 'interrupted']);
 const json = (value: unknown) => JSON.stringify(z.json().parse(JSON.parse(JSON.stringify(value))));
 
-/** Uses the repository's connection. Constructed lazily, never from production routes. */
+/** Uses the repository's connection. Constructed lazily on first workflow use. */
 export class StoryWorkflowStore {
   constructor(private db: DatabaseSync) {
     db.exec(`
@@ -139,6 +139,12 @@ export class StoryWorkflowStore {
   interruptSource(sourceId: string) {
     const rows = this.db.prepare("SELECT id FROM workflow_runs WHERE source_id=? AND json_extract(payload,'$.status') IN ('queued','running')").all(sourceId) as {id:string}[];
     for (const row of rows) this.interrupt(row.id);
+  }
+  /** Latest successful check for an existing draft; acceptance rechecks its version. */
+  reviewRun(kind:'setup'|'story',sourceId:string,draftId:string) {
+    const rows=this.db.prepare("SELECT id FROM workflow_runs WHERE source_id=? AND json_extract(payload,'$.source.kind')=? AND json_extract(payload,'$.acceptance')='recovered-review' ORDER BY rowid DESC").all(sourceId,kind) as {id:string}[];
+    for(const row of rows)if(this.artifacts(row.id).some(a=>a.metadata.nodeId==='acceptance'&&a.metadata.port==='review'&&(a.value as {id?:string}).id===draftId))return this.read(row.id);
+    return null;
   }
   resumeAcceptance(id: string) {
     const run = this.read(id);

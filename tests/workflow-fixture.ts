@@ -9,13 +9,17 @@ export const workflowSettings = () => connectionSchema.parse({...JSON.parse(read
 export const quiet = Array(12).fill('Alex listened to the rain and considered the quiet morning ahead.').join(' ');
 export const scene = (inventory=false) => ({title:'Rain',chapterTitle:'Morning',viewpointId:'alex',endOfChapter:false,paragraphs:[inventory?'Alex gave two Sugar Cubes to the pony. '+quiet:quiet]});
 export const memory = {summary:'Alex spent a quiet morning at the stable.',facts:[],openQuestions:[],characterIds:['alex'],locationIds:['stable']};
-export function workflowFixture(path=':memory:', quantity=3) {
+export function workflowSetupFixture(path=':memory:', quantity=3) {
   const repository=new StoryRepository(path),draft=repository.createSetup({premise:'A quiet morning.',castSize:1,preferences:{passageWords:100}},randomUUID()),plan=blankSetupPlan();
   plan.title='Workflow test';plan.chapterTitle='Morning';plan.canon.places=[{id:'stable',name:'Stable',parentId:null,description:'A quiet stable.'}];
   Object.assign(plan.canon.characters[0],{id:'alex',name:'Alex',locationId:'stable'});
   plan.canon.items=[{id:'sugar',name:'Sugar Cubes',description:'Counted individual cubes in a tin.',ownerId:'alex',quantity,equipped:false}];
   plan.context.sceneBrief={...plan.context.sceneBrief,purpose:'Listen to the rain.',viewpointId:'alex',locationId:'stable',castIds:['alex']};
   const setup=repository.saveSetup(draft.id,{expectedRevision:0,requestId:randomUUID(),input:draft.input,plan});
+  return {repository,setup};
+}
+export function workflowFixture(path=':memory:', quantity=3) {
+  const {repository,setup}=workflowSetupFixture(path,quantity);
   const content=passageContentSchema.parse({mode:'continue',direction:'',draft:{...scene(),startsChapter:true}});
   const story=repository.commitOpening(setup.id,setup.revision,randomUUID(),'seed',{...content,effects:[],memory});
   return {repository,story};

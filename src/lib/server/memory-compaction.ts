@@ -8,8 +8,8 @@ import { completeText, type TextSettings } from './llm';
 import { parseModelObject } from './model-output';
 import { bookMemoryHash, chapterMemoryHash, chapterMemoryCurrent, compactionPlan, memoryCurrent } from './context-state';
 import { contextSettingsSchema } from '../settings';
-import { readPrivateConnections } from './connections';
-import { getRepository } from './repository';
+import { connectionSchema, readPrivateConnections } from './connections';
+import { getRepository, type StoryRepository } from './repository';
 import { runStoryJob, getJobs } from './jobs';
 import { logEvent } from './diagnostics';
 import { memoryConfidence } from '../narrative-quality';
@@ -82,30 +82,35 @@ export async function compactMemory(story: Story, settings: TextSettings, signal
   return { compaction: working.context.compaction, calls, pending: compactionPlan(working, options.recentChapters).pending };
 }
 
-export async function runCompaction(story: Story, requestId: string, signal: AbortSignal, maxChapters = 4, triggerRequestId?: string) {
-  const r = getRepository(), c = readPrivateConnections();
+type MemoryServices = {repository?:StoryRepository;connections?:z.infer<typeof connectionSchema>;fetcher?:typeof fetch};
+
+export async function runCompaction(story: Story, requestId: string, signal: AbortSignal, maxChapters = 4, triggerRequestId?: string, services:MemoryServices={}) {
+  const r = services.repository ?? getRepository(), c = services.connections ?? readPrivateConnections();
   const replay = () => r.compactionResult(story.id, requestId) || (() => { throw new StoryError('Reload the story before retrying memory maintenance.', 409); })();
   return runStoryJob({ kind: 'memory-compaction', storyId: story.id, requestId, expectedRevision: story.revision, lockKey: `story:${story.id}`, input: { expectedRevision: story.revision, maxChapters, triggerRequestId } }, signal, async job => {
     if (triggerRequestId) getJobs().transition(job.id, 'generating', { details: { triggerRequestId } });
     const prior = r.compactionResult(story.id, requestId); if (prior) { job.stage('validating'); job.stage('committing'); return prior; }
-    const result = await compactMemory(story, c.text, job.signal, c.context, fetch, details => getJobs().transition(job.id, 'generating', { details }), maxChapters);
+    const result = await compactMemory(story, c.text, job.signal, c.context, services.fetcher ?? fetch, details => getJobs().transition(job.id, 'generating', { details }), maxChapters);
     job.stage('validating', { calls: result.calls, pending: result.pending }); job.stage('committing');
     return r.commitCompaction(story.id, story.revision, requestId, result.compaction);
   }, replay);
 }
 
-export async function maintainMemoryAfterPassage(story: Story, signal: AbortSignal, triggerRequestId?: string) {
-  const c = readPrivateConnections();
-  if (!c.context.autoCompact || !compactionPlan(story, c.context.recentChapters).pending) return story;
-  const h = createHash('sha256').update(`memory-maintenance:${story.id}:${triggerRequestId}`).digest('hex');
-  const requestId = triggerRequestId ? `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}` : randomUUID();
-  // Replaying a committed passage must not silently resubmit failed/interrupted maintenance.
-  const prior = getJobs().find({ storyId: story.id, requestId });
-  if (prior && (!['queued','generating','validating','committing'].includes(prior.state) || prior.expectedRevision !== story.revision)) return getRepository().read(story.id);
-  try { return await runCompaction(story, requestId, signal, 1, triggerRequestId); }
+export async function maintainMemoryAfterPassage(story: Story, signal: AbortSignal, triggerRequestId?: string, services:MemoryServices={}) {
+  const r=services.repository ?? getRepository();
+  try {
+    const c = services.connections ?? readPrivateConnections();
+    if (!c.context.autoCompact || !compactionPlan(story, c.context.recentChapters).pending) return story;
+    const h = createHash('sha256').update(`memory-maintenance:${story.id}:${triggerRequestId}`).digest('hex');
+    const requestId = triggerRequestId ? `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-a${h.slice(17,20)}-${h.slice(20,32)}` : randomUUID();
+    // Replaying a committed passage must not silently resubmit failed/interrupted maintenance.
+    const prior = getJobs().find({ storyId: story.id, requestId });
+    if (prior && (!['queued','generating','validating','committing'].includes(prior.state) || prior.expectedRevision !== story.revision)) return r.read(story.id);
+    return await runCompaction(story, requestId, signal, 1, triggerRequestId,services);
+  }
   catch (e) {
     logEvent('warn', 'memory', 'Passage saved; chapter memory maintenance needs retry', { error: e instanceof Error ? e.message : 'Memory maintenance failed.' }, story.id);
     // A maintenance/provider failure must never turn an already committed passage into a failed story request.
-    return getRepository().read(story.id);
+    return r.read(story.id);
   }
 }
