@@ -1,5 +1,9 @@
 # Next development slices
 
+## Completed: workflow-oriented UI pass
+
+The user-requested [workflow UI pass](WORKFLOW_UI_PASS.md) is complete: writing-cycle navigation, direct source-bound customization and return, default canvas with adjacent configuration, searchable preset library, current-story history filtering, reader continuation/checkpoint shortcuts, and verified production appearance. 508 automated tests, clean checks/build and 15 isolated browser suites pass. Explicit preset selection, draft/recovery guards, canon and provider budgets remain intact. Further product work follows the user’s next direction; physical-device/additional-browser checks and route-level loading remain optional UI follow-ups.
+
 ## Completed: node-based story workflows
 
 All five phases of the October 21 approved milestone are complete. See the [final Phase 5 gate/evidence closeout](NODE_WORKFLOW_PHASE_FIVE_COMPLETE.md) and [original phased plan](NODE_WORKFLOWS.md). The engine now supports compiled built-in workflows and presets, actual model/source/repair choices, grouped visual and typed/list authoring, preset archive/restore/revision copies, stage inspection and supported recovery, location-first map/editors, and portable passage workflow/world checkpoints with independent story forks.

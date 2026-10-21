@@ -65,3 +65,19 @@ html{scroll-padding-block:16px calc(85px + env(safe-area-inset-bottom))}
 .story-content h1{scroll-margin-top:20px}.story-content h1:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
 @media(max-width:1100px){.app-navigation{grid-template-columns:minmax(0,1fr)}.workspace-navigation{max-width:none}.navigation-label{flex-basis:auto;margin:0 7px 0 5px;min-width:67px}}
 @media(max-width:550px){.navigation-label{flex-basis:100%;margin:0 0 3px 8px}.app-navigation{gap:10px}.collection-search{align-items:stretch;flex-direction:column;gap:8px}.collection-search button{align-self:flex-start}.empty-state{padding:18px}.library-view .book-row>div:first-child{flex-basis:auto}}
+
+/* The writing cycle leads; supporting editors stay one step away. */
+.app[data-appearance="light"]{color-scheme:light}
+.app[data-appearance="dark"]{color-scheme:dark}
+.app-navigation{grid-template-columns:minmax(0,1fr) auto;gap:12px 24px}
+.primary-navigation button{font-size:14px;font-weight:600;min-height:42px}
+.primary-navigation .active{box-shadow:inset 0 -2px var(--accent)}
+.workspace-navigation{max-width:310px}
+.story-resources{grid-column:1/-1;border-top:1px solid var(--line);padding-top:9px}
+.story-resources .navigation-label{flex-basis:auto;margin:0 10px 0 0}
+.passage-workspace{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:18px 0;padding:12px 0;border-block:1px solid var(--line)}
+.passage-workspace>span{flex-basis:100%}.passage-workspace button,.passage-workspace .button{font-size:12px}
+.next-passage{padding:22px 0;margin-top:24px;border-top:2px solid var(--accent);scroll-margin-top:20px}
+#passage-checkpoint{scroll-margin-top:20px}
+@media(max-width:900px){.app-navigation{grid-template-columns:minmax(0,1fr)}.workspace-navigation{max-width:none}.story-resources{grid-column:auto}.navigation-label{flex-basis:auto;min-width:0}.primary-navigation .navigation-label{flex-basis:100%}}
+@media(max-width:550px){.primary-navigation button{flex:1 1 auto}.story-resources .navigation-label{flex-basis:100%}.passage-workspace .button,.passage-workspace button{flex:1 1 130px;text-align:center}}

@@ -1,5 +1,7 @@
 # Overall UI and coverage pass
 
+The later [workflow-oriented UI pass](WORKFLOW_UI_PASS.md) updates navigation, customization and canvas layout after the completed node-workflow milestone. This document preserves the earlier pass and its evidence.
+
 October 21, 2026. This pass improves the existing authoring/reading interface and checks both missing user-facing entry points and gaps in browser coverage. Canonical schemas, model context selection, provider contracts and ordinary saved libraries/settings are unchanged. The prior checkpoint is [the scene-preparation review](SCENE_PREPARATION_REVIEW.md).
 
 ## Implemented improvements

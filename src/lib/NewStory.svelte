@@ -19,15 +19,16 @@
   import WorldMap from './WorldMap.svelte';
   import WorkflowPresetPicker from './WorkflowPresetPicker.svelte';
   import type { PresetReference } from './story-workflow/compile';
+  import type { PresetContent } from './story-workflow/presets';
   import { buildWorldMap, sceneReferenceIds, type WorldNode } from './world-map';
-  let { initial = null, canGenerate = false, busy = $bindable(false), onSaved, onCreated, onDirty = () => {} }: { initial?: SetupDraft | null; canGenerate: boolean; busy: boolean; onSaved: (draft: SetupDraft) => void; onCreated: (story: Story, setupId: string) => void; onDirty?: (dirty: boolean) => void } = $props();
+  let { initial = null, canGenerate = false, busy = $bindable(false), onSaved, onCreated, onDirty = () => {},onCustomize,openingPreset=$bindable(null) }: { initial?: SetupDraft | null; canGenerate: boolean; busy: boolean; onSaved: (draft: SetupDraft) => void; onCreated: (story: Story, setupId: string) => void; onDirty?: (dirty: boolean) => void;onCustomize?:(content:PresetContent)=>void;openingPreset?:PresetReference|null } = $props();
   let saved = $state<SetupDraft | null>(untrack(() => initial ? structuredClone($state.snapshot(initial)) : null));
   let input = $state<SetupInput>(untrack(() => initial ? structuredClone($state.snapshot(initial.input)) : setupInputSchema.parse({ premise: 'A science-fiction story about a rogue space trader and their crew.' })));
   let plan = $state<SetupPlan | null>(untrack(() => initial?.plan ? structuredClone($state.snapshot(initial.plan)) : null));
   let tab = $state('cast'), error = $state(''), note = $state(''), phase = $state('');
   let recordSearch = $state(''), matchingRecordIds = $state<string[]>([]);
   let mapOpen=$state(false),mapId=$state(''),mapSelected=$state('');
-  let openingPreset=$state<PresetReference|null>(null),openingPresetBlocked=$state(false);
+  let openingPresetBlocked=$state(false);
   function selectMap(node:WorldNode){if(busy)return;tab=({place:'world',character:'cast',item:'items',lore:'background',thread:'threads',relationship:'relationships'})[node.kind];recordSearch='';mapId=node.id;mapSelected=node.key;}
   function referenceMap(node:WorldNode){if(!plan||busy)return;try{const draftNode=buildWorldMap(plan.canon,plan.context).nodes.get(node.key);if(!draftNode)throw new Error('This record was removed from your draft. Save or reload the setup first.');plan.context.sceneBrief.resourceIds=sceneReferenceIds(plan.context,draftNode);note='Scene reference added to your setup draft. Choose Save setup draft to apply it.';}catch(e){error=e instanceof Error?e.message:'Could not add scene reference.';}}
   function toggleMap(){if(tab==='prepare'&&!mayLeavePreparation())return;mapOpen=!mapOpen;mapId='';mapSelected='';}
@@ -326,7 +327,7 @@
         <SetupAiControls label="Opening plan" direction={setupDirections['opening:new'] || ''} onDirection={v => setupDirections['opening:new'] = v} placeholder="Begin during an unexpected customs inspection, with the crew trying to hide their cargo…" hint="Plan the opening situation, tension and stopping point. Prose is written only when you begin chapter one." actions={[{mode:'revise',label:'Revise opening plan'},{mode:'full',label:'Regenerate opening plan'}]} canGenerate={canGenerate && !hasBlankRule} onGenerate={mode => design('opening', mode)} />
       {/if}
       </section></div>
-      {#if saved?.plan}<WorkflowPresetPicker sourceId={saved.id} mode="opening" label="Opening workflow" bind:value={openingPreset} bind:blocked={openingPresetBlocked} disabled={busy}/>{/if}
+      {#if saved?.plan}<WorkflowPresetPicker sourceId={saved.id} mode="opening" label="Opening workflow" bind:value={openingPreset} bind:blocked={openingPresetBlocked} disabled={busy} {onCustomize}/>{/if}
       {#if retainedCount}<p class="notice">A generated opening is retained below. Retry its world updates or discard that draft before beginning another opening.</p>{/if}
       <div class="setup-finish"><h2>Ready to begin chapter one?</h2><p class="muted">Write an opening passage of about {input.preferences.passageWords} words toward a chapter of roughly {(input.preferences.chapterWords ?? 3000).toLocaleString()} words. Continue the story to develop the chapter. Your reviewed setup is saved first; prose and world changes are validated together.</p><button class="primary" onclick={() => generate('opening')} disabled={!canGenerate || openingPresetBlocked || hasBlankRule || retainedCount>0}>Begin chapter one</button><button onclick={save} disabled={!dirty || hasBlankRule}>Save setup draft</button></div>
     {/if}
