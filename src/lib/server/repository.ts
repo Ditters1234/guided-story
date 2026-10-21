@@ -36,6 +36,8 @@ import { passageContentSchema, passageProposalSchema as recoveredProposalSchema,
 import { recoveryHistoryHash, recoverySourceHash, recoveryFacts, recoveryBaseline } from './passage-recovery-state';
 import { StoryWorkflowStore } from './story-workflow/store';
 import { WorkflowPresetStore } from './story-workflow/presets';
+import { PassageCheckpointStore } from './passage-checkpoints';
+import { forkPassageSchema, type PassageWorkflowMetadata } from '../passage-checkpoints';
 export { StoryError } from '../errors';
 export type PreparationSourceKind = 'setup' | 'story';
 const id = z.string().min(1).max(100);
@@ -72,6 +74,8 @@ export class StoryRepository {
   readonly mediaStore: MediaStore;
   private workflowStore?: StoryWorkflowStore;
   private presetStore?: WorkflowPresetStore;
+  private checkpointStore?: PassageCheckpointStore;
+  get passageCheckpoints(){return this.checkpointStore??=new PassageCheckpointStore(this.db);}
   get workflowPresets(){return this.presetStore??=new WorkflowPresetStore(this.db);}
   /** Experimental workflow state is opt-in; ordinary repository use creates no workflow tables. */
   get workflows() { return this.workflowStore ??= new StoryWorkflowStore(this.db); }
@@ -93,6 +97,9 @@ export class StoryRepository {
       CREATE TABLE IF NOT EXISTS retained_passages (id TEXT PRIMARY KEY,source_kind TEXT NOT NULL,source_id TEXT NOT NULL,request_id TEXT NOT NULL,fingerprint TEXT NOT NULL,payload TEXT NOT NULL,UNIQUE(source_kind,source_id,request_id));
       CREATE TABLE IF NOT EXISTS retained_passage_actions (source_kind TEXT NOT NULL,source_id TEXT NOT NULL,request_id TEXT NOT NULL,hash TEXT NOT NULL,draft_id TEXT NOT NULL,PRIMARY KEY(source_kind,source_id,request_id));
       CREATE TABLE IF NOT EXISTS removals (kind TEXT NOT NULL,id TEXT NOT NULL,request_id TEXT NOT NULL,hash TEXT NOT NULL,PRIMARY KEY(kind,id));`);
+    this.db.exec('CREATE TABLE IF NOT EXISTS story_forks(story_id TEXT NOT NULL,request_id TEXT NOT NULL,hash TEXT NOT NULL,result_id TEXT NOT NULL,PRIMARY KEY(story_id,request_id))');
+    // Schema creation must survive an injected failure/rollback in the first passage save.
+    this.checkpointStore=new PassageCheckpointStore(this.db);
     const format = this.db.prepare("SELECT value FROM meta WHERE key = 'format'").get() as { value: string } | undefined;
     if (format && format.value !== 'guided-story-dev-1') { this.db.close(); throw new StoryError('This development save format is incompatible. Move the old data folder aside to start fresh.', 409); }
     this.db.prepare("INSERT OR IGNORE INTO meta VALUES ('format', 'guided-story-dev-1')").run();
@@ -130,6 +137,7 @@ export class StoryRepository {
       if(record.revision!==expectedRevision)throw new StoryError('This record changed. Reload it before removing it.',409);
       if(kind==='setup' && (record as SetupDraft).storyId)throw new StoryError('This setup is already a written story. Remove the story from Library instead.',409);
       if(kind==='story'){
+        this.passageCheckpoints.remove(id);
         for(const table of ['operations','generation_receipts','editor_results','correction_results'])this.db.prepare(`DELETE FROM ${table} WHERE story_id=?`).run(id);
         for(const table of ['scene_preparation_results','scene_preparation_applies'])this.db.prepare(`DELETE FROM ${table} WHERE source_kind='story' AND source_id=?`).run(id);
         this.db.prepare('DELETE FROM stories WHERE id=?').run(id);
@@ -261,7 +269,7 @@ export class StoryRepository {
     if(!row)return;
     const record=retainedPassageSchema.parse(JSON.parse(row.payload));record.status='saved';record.activeRequestId=null;record.issues=[];record.savedRevision=story.revision;record.version++;record.updatedAt=new Date().toISOString();this.writeRetained(record);
   }
-  applyRetained(kind:PreparationSourceKind,id:string,draftId:string,value:RecoveryAction,onCommitted?: (story:Story)=>void):Story {
+  applyRetained(kind:PreparationSourceKind,id:string,draftId:string,value:RecoveryAction,onCommitted?: (story:Story)=>void,workflow?:PassageWorkflowMetadata):Story {
     const input=recoveryActionSchema.parse(value);
     if(input.notes)throw new StoryError('Submit rechecking guidance with Retry world updates before saving a recovered passage.');
     this.db.exec('BEGIN IMMEDIATE');
@@ -286,6 +294,7 @@ export class StoryRepository {
         this.db.prepare('UPDATE operations SET hash=? WHERE story_id=? AND request_id=?').run(hash,id,record.requestId);
         this.db.prepare('INSERT INTO generation_receipts VALUES(?,?,?)').run(id,record.requestId,record.fingerprint);
       }
+      this.passageCheckpoints.capture(saved,workflow);
       this.markRetainedSaved(kind,id,record.requestId,saved);onCommitted?.(saved);this.db.exec('COMMIT');
       logEvent('info','storage','Saved a recovered passage',{draftId,mode:record.content.mode,sourceKind:kind,sourceRevision:source.revision,revision:saved.revision},saved.id,input.requestId);
       return saved;
@@ -478,7 +487,7 @@ export class StoryRepository {
       return valid;
     } catch(e) { this.db.exec('ROLLBACK');throw e; }
   }
-  commitGeneratedPassage(id: string, value: PassageCommit, generationFingerprint?: string, onCommitted?: (story:Story)=>void): Story {
+  commitGeneratedPassage(id: string, value: PassageCommit, generationFingerprint?: string, onCommitted?: (story:Story)=>void, workflow?:PassageWorkflowMetadata): Story {
     const input = passageCommitSchema.parse(value);
     const hash = createHash('sha256').update(JSON.stringify(input)).digest('hex');
     this.db.exec('BEGIN IMMEDIATE');
@@ -495,6 +504,7 @@ export class StoryRepository {
       if(prior)this.db.prepare('UPDATE operations SET hash=? WHERE story_id=? AND request_id=?').run(hash,id,input.requestId);else this.db.prepare('INSERT INTO operations VALUES (?, ?, ?)').run(id,input.requestId,hash);
       this.markRetainedSaved('story',id,input.requestId,valid);
       if (generationFingerprint) this.db.prepare('INSERT INTO generation_receipts VALUES (?, ?, ?)').run(id, input.requestId, generationFingerprint);
+      this.passageCheckpoints.capture(valid,workflow);
       onCommitted?.(valid);
       this.db.exec('COMMIT');
       const trace = beginTrace('passage-commit', { mode: input.proposal.mode, requestId: input.requestId, sourceRevision: input.expectedRevision }, id, input.expectedRevision);
@@ -571,7 +581,7 @@ export class StoryRepository {
     if(reserved?.hash==='retained-passage:'+fingerprint)return null;
     return this.setupReceipt(id, requestId, 'opening:' + fingerprint) ? this.read(this.readSetup(id).storyId!) : null;
   }
-  commitOpening(id: string, expectedRevision: number, requestId: string, fingerprint: string, proposal: z.infer<typeof passageProposalSchema>, onCommitted?: (story:Story)=>void): Story {
+  commitOpening(id: string, expectedRevision: number, requestId: string, fingerprint: string, proposal: z.infer<typeof passageProposalSchema>, onCommitted?: (story:Story)=>void,workflow?:PassageWorkflowMetadata): Story {
     this.db.exec('BEGIN IMMEDIATE');
     try {
       const prior = this.openingResult(id, requestId, fingerprint); if (prior) { this.db.exec('COMMIT'); return prior; }
@@ -583,6 +593,7 @@ export class StoryRepository {
       this.db.prepare('UPDATE setups SET updated_at=?,payload=? WHERE id=?').run(draft.updatedAt, JSON.stringify(draft), id);
       this.db.prepare('INSERT INTO setup_operations VALUES(?,?,?) ON CONFLICT(setup_id,request_id) DO UPDATE SET hash=excluded.hash').run(id,requestId,'opening:'+fingerprint);
       this.markRetainedSaved('setup',id,requestId,story);
+      this.passageCheckpoints.capture(story,workflow);
       onCommitted?.(story);
       this.db.exec('COMMIT'); return story;
     } catch (e) { this.db.exec('ROLLBACK'); throw e; }
@@ -772,11 +783,31 @@ export class StoryRepository {
       return valid;
     } catch (e) { this.db.exec('ROLLBACK'); throw e; }
   }
+  forkPassage(id:string,passageId:string,value:unknown):Story {
+    const input=forkPassageSchema.parse(value),hash=createHash('sha256').update(JSON.stringify({passageId,...input})).digest('hex');
+    this.db.exec('BEGIN IMMEDIATE');
+    try{
+      const prior=this.db.prepare('SELECT hash,result_id FROM story_forks WHERE story_id=? AND request_id=?').get(id,input.requestId) as {hash:string;result_id:string}|undefined;
+      if(prior){if(prior.hash!==hash)throw new StoryError('This fork request ID belongs to different inputs.',409);const saved=this.read(prior.result_id);this.db.exec('COMMIT');return saved;}
+      const current=this.read(id);
+      if(current.revision!==input.expectedRevision)throw new StoryError('The story changed. Reload before starting a fork.',409);
+      if(!current.passages.some(p=>p.id===passageId))throw new StoryError('Passage not found.',404);
+      const checkpoint=this.passageCheckpoints.restore(id,passageId,input.checkpoint),story=checkpoint.story;
+      // Only the chosen prefix is copied. Later facts, summaries, media and drafts cannot leak.
+      const archive=this.passageCheckpoints.archive(id,checkpoint.head),now=new Date().toISOString();
+      story.id=randomUUID();story.title=input.title;story.revision=0;story.createdAt=now;story.updatedAt=now;
+      story.branchOrigin={storyId:id,passageId,checkpoint:checkpoint.head,forkedAt:now};
+      const saved=this.insert(story);this.passageCheckpoints.load(saved.id,archive);
+      this.db.prepare('INSERT INTO story_forks VALUES(?,?,?,?)').run(id,input.requestId,hash,saved.id);
+      this.db.exec('COMMIT');return saved;
+    }catch(error){this.db.exec('ROLLBACK');throw error;}
+  }
   export(id: string): Uint8Array {
     const story = this.read(id);
+    const checkpoints=this.passageCheckpoints.archive(id);
     const files: Record<string, Uint8Array> = {};
     let total = 0;
-    for (const a of story.media.assets) {
+    for (const a of [...story.media.assets,...this.passageCheckpoints.mediaAssets(checkpoints)]) {
       const name = `media/${a.hash}.original`;
       if (files[name]) continue;
       const bytes = this.mediaStore.original(a); total += bytes.length;
@@ -785,7 +816,12 @@ export class StoryRepository {
     }
     const payload = strToU8(JSON.stringify(story));
     if (payload.length > 10_000_000) throw new StoryError('This story exceeds the current 10 MB metadata export limit.', 413);
-    return zipSync({ ...files, 'manifest.json': strToU8(JSON.stringify({ format: 'guided-story-dev-1', media: Object.keys(files), exportedAt: new Date().toISOString() })), 'story.json': payload }, { level: 1 });
+    if(Object.keys(checkpoints.heads).length){
+      const checkpointBytes=strToU8(JSON.stringify(checkpoints));
+      if(checkpointBytes.length>32_000_000)throw new StoryError('Passage checkpoints exceed the current 32 MB export limit.',413);
+      files['passage-checkpoints.json']=checkpointBytes;
+    }
+    return zipSync({ ...files, 'manifest.json': strToU8(JSON.stringify({ format: 'guided-story-dev-1', media: Object.keys(files).filter(name=>name.startsWith('media/')), exportedAt: new Date().toISOString() })), 'story.json': payload }, { level: 1 });
   }
   async import(bytes: Uint8Array): Promise<Story> {
     if (bytes.length > MAX_ARCHIVE_BYTES) throw new StoryError('Story archive is too large (128 MB limit).');
@@ -793,20 +829,22 @@ export class StoryRepository {
     let files: ReturnType<typeof unzipSync>;
     try { files = unzipSync(bytes, { filter(file) {
       if (seen.has(file.name) || seen.size >= 2002) throw new StoryError('Archive contains duplicate or too many entries.'); seen.add(file.name);
-      if (!['manifest.json', 'story.json'].includes(file.name) && !/^media\/[a-f0-9]{64}\.original$/.test(file.name)) throw new StoryError('Unsupported file or unsafe path in this story archive.');
+      if (!['manifest.json', 'story.json','passage-checkpoints.json'].includes(file.name) && !/^media\/[a-f0-9]{64}\.original$/.test(file.name)) throw new StoryError('Unsupported file or unsafe path in this story archive.');
       total += file.originalSize;
-      if (total > 128_000_000 || file.originalSize > (file.name.startsWith('media/') ? 20_000_000 : 10_000_000)) throw new StoryError('Expanded story archive is too large.');
+      if (total > 128_000_000 || file.originalSize > (file.name==='passage-checkpoints.json'?32_000_000:file.name.startsWith('media/') ? 20_000_000 : 10_000_000)) throw new StoryError('Expanded story archive is too large.');
       return true;
     } }); } catch (e) { if (e instanceof StoryError) throw e; throw new StoryError('This archive is corrupt or is not a supported story ZIP.'); }
     if (!files['manifest.json'] || !files['story.json']) throw new StoryError('This is not a Guided Story archive.');
     const manifest = JSON.parse(strFromU8(files['manifest.json']));
     if (manifest.format !== 'guided-story-dev-1') throw new StoryError('Incompatible development save format. Old saves do not have migrations.');
     const imported = validateStory(JSON.parse(strFromU8(files['story.json'])));
-    const names = [...new Set(imported.media.assets.map(a => `media/${a.hash}.original`))].sort();
+    const checkpoints=files['passage-checkpoints.json']?this.passageCheckpoints.validateArchive(JSON.parse(strFromU8(files['passage-checkpoints.json'])),imported):null;
+    const allAssets=[...imported.media.assets,...(checkpoints?this.passageCheckpoints.mediaAssets(checkpoints):[])];
+    const names = [...new Set(allAssets.map(a => `media/${a.hash}.original`))].sort();
     if (JSON.stringify(names) !== JSON.stringify(Object.keys(files).filter(n => n.startsWith('media/')).sort()) || JSON.stringify(names) !== JSON.stringify([...(manifest.media || [])].sort())) throw new StoryError('Archive media manifest does not match the story.');
     // Validate every image before writing anything or inserting a library entry.
     const inspected = new Map<string, Awaited<ReturnType<MediaStore['inspect']>>>();
-    for (const a of imported.media.assets) {
+    for (const a of allAssets) {
       const info = inspected.get(a.hash) || await this.mediaStore.inspect(files[`media/${a.hash}.original`]);
       if (['hash','mime','width','height','bytes'].some(key => info[key as keyof typeof info] !== a[key as keyof MediaAsset])) throw new StoryError('Archive image metadata or checksum does not match its file.');
       inspected.set(a.hash, info);
@@ -814,7 +852,9 @@ export class StoryRepository {
     for (const [hash, info] of inspected) this.mediaStore.save(files[`media/${hash}.original`], info);
     imported.id = randomUUID(); imported.revision = 0; imported.updatedAt = new Date().toISOString();
     imported.title = imported.title.slice(0, 185) + ' (imported)';
-    return this.insert(imported);
+    this.db.exec('BEGIN IMMEDIATE');
+    try{const saved=this.insert(imported);if(checkpoints)this.passageCheckpoints.load(saved.id,checkpoints);this.db.exec('COMMIT');return saved;}
+    catch(error){this.db.exec('ROLLBACK');throw error;}
   }
   async addMedia(id: string, bytes: Uint8Array, input: { expectedRevision: number; requestId: string; caption: string; category: MediaAsset['category']; subjectIds: string[]; passageId: string | null; parentId: string | null; status: 'canonical' | 'experimental' }, provenance: ImageProvenance = imageProvenanceSchema.parse({ kind: 'upload' }), captured?: IllustrationCapture, portraitFor?: string) {
     input = mediaInputSchema.parse(input); provenance = imageProvenanceSchema.parse(provenance);

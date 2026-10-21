@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { checkpointWorkflow } from './checkpoint';
 import { setupDraftSchema, type SetupDraft } from '../../setup';
 import { storySchema, passageSchema, type Story } from '../../story';
 import { passageContentSchema, passageProposalSchema, passageMemorySchema } from '../../passage-proposal';
@@ -172,8 +173,9 @@ export function passageAdapters(options: {
     },
     commit: context => {
       job.stage('committing');
-      if (kind === 'setup') return {committed:repository.commitOpening(source.id,input.expectedRevision,input.requestId,options.fingerprint,pick(context,'approved'),saved=>context.persist({committed:saved}))};
-      return { committed: repository.commitGeneratedPassage(source.id, { expectedRevision: input.expectedRevision, requestId: input.requestId, proposal: pick(context, 'approved') }, options.fingerprint,saved=>context.persist({committed:saved})) };
+      const workflow=checkpointWorkflow(repository.workflows,context.attempt.runId,undefined,c);
+      if (kind === 'setup') return {committed:repository.commitOpening(source.id,input.expectedRevision,input.requestId,options.fingerprint,pick(context,'approved'),saved=>context.persist({committed:saved}),workflow)};
+      return { committed: repository.commitGeneratedPassage(source.id, { expectedRevision: input.expectedRevision, requestId: input.requestId, proposal: pick(context, 'approved') }, options.fingerprint,saved=>context.persist({committed:saved}),workflow) };
     },
     blocked: context => ({ draft: pick(context, 'issues') })
   };

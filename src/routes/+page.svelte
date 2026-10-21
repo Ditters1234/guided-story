@@ -7,6 +7,7 @@
   import WorkflowPresetEditor from '#lib/WorkflowPresetEditor.svelte';
   import WorkflowPresetPicker from '#lib/WorkflowPresetPicker.svelte';
   import type { PresetReference } from '#lib/story-workflow/compile';
+  import type { PresetContent } from '#lib/story-workflow/presets';
   import SettingsPanel from '#lib/SettingsPanel.svelte';
   import MediaPanel from '#lib/MediaPanel.svelte';
   import { mediaUrl } from '#lib/media';
@@ -20,6 +21,7 @@
   import SceneDirection from '#lib/SceneDirection.svelte';
   import ScenePreparation from '#lib/ScenePreparation.svelte';
   import PassageRecovery from '#lib/PassageRecovery.svelte';
+  import PassageCheckpoint from '#lib/PassageCheckpoint.svelte';
   import LoreDevPanel from '#lib/LoreDevPanel.svelte';
   import StoryCorrections from '#lib/StoryCorrections.svelte';
   import RecordEditor from '#lib/RecordEditor.svelte';
@@ -43,6 +45,7 @@
   let setups = $state<SetupDraft[]>(untrack(() => data.setups));
   let setupInitial = $state<SetupDraft | null>(null), setupSession = $state(0), setupDirty = $state(false);
   let recoveryRefresh=$state(0),retainedCount=$state(0),recoveryDirty=$state(false);
+  let checkpointDirty=$state(false);
   let liveGenerating = $state(false), liveController: AbortController | null = null;
   let liveRequest: { key: string; requestId: string } | null = null;
   function newStory() { if (busy || !leaveEditor()) return; setupInitial = null; setupSession++; view = 'new'; }
@@ -59,6 +62,7 @@
   let pinsDirty=$state(false);
   let mapDirty=$state(false);
   let presetDirty=$state(false);
+  let presetSeed=$state<PresetContent|undefined>(undefined);
   let continuePreset=$state<PresetReference|null>(null),rewritePreset=$state<PresetReference|null>(null),continuePresetBlocked=$state(false),rewritePresetBlocked=$state(false);
   let preparationDirty=$state(false),devDirty=$state(false),workflowDirty=$state(false),backgroundDirty=$state(false);
   let librarySearch=$state(''),contentsSearch=$state(''),libraryLoading=$state(false);
@@ -88,8 +92,8 @@
     if(view==='settings'&&settingsDirty)return confirm('Discard the unsaved settings changes? Save each changed section first to keep them.');
     if(view==='gallery'&&mediaDirty)return confirm('Discard the unsaved picture details?');
     if(view==='recap'&&recapDirty){if(!confirm('Discard the unsaved recap changes? Use Save recap to keep them.'))return false;resetRecap();}
-    if(view==='read'&&(characterDirty||worldDirty||threadsDirty||titleDirty||sceneDirty||correctionDirty||recoveryDirty)){
-      const fields=[characterDirty?'character':null,worldDirty?'world notes':null,threadsDirty?'story threads':null,titleDirty?'titles':null,sceneDirty?'scene direction':null,correctionDirty?'correction request':null,recoveryDirty?'recovery guidance':null].filter(Boolean).join(', ');
+    if(view==='read'&&(characterDirty||worldDirty||threadsDirty||titleDirty||sceneDirty||correctionDirty||recoveryDirty||checkpointDirty)){
+      const fields=[characterDirty?'character':null,worldDirty?'world notes':null,threadsDirty?'story threads':null,titleDirty?'titles':null,sceneDirty?'scene direction':null,correctionDirty?'correction request':null,recoveryDirty?'recovery guidance':null,checkpointDirty?'fork title':null].filter(Boolean).join(', ');
       if(!confirm(`Discard the unsaved changes to ${fields}? Save them first to keep them.`))return false;
       if(story){refreshCharacterDraft(story);resetWorld();threadDrafts=threadValues(story);}showRename=false;if(sceneDirty){sceneDirty=false;sceneSession++;}showCorrection=false;correctionDirty=false;correctionSession++;
     }
@@ -110,7 +114,7 @@
     if(name==='new'){newStory();return;}
     if(name==='illustrate'){illustrate();return;}
     if(name!==view&&!leaveEditor())return;
-    localStorage.removeItem('guided-story-active-setup');if(name==='settings')settingsInitialTab='';view=name;
+    localStorage.removeItem('guided-story-active-setup');if(name==='settings')settingsInitialTab='';if(name==='workflow-presets')presetSeed=undefined;view=name;
     error='';
   }
   function openConnections(){if(!busy&&leaveEditor()){settingsInitialTab='text';settingsSession++;view='settings';error='';}}
@@ -255,6 +259,15 @@
     pending = null; error = ''; showRename = false;
   }
   async function responseJson(response: Response) { const result = await response.json(); if (!response.ok) throw new Error(result.error || 'The local request failed.'); return result; }
+  async function forkFromPassage(body:unknown){
+    if(!story||!passage||busy)return false;
+    const titleWasDirty=checkpointDirty;checkpointDirty=false;
+    if(!leaveEditor()){checkpointDirty=titleWasDirty;return false;}
+    checkpointDirty=titleWasDirty;const sourceId=story.id,passageId=passage.id;busy=true;error='';
+    try{const saved:Story=await responseJson(await fetch(`/api/stories/${encodeURIComponent(sourceId)}/passages/${encodeURIComponent(passageId)}/fork`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}));prepare(saved);updateLibrary(saved);view='read';status='New story opened from the saved passage checkpoint';return true;}
+    catch(e){error=e instanceof Error?e.message:'Could not create the story fork. Retry to confirm the save.';return false;}
+    finally{busy=false;}
+  }
   function updateLibrary(s: Story) {
     const p = s.passages.at(-1)!;
     library = [{ id: s.id, title: s.title, updatedAt: s.updatedAt, revision: s.revision, chapter: p.chapter, passageTitle: p.title }, ...library.filter(e => e.id !== s.id)];
@@ -301,7 +314,7 @@
   async function openPassage(nextIndex: number) {
     if (!story || busy || nextIndex < 0 || nextIndex >= story.passages.length) return;
     const leavingScene=sceneDirty&&nextIndex!==story.passages.length-1;
-    if((titleDirty||leavingScene||correctionDirty)&&!confirm(`Discard the unsaved ${[titleDirty?'title changes':null,leavingScene?'scene direction':null,correctionDirty?'correction request':null].filter(Boolean).join(' and ')} before changing passages?`))return;
+    if((titleDirty||leavingScene||correctionDirty||checkpointDirty)&&!confirm(`Discard the unsaved ${[titleDirty?'title changes':null,leavingScene?'scene direction':null,correctionDirty?'correction request':null,checkpointDirty?'fork title':null].filter(Boolean).join(' and ')} before changing passages?`))return;
     if(leavingScene){sceneDirty=false;sceneSession++;}
     index = nextIndex; showRename = false; showEditor = false;showRewrite=false;showCorrection=false;correctionDirty=false;
     await tick(); const heading=document.querySelector<HTMLElement>('.reader h1');heading?.focus({preventScroll:true});document.querySelector('.reader')?.scrollIntoView({ block: 'start', behavior: 'auto' });
@@ -378,7 +391,7 @@
   });
 </script>
 
-<svelte:window onbeforeunload={e=>{if(presetDirty||mapDirty||preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
+<svelte:window onbeforeunload={e=>{if(checkpointDirty||presetDirty||mapDirty||preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
 
 <svelte:head><title>{story?.title || 'Library'} · Storyweaver</title><meta name="description" content="Read, direct and illustrate your own ongoing novel." /></svelte:head>
 
@@ -402,7 +415,7 @@
   {:else if view === 'workflows'}
     <WorkflowPanel bind:busy canGenerate={Boolean(connections?.text.model.trim())} onEditPresets={()=>navigate('workflow-presets')} onDirty={value=>workflowDirty=value} onOpenSource={openWorkflowSource} onSaved={saved=>{prepare(saved);updateLibrary(saved);status='Recovered passage saved';}} />
   {:else if view === 'workflow-presets'}
-    <WorkflowPresetEditor bind:busy canGenerate={Boolean(connections?.text.model.trim())} onDirty={value=>presetDirty=value} onBack={()=>navigate('workflows')}/>
+    <WorkflowPresetEditor bind:busy canGenerate={Boolean(connections?.text.model.trim())} initialContent={presetSeed} onDirty={value=>presetDirty=value} onBack={()=>navigate('workflows')}/>
   {:else if view === 'dev'}
     <DevMenu {story} {busy} onDirty={value=>devDirty=value} onReload={reloadRecords} canGenerate={Boolean(connections?.text.model.trim())} bind:direction={() => direction, value => { direction=value;rememberDirectionDraft(); }} onMutate={mutate} onStorySaved={saved => { story = saved; updateLibrary(saved); status = 'Continuity memory saved locally'; }} />
   {:else if view === 'illustrate' && story}
@@ -421,6 +434,7 @@
         {#if passage.endOfChapter}<div class="end-mark">End of chapter {passage.chapter === 1 ? 'one' : passage.chapter}</div>{/if}
         <div class="tools" role="group" aria-label="Passage tools"><button onclick={()=>illustrate('',passage!.id)} disabled={busy}>Illustrate this passage</button><button onclick={editTitles} disabled={busy}>Edit titles</button><button onclick={() => openEditor('ask')} aria-expanded={showEditor&&editorMode==='ask'} disabled={busy}>Ask about the story</button><button onclick={() => openEditor('polish')} aria-expanded={showEditor&&editorMode==='polish'} disabled={busy}>Polish wording</button>{#if story.origin === 'sample'}<button onclick={replaceSample} disabled={busy || !isLatest || !story.recovery?.valid}>Try alternate sample ending</button>{:else}<button onclick={openRewrite} aria-expanded={showRewrite} disabled={busy || !isLatest || !story.recovery?.valid || !connections?.text.model.trim()}>Change what happens</button>{/if}</div>
         {#if showRename}<form class="editor" aria-label="Passage and chapter titles" onsubmit={async e => { e.preventDefault(); if (await mutate({ type: 'rename', passageId: passage!.id, title: passageTitle, chapterTitle })) showRename = false; }}><fieldset class="notebook-character-fields" disabled={busy}><label>Passage title<input bind:this={titleInput} bind:value={passageTitle} required maxlength="200" /></label><label>Chapter title<input bind:value={chapterTitle} required maxlength="200" /></label><p class="muted" role="status">{titleDirty?'Unsaved title changes':'Titles match the saved passage'}</p><div class="row"><button class="primary" disabled={busy||!titleDirty}>Save titles</button><button type="button" onclick={editTitles}>Cancel title edit</button></div></fieldset></form>{/if}
+        {#key `${story.id}:${passage.id}`}<PassageCheckpoint {story} passageId={passage.id} {busy} onFork={forkFromPassage} onDirty={dirty=>checkpointDirty=dirty} onReuse={content=>{if(!busy&&leaveEditor()){presetSeed=content;view='workflow-presets';}}}/>{/key}
         <div class="reader-secondary"><button onclick={openCorrection} disabled={busy} aria-expanded={showCorrection}>I noticed something needs correction</button><button onclick={()=>openEditor('ask',continuityQuestion(story!,passage!.id))} disabled={busy}>Review continuity</button><a class="button" href={`/api/stories/${story.id}/novel`}>Export novel</a></div>
         {#if showCorrection}{#key `${story.id}:${passage.id}:${correctionSession}`}<StoryCorrections {story} passageId={passage.id} mode="reader" canGenerate={Boolean(connections?.text.model.trim())} disabled={characterDirty||worldDirty||threadsDirty||titleDirty||sceneDirty} blockedReason="Save or reset your other reader edits before asking for corrections, so the preview uses the facts you intend to keep." bind:busy onDirty={dirty=>correctionDirty=dirty} onSaved={correctionSaved} onClose={closeCorrection} />{/key}{/if}
         {#key story.id}<PassageRecovery source={story} kind="story" refreshKey={recoveryRefresh} bind:busy canGenerate={Boolean(connections?.text.model.trim())} disabled={characterDirty||worldDirty||threadsDirty||titleDirty||sceneDirty||correctionDirty} onDirty={value=>recoveryDirty=value} onReload={()=>{void reloadRecords();}} onCount={count=>retainedCount=count} onDiscard={()=>liveRequest=null} onSaved={(saved,draft)=>{prepare(saved);updateLibrary(saved);if(draft.content.mode==='continue')clearDirectionDraft();liveRequest=null;status='Recovered passage and world updates saved locally';}} onEdit={(kind,id)=>{if(!leaveEditor())return;recordsKind=kind;recordsId=id;recordsSession++;view='records';}} />{/key}

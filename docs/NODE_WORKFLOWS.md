@@ -2,6 +2,8 @@
 
 Decision date: October 21, 2026. **Phases 1–4 are implemented.** This evolves the existing Storyweaver TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records contracts; [phase 2](NODE_WORKFLOW_PHASE_TWO.md) implements all passage modes and durable recovery; [phase 3](NODE_WORKFLOW_PHASE_THREE.md) adds read-only workflow inspection, supported retries and local history controls; [phase 4](NODE_WORKFLOW_PHASE_FOUR.md) connects a location-first map to existing story/setup editors. Editable built-in workflows and presets remain phase 5.
 
+**Phase 5, passes 1–3 now work:** [built-in preset authoring](NODE_WORKFLOW_PHASE_FIVE.md), [compiled explicit execution](NODE_WORKFLOW_PHASE_FIVE_PASS_TWO.md) and [passage workflow metadata/checkpoints with story forks](NODE_WORKFLOW_PHASE_FIVE_PASS_THREE.md). The user requested the third pass so each accepted narrative unit can retain its workflow and open later as an independent story. Checkpoints preserve historical world/context/prose, share unchanged objects outside prompts and travel with story ZIPs. Older passages cannot acquire inferred historical state. Verification is 496 tests and eight isolated browser suites; supported node/source configuration and richer visual authoring remain subsequent work.
+
 The prior application checkpoint is [the recovery review](PASSAGE_RECOVERY_REVIEW.md): 366 automated tests, clean type/build checks and four isolated browser suites. Phase-1 verification is recorded separately in the [implementation notes](NODE_WORKFLOW_PHASE_ONE.md); historical browser results are not new workflow verification.
 
 ## Intended outcome

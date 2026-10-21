@@ -18,6 +18,7 @@ import { runStoryWorkflow, type NodeSeed } from './runner';
 import type { StoredArtifact } from './store';
 import { logEvent } from '../diagnostics';
 import { presetReferenceSchema } from '../../story-workflow/compile';
+import { checkpointWorkflow } from './checkpoint';
 import { compilePresetGraph,presetGraph,resolvePresetBindings } from './compile';
 
 export const passageWorkflowInputSchema = z.strictObject({ expectedRevision: z.number().int().min(0), requestId: z.string().uuid(), direction: z.string().max(10000), chapterEnding: chapterEndingSchema.default('auto'),preset:presetReferenceSchema.optional() });
@@ -191,7 +192,7 @@ export async function acceptPassageWorkflow(repository: StoryRepository, kind: P
       const saved=repository.applyRetained(kind,storyId,draftId,action,committed=>{
         store.complete(attempt,[{port:'committed',type:'committed',value:committed}],'deterministic');
         store.finish(runId,'completed');
-      });
+      },checkpointWorkflow(store,runId,record.requestId));
       return saved;
     }catch(error){store.stopAttempt(attempt,'failed',error);store.finish(runId,'awaiting-acceptance');throw error;}
   },()=>repository.applyRetained(kind,storyId,draftId,action));

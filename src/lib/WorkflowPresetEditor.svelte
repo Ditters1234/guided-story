@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount,onDestroy } from 'svelte';
+  import { onMount,onDestroy,untrack } from 'svelte';
   import type { LibraryEntry } from './story';
   import type { SetupDraft } from './setup';
   import type { WorkflowMode } from './story-workflow/contracts';
@@ -7,9 +7,9 @@
   import { workflowModeName,workflowNodeName } from './story-workflow/presentation';
   import { addBuiltIn,removeBuiltIn,supportedNode,assessPreset,exportPreset,importPreset,type PresetContent,type WorkflowPreset } from './story-workflow/presets';
   import { inspectExecutableWorkflow } from './story-workflow/compile';
-  let {busy=$bindable(false),canGenerate=false,onDirty,onBack}:{busy?:boolean;canGenerate?:boolean;onDirty:(value:boolean)=>void;onBack:()=>void}=$props();
+  let {busy=$bindable(false),canGenerate=false,onDirty,onBack,initialContent}:{busy?:boolean;canGenerate?:boolean;onDirty:(value:boolean)=>void;onBack:()=>void;initialContent?:PresetContent}=$props();
   const fresh=(mode:WorkflowMode):PresetContent=>({name:`${workflowModeName(mode)} preset`,description:'',definition:defaultStoryWorkflow(mode)});
-  let content=$state(fresh('continue')),baseline=$state(JSON.stringify(fresh('continue'))),saved=$state<WorkflowPreset|null>(null),presets=$state<WorkflowPreset[]>([]);
+  let content=$state(untrack(()=>initialContent?structuredClone($state.snapshot(initialContent)):fresh('continue'))),baseline=$state(untrack(()=>initialContent?'':JSON.stringify(fresh('continue')))),saved=$state<WorkflowPreset|null>(null),presets=$state<WorkflowPreset[]>([]);
   let stories=$state<LibraryEntry[]>([]),setups=$state<SetupDraft[]>([]),loading=$state(false),loaded=$state(false),problem=$state(''),note=$state(''),mode=$state<WorkflowMode>('continue'),selected=$state('source'),newType=$state('model');
   let fromNode=$state('source'),fromPort=$state('source'),toNode=$state('prepare'),toPort=$state('source');
   let controller:AbortController|undefined,request:{key:string;id:string}|null=null;

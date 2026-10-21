@@ -39,6 +39,7 @@ export const recapSchema = z.object({
 });
 export const summaryCacheSchema = z.array(z.object({ hash: z.string().regex(/^[a-f0-9]{64}$/), text: z.string().min(1).max(12000) })).max(500);
 export const storySchema = z.object({
+  branchOrigin: z.strictObject({storyId:id,passageId:id,checkpoint:z.string().regex(/^[a-f0-9]{64}$/),forkedAt:z.string().datetime()}).optional(),
   origin: z.enum(['sample','generated']).default('sample'),
   id, title: z.string().min(1).max(200), premise: text,
   revision: z.number().int().min(0), createdAt: z.string().datetime(), updatedAt: z.string().datetime(),
