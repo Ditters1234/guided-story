@@ -12,6 +12,11 @@ export function validateWorkflow(value: unknown, registry: NodeRegistry): { vali
   if (bindings.size !== graph.bindings.length) report('duplicate-binding', 'Binding names must be unique.');
   if (graph.nodes.filter(node => node.type === 'repair').length > graph.policy.repairLimit) report('repair-limit', 'The graph can contain at most one repair operation.');
   for (const node of graph.nodes) {
+    if(node.config){
+      const required=node.config.kind==='repair'?'repair-input':node.config.kind;
+      if(node.type!==required)report('node-config',`Configuration ${node.config.kind} does not apply to ${node.type}.`,node.id);
+      if(node.config.kind==='source'&&new Set(node.config.resourceIds).size!==node.config.resourceIds.length)report('node-config','Source references must be unique.',node.id);
+    }
     const definition = Object.hasOwn(registry, node.type) ? registry[node.type] : undefined;
     if (!definition) { report('unknown-node', `Unknown built-in node type: ${node.type}.`, node.id); continue; }
     if (definition.version !== node.version) report('node-version', `Unsupported implementation version for ${node.type}.`, node.id);

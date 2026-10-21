@@ -9,7 +9,8 @@ export const checkpointWorkflowSchema = z.strictObject({
   runId: z.string().uuid(), source: workflowSourceSchema,
   configurationFingerprint: checkpointHashSchema,
   // Deliberate allowlist: no address, credentials, raw requests or provider responses.
-  model: z.strictObject(textSettingsSchema.omit({ baseUrl: true, apiKey: true }).shape).optional()
+  model: z.strictObject(textSettingsSchema.omit({ baseUrl: true, apiKey: true }).shape).optional(),
+  models:z.record(z.string().min(1).max(100),z.strictObject(textSettingsSchema.omit({baseUrl:true,apiKey:true}).shape)).optional()
 });
 export const passageWorkflowMetadataSchema = z.strictObject({
   generation: checkpointWorkflowSchema.nullable(), acceptance: checkpointWorkflowSchema

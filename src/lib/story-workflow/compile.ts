@@ -18,6 +18,8 @@ export function inspectExecutableWorkflow(value:unknown){
   const models=graph.nodes.filter(node=>node.type==='model'),modelIds=new Set(models.map(node=>node.id));
   if(models.length<1||models.length>8)report('model-count','Use between one and eight connected model nodes.');
   const expectedEdges=new Set(expected.edges.filter(edge=>edge.from.node!=='model').map(edgeKey));
+  const retain=graph.nodes.find(n=>n.id==='repair-input')?.config;
+  if(retain?.kind==='repair'&&retain.mode==='retain')expectedEdges.add('repair-input.blocked>blocked.issues');
   const actualEdges=new Set(graph.edges.filter(edge=>!modelIds.has(edge.from.node)).map(edgeKey));
   for(const edge of expectedEdges)if(!actualEdges.has(edge))report('check-path',`Keep the built-in check/repair/save connection ${edge}.`);
   for(const edge of actualEdges)if(!expectedEdges.has(edge))report('check-path',`Unsupported check-path connection ${edge}.`);
@@ -29,5 +31,10 @@ export function inspectExecutableWorkflow(value:unknown){
     if(binding.kind==='model'&&binding.connectionRef!=='configured-text')report('model-binding',`${binding.name} must reference the configured text profile.`);
   }
   if(graph.bindings.filter(binding=>binding.kind==='source').length!==1)report('source-binding','Use exactly one saved-source binding.');
+  // Preflight/request construction and its consumers must resolve identical settings.
+  for(const group of [['preflight','narrate','expand'],['extraction-preflight','extract','repair']]){
+    const configs=group.map(id=>{const edge=graph.edges.find(e=>e.to.node===id&&e.to.port==='model'),config=models.find(n=>n.id===edge?.from.node)?.config;return JSON.stringify(config?.kind==='model'?[config.model??null,config.temperature??null,config.maxTokens??null]:[null,null,null]);});
+    if(new Set(configs).size>1)report('request-model','Use matching model configuration for '+group.join(', ')+'.');
+  }
   return {eligible:issues.length===0,issues,graph};
 }

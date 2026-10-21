@@ -19,6 +19,7 @@ import type { StoredArtifact } from './store';
 import { logEvent } from '../diagnostics';
 import { presetReferenceSchema } from '../../story-workflow/compile';
 import { checkpointWorkflow } from './checkpoint';
+import { modelUsedForChecks } from './configuration';
 import { compilePresetGraph,presetGraph,resolvePresetBindings } from './compile';
 
 export const passageWorkflowInputSchema = z.strictObject({ expectedRevision: z.number().int().min(0), requestId: z.string().uuid(), direction: z.string().max(10000), chapterEnding: chapterEndingSchema.default('auto'),preset:presetReferenceSchema.optional() });
@@ -62,7 +63,7 @@ async function execute(repository: StoryRepository, source: Story, input: Input,
   const seeds: Record<string, NodeSeed> | undefined = retry ? { retain: {outputs:{retained:retry.retained},parents:retry.parents} } : undefined;
   try {
     const outputs = await runStoryWorkflow({ graph, registry: builtInStoryNodes, adapters, store, runId: run.id, signal: job.signal, configurationFingerprint: configurationHash(connections), fetcher: options.fetcher ?? fetch,
-      ...(retry ? {seeds,skip:['preflight','narrate','length','expand','content']} : {}) });
+      ...(retry ? {seeds,skip:['preflight','narrate','length','expand','content',...graph.nodes.filter(node=>node.type==='model'&&!modelUsedForChecks(graph,node.id)).map(node=>node.id)]} : {}) });
     const committed = outputs.get('commit')?.[0];
     if (committed) { store.finish(run.id, 'completed'); return committed.value as Story; }
     if (ready) { store.finish(run.id, 'awaiting-acceptance'); return ready; }
@@ -135,7 +136,7 @@ export async function retryPassageWorkflow(repository: StoryRepository, kind: Pr
     if(begun.replay){job.stage('validating');return begun.record;}
     try {
       const source=begun.source!;
-      if(pinned)resolvePresetBindings(repository,graph,storyId,action.expectedRevision,connections);
+      if(pinned)resolvePresetBindings(repository,graph,storyId,action.expectedRevision,connections,undefined,true);
       recoveryBaseline(source,begun.record.content); // Verify current viewpoint and latest history before any provider work.
       return await execute(repository,source,{requestId:action.requestId,expectedRevision:action.expectedRevision,direction:begun.record.content.direction,chapterEnding:'auto'},connections,job,graph,hash,options,
         {retained:begun.record,notes:action.notes,issues:begun.previousIssues!.map(issue=>issue.message),parents}) as RetainedPassage;

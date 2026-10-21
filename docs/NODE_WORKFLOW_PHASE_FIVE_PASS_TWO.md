@@ -1,5 +1,7 @@
 # Phase 5, pass 2 — compiled preset execution
 
+Historical checkpoint: Phase 5 is now complete. See the [final acceptance gates and evidence](NODE_WORKFLOW_PHASE_FIVE_COMPLETE.md); the next-pass notes below record the state at this earlier pass.
+
 October 21, 2026. Pass 2 enables a bounded set of saved presets for opening, continuation and latest replacement. Phase 5 remains in progress; editable canvas/groups, richer source/context configuration, multiple model profiles and configurable check branches are not implemented yet.
 
 ## Supported execution

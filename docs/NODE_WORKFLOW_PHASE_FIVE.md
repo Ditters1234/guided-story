@@ -1,6 +1,6 @@
 # Node workflows phase 5 — editable built-ins and presets
 
-October 21, 2026. **Passes 1–2 are implemented; phase 5 remains in progress.** The user requested multiple passes. This document records pass-1 authoring/persistence; [pass 2](NODE_WORKFLOW_PHASE_FIVE_PASS_TWO.md) now enables compiled saved presets through explicit passage selectors.
+October 21, 2026. **Phase 5 is now complete; see the [final gate/evidence closeout](NODE_WORKFLOW_PHASE_FIVE_COMPLETE.md).** The user requested multiple passes. This document preserves pass-1 authoring/persistence evidence; its restrictions and remaining-work notes describe that earlier checkpoint. [Pass 2](NODE_WORKFLOW_PHASE_FIVE_PASS_TWO.md) added compiled execution and subsequent passes added checkpoints, configuration, canvas/groups and lifecycle controls.
 
 ## Implemented in pass 1
 

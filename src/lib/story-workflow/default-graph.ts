@@ -25,7 +25,7 @@ export const builtInStoryNodes: NodeRegistry = Object.freeze({
   extract: definition({ request: port('extraction-request'), model: port('model') }, { proposal: port('proposal') }, [extraction], { providerCalls: 1 }),
   validate: definition({ proposal: port('proposal'), retained: port('retained'), prepared: port('prepared') }, { candidate: port('proposal'), repair: port('repair') }, [extraction, 'src/lib/server/evidence-sources.ts#resolveEffectEvidence', 'src/lib/story-effects.ts#applyStoryEffects']),
   review: definition({ candidate: port('proposal'), prepared: port('prepared'), model: port('model') }, { checked: port('checked'), repair: port('repair') }, [extraction, review], { providerCalls: 1, invocation: 'inventory-trigger' }),
-  'repair-input': definition({ issues: alternative('repair') }, { repair: port('repair') }, [extraction]),
+  'repair-input': definition({ issues: alternative('repair') }, { repair: port('repair'),blocked:port('blocked') }, [extraction]),
   repair: definition({ repair: port('repair'), request: port('extraction-request'), model: port('model') }, { proposal: port('proposal') }, [extraction], { providerCalls: 1, invocation: 'repair-needed' }),
   revalidate: definition({ proposal: port('proposal'), retained: port('retained'), prepared: port('prepared') }, { candidate: port('proposal'), blocked: port('blocked') }, [extraction]),
   rereview: definition({ candidate: port('proposal'), prepared: port('prepared'), model: port('model') }, { checked: port('checked'), blocked: port('blocked') }, [extraction, review], { providerCalls: 1, invocation: 'inventory-trigger' }),

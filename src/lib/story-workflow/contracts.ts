@@ -2,6 +2,11 @@ import { z } from 'zod';
 
 const id = z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,99}$/);
 const hash = z.string().regex(/^[a-f0-9]{64}$/);
+export const workflowNodeConfigSchema=z.discriminatedUnion('kind',[
+  z.strictObject({kind:z.literal('source'),resourceIds:z.array(z.string().min(1).max(100)).max(250)}),
+  z.strictObject({kind:z.literal('model'),model:z.string().trim().min(1).max(300).optional(),temperature:z.number().min(0).max(2).optional(),maxTokens:z.number().int().min(128).max(32768).optional()}),
+  z.strictObject({kind:z.literal('repair'),mode:z.enum(['once','retain'])})
+]);
 export const workflowModeSchema = z.enum(['opening', 'continue', 'replace']);
 export type WorkflowMode = z.infer<typeof workflowModeSchema>;
 export type PortType = 'source' | 'model' | 'prepared' | 'narration-request' | 'narration' | 'content' | 'retained' | 'extraction-request' | 'proposal' | 'checked' | 'repair' | 'blocked' | 'approved' | 'committed';
@@ -26,7 +31,7 @@ const bindingSchema = z.discriminatedUnion('kind', [
 export const workflowDefinitionSchema = z.strictObject({
   schemaVersion: z.literal(1), id, version: z.number().int().positive(), mode: workflowModeSchema,
   bindings: z.array(bindingSchema).min(2).max(32),
-  nodes: z.array(z.strictObject({ id, type: id, version: z.literal(1), binding: id.optional() })).min(1).max(100),
+  nodes: z.array(z.strictObject({ id, type: id, version: z.literal(1), binding: id.optional(),config:workflowNodeConfigSchema.optional() })).min(1).max(100),
   edges: z.array(z.strictObject({
     from: z.strictObject({ node: id, port: id }), to: z.strictObject({ node: id, port: id })
   })).max(500),

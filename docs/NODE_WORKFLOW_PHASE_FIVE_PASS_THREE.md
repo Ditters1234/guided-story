@@ -1,5 +1,7 @@
 # Phase 5, pass 3: passage workflows and independent story forks
 
+Historical checkpoint: Phase 5 is now complete. See the [final acceptance gates and evidence](NODE_WORKFLOW_PHASE_FIVE_COMPLETE.md); the next-pass notes below record the state at this earlier pass.
+
 October 21, 2026. The user redirected this pass toward workflow metadata attached to each scene, comparable to an image carrying its Comfy workflow, and explicitly requested loading a past passage as a new story. The durable narrative unit in this app is a passage. This pass checkpoints accepted passages; grouping several passages into a separately editable scene is still future design.
 
 ## Implemented behavior

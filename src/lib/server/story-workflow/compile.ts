@@ -3,6 +3,7 @@ import { inspectExecutableWorkflow,type PresetReference } from '../../story-work
 import type { WorkflowDefinition,WorkflowMode } from '../../story-workflow/contracts';
 import type { StoryRepository } from '../repository';
 import type { Connections } from './adapters';
+import { validateWorkflowConfiguration } from './configuration';
 
 export function compilePresetGraph(value:unknown,mode:WorkflowMode,sourceId:string):WorkflowDefinition {
   const result=inspectExecutableWorkflow(value);
@@ -15,11 +16,11 @@ export function presetGraph(repository:StoryRepository,reference:PresetReference
   return compilePresetGraph(repository.workflowPresets.readVersion(reference.id,reference.revision).content.definition,mode,sourceId);
 }
 /** Repeat under the source job lock immediately before starting a new run. */
-export function resolvePresetBindings(repository:StoryRepository,graph:WorkflowDefinition,sourceId:string,expectedRevision:number,configuration:Connections,reference?:PresetReference){
+export function resolvePresetBindings(repository:StoryRepository,graph:WorkflowDefinition,sourceId:string,expectedRevision:number,configuration:Connections,reference?:PresetReference,effectsOnly=false){
   compilePresetGraph(graph,graph.mode,sourceId);
-  if(reference&&repository.workflowPresets.read(reference.id).revision!==reference.revision)throw new StoryError('The selected workflow preset changed. Refresh and select its current revision before generating.',409);
+  if(reference){const preset=repository.workflowPresets.read(reference.id);if(preset.archived||preset.revision!==reference.revision)throw new StoryError('The selected workflow preset changed or was archived. Refresh and select its current revision before generating.',409);}
   const source=repository.readPreparationSource(graph.mode==='opening'?'setup':'story',sourceId);
   if(source.revision!==expectedRevision)throw new StoryError('The story or setup changed. Reload before generating.',409);
-  if(!configuration.text.model.trim())throw new StoryError('The preset needs a configured text model. Save one in Settings first.');
+  validateWorkflowConfiguration(graph,source,configuration,{effectsOnly});
   return source;
 }

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { checkpointWorkflow } from './checkpoint';
+import { modelConfiguration, stageConfiguration, stageModelNode, sourceReferences,validateWorkflowConfiguration } from './configuration';
 import { setupDraftSchema, type SetupDraft } from '../../setup';
 import { storySchema, passageSchema, type Story } from '../../story';
 import { passageContentSchema, passageProposalSchema, passageMemorySchema } from '../../passage-proposal';
@@ -50,7 +51,7 @@ const schemas: Record<string, Record<string, z.ZodType>> = {
   prepare: { prepared: preparedSchema }, preflight: { request: requestSchema }, narrate: { narration: narrationSchema },
   length: { ready: contentSchema, short: z.strictObject({ narration: narrationSchema, firstWords: z.number() }) }, expand: { ready: contentSchema }, content: { content: contentSchema },
   retain: { retained: retainedPassageSchema }, 'extraction-preflight': { request: extractionRequestSchema }, extract: { proposal: envelopeSchema },
-  validate: { candidate: envelopeSchema, repair: envelopeSchema }, review: { checked: envelopeSchema, repair: envelopeSchema }, 'repair-input': { repair: envelopeSchema },
+  validate: { candidate: envelopeSchema, repair: envelopeSchema }, review: { checked: envelopeSchema, repair: envelopeSchema }, 'repair-input': { repair: envelopeSchema,blocked:blockedSchema },
   repair: { proposal: envelopeSchema }, revalidate: { candidate: envelopeSchema, blocked: blockedSchema }, rereview: { checked: envelopeSchema, blocked: blockedSchema },
   acceptance: { approved: passageProposalSchema, review: retainedPassageSchema }, commit: { committed: storySchema }, blocked: { draft: blockedSchema }
 };
@@ -74,25 +75,28 @@ export function passageAdapters(options: {
   const { repository: repository, source, input, connections: c, job, onDraft } = options;
   const kind = options.mode === 'opening' ? 'setup' : 'story';
   const graph=options.graph??defaultStoryWorkflow(options.mode);
-  const publicModel=()=>{const {apiKey:_key,baseUrl:_url,...text}=c.text;return {connectionRef:'configured-text' as const,settings:{text,context:c.context,prompts:c.prompts}};};
+  const publicModel=(id:string)=>{const resolved=modelConfiguration(graph,id,c),{apiKey:_key,baseUrl:_url,...text}=resolved.text;return {connectionRef:'configured-text' as const,settings:{text,context:resolved.context,prompts:resolved.prompts}};};
   let retained = options.retained;
   let working: Story; // The pre-event state for replacement; current constraints remain on source.
-  const handlers: Record<string, NodeAdapter['execute']> = {
+  const handlers: Record<string, (context:NodeContext,c:Connections)=>ReturnType<NodeAdapter['execute']>> = {
     source: () => ({ source: options.setup ?? source }),
-    model: context => {const node=graph.nodes.find(node=>node.id===context.attempt.nodeId),binding=graph.bindings.find(binding=>binding.name===node?.binding);if(binding?.kind!=='model'||binding.connectionRef!=='configured-text')throw new StoryError('The model node has no resolved configured text binding.');return {model:publicModel()};},
+    model: context => {const node=graph.nodes.find(node=>node.id===context.attempt.nodeId),binding=graph.bindings.find(binding=>binding.name===node?.binding);if(binding?.kind!=='model'||binding.connectionRef!=='configured-text')throw new StoryError('The model node has no resolved configured text binding.');return {model:publicModel(context.attempt.nodeId)};},
     prepare: context => {
       const resolved=pick<Story|SetupDraft>(context,'source');
       if(resolved.id!==source.id||resolved.revision!==source.revision)throw new StoryError('The resolved workflow source changed before preparation.',409);
       const generation: PassageSource = options.setup ? {setup:setupDraftSchema.parse(resolved)} : {story:storySchema.parse(resolved),mode:options.mode==='replace'?'replace':'continue',direction:input.direction,chapterEnding:input.chapterEnding};
-      const prepared = preparePassageGeneration(generation, c, {effectsOnly:Boolean(options.retry)});
+      validateWorkflowConfiguration(graph,source,c,{effectsOnly:Boolean(options.retry)});
+      const prepared = preparePassageGeneration(generation, options.retry?c:stageConfiguration(graph,'preflight',c), {effectsOnly:Boolean(options.retry)});
+      const references=sourceReferences(graph);
+      if(!options.retry&&references.length)prepared.story.context.sceneBrief.resourceIds=[...new Set([...prepared.story.context.sceneBrief.resourceIds??[],...references])];
       working = prepared.story;
       return {prepared};
     },
-    preflight: context => {
+    preflight: (context,c) => {
       const prepared = pick<PreparedPassage>(context, 'prepared');
       return { request: { ...prepareNarrationRequest(prepared, c, onDraft), prepared } };
     },
-    narrate: async context => {
+    narrate: async (context,c) => {
       const request = pick<NarrationRequest & {prepared:PreparedPassage}>(context, 'request');
       return { narration: await requestPassageNarration(request.prepared, request, c, context.signal, context.fetcher) };
     },
@@ -100,7 +104,7 @@ export function passageAdapters(options: {
       const prepared = pick<PreparedPassage>(context, 'prepared'), narration = pick<Narration>(context, 'narration'), firstWords = countWords(narration.paragraphs);
       return firstWords < prepared.minimumWords ? { short: { narration, firstWords } } : { ready: finalizePassageContent(prepared, narration, firstWords, onDraft) };
     },
-    expand: async context => {
+    expand: async (context,c) => {
       const prepared = pick<PreparedPassage>(context, 'prepared'), short = pick<{ narration: Narration; firstWords: number }>(context, 'short');
       const narration = await expandPassageNarration(prepared, pick<NarrationRequest>(context, 'request'), short.narration, c, context.signal, onDraft, context.fetcher);
       return { ready: finalizePassageContent(prepared, narration, short.firstWords, onDraft) };
@@ -111,8 +115,8 @@ export function passageAdapters(options: {
       retained = repository.retainPassage(kind, source.id, input.requestId, options.fingerprint, source, content);
       onDraft({ stage: 'retained-content', content }); return { retained };
     },
-    'extraction-preflight': context => ({ request: preparePassageExtraction(pick<PreparedPassage>(context, 'prepared').story, pick<RetainedPassage>(context, 'retained').content, c, options.retry, resolvedFactPins(source)) }),
-    extract: async context => {
+    'extraction-preflight': (context,c) => ({ request: preparePassageExtraction(pick<PreparedPassage>(context, 'prepared').story, pick<RetainedPassage>(context, 'retained').content, c, options.retry, resolvedFactPins(source)) }),
+    extract: async (context,c) => {
       const request = pick<ExtractionRequest>(context, 'request'), raw = await requestPassageExtraction(working, request, c, context.signal, context.fetcher);
       repository.updateRetainedEffects(kind, source.id, retained!.id, input.requestId, working, raw.response.effects);
       onDraft({ stage: 'extracted-effects', effects: raw.response.effects });
@@ -125,7 +129,7 @@ export function passageAdapters(options: {
       proposal.checks.push(check('deterministic', proposal.issues));
       return proposal.issues.length ? { repair: proposal } : { candidate: proposal };
     },
-    review: async context => {
+    review: async (context,c) => {
       const candidate = structuredClone(pick<Envelope>(context, 'candidate'));
       const required = needsInventoryReview(pick<PreparedPassage>(context, 'prepared').story, retained!.content.draft.paragraphs, candidate.extracted!.effects);
       if (required) {
@@ -135,8 +139,8 @@ export function passageAdapters(options: {
       candidate.checks.push(check('model', candidate.issues, required));
       return candidate.issues.length ? { repair: candidate } : { checked: candidate };
     },
-    'repair-input': context => ({ repair: pick<Envelope>(context, 'issues') }),
-    repair: async context => {
+    'repair-input': context => {const candidate=pick<Envelope>(context,'issues'),config=graph.nodes.find(n=>n.id==='repair-input')?.config;return config?.kind==='repair'&&config.mode==='retain'?{blocked:{message:'Automatic repair is disabled in this preset. The prose is retained for explicit world-update review.',issues:candidate.issues,status:502}}:{repair:candidate};},
+    repair: async (context,c) => {
       const candidate = pick<Envelope>(context, 'repair'); onDraft({ stage: 'repairing-inventory', issues: candidate.issues });
       const request = preparePassageRepair(pick<ExtractionRequest>(context, 'request'), candidate.text, candidate.issues, c);
       const result = await requestPassageRepair(working, request, c, context.signal, context.fetcher);
@@ -154,7 +158,7 @@ export function passageAdapters(options: {
       }
       candidate.checks.push(check('deterministic', [])); return { candidate };
     },
-    rereview: async context => {
+    rereview: async (context,c) => {
       const candidate = structuredClone(pick<Envelope>(context, 'candidate'));
       const required = candidate.reviewRequired || needsInventoryReview(pick<PreparedPassage>(context, 'prepared').story, retained!.content.draft.paragraphs, candidate.extracted!.effects);
       candidate.issues = required ? await reviewInventory(working, retained!.content.draft.paragraphs, candidate.extracted!.effects, candidate.extracted!.memory, c.text, c.context.overheadTokens, context.signal, context.fetcher) : [];
@@ -180,7 +184,8 @@ export function passageAdapters(options: {
     blocked: context => ({ draft: pick(context, 'issues') })
   };
   return Object.fromEntries(Object.entries(handlers).map(([type, execute]) => [type, { execute:(context:NodeContext)=>{
-    if(builtInStoryNodes[type].inputs.model&&jobFingerprint(pick(context,'model'))!==jobFingerprint(publicModel()))throw new StoryError('The stage model input does not match its resolved configured profile.');
-    return execute(context);
+    const model=stageModelNode(graph,context.attempt.nodeId);
+    if(builtInStoryNodes[type].inputs.model&&(!model||jobFingerprint(pick(context,'model'))!==jobFingerprint(publicModel(model))))throw new StoryError('The stage model input does not match its resolved configured profile.');
+    return execute(context,stageConfiguration(graph,context.attempt.nodeId,c));
   }, validate: (port: string, value: unknown) => validatePassagePayload(type, port, value) }])) as Record<string, NodeAdapter>;
 }

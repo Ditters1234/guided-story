@@ -7,6 +7,7 @@
   let open=$state(false),loading=$state(false),loaded=$state(false),problem=$state(''),info=$state<PassageCheckpointInfo|null>(null);
   let title=$state(''),baseline=$state('');
   let controller:AbortController|undefined,request:{key:string;id:string}|null=null;
+  const recordedModel=$derived(info?.workflow?.generation?.model??info?.workflow?.acceptance.model);
   $effect(()=>onDirty(title!==baseline));
   onDestroy(()=>{controller?.abort();onDirty(false);});
   async function load(){
@@ -42,7 +43,7 @@
         {#if info.differsFromCurrent}<p class="notice">Earlier prose or titles have since been edited. This fork uses the original saved checkpoint.</p>{/if}
         {#if info.workflow}
           <p>Workflow: {info.workflow.acceptance.definition.id} · version {info.workflow.acceptance.definition.version}</p>
-          {#if info.workflow.acceptance.model}<p class="muted">Recorded model: {info.workflow.acceptance.model.model} · temperature {info.workflow.acceptance.model.temperature} · context limit {info.workflow.acceptance.model.contextTokens.toLocaleString()}</p>{/if}
+          {#if recordedModel}<p class="muted">Recorded narration model: {recordedModel.model} · temperature {recordedModel.temperature} · context limit {recordedModel.contextTokens.toLocaleString()}</p>{/if}
           {#if info.workflow.generation?.runId!==info.workflow.acceptance.runId}<p class="muted">The prose and its accepted world updates came from separate checks. Both workflow records are preserved.</p>{/if}
           <button type="button" onclick={download} disabled={busy}>Download workflow preset</button>
           <button type="button" onclick={()=>onReuse(continuationPresetFromCheckpoint($state.snapshot(info!),story.id))} disabled={busy}>Edit workflow for this story</button>

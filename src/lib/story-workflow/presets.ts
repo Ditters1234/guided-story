@@ -5,9 +5,10 @@ import { validateWorkflow, type GraphIssue } from './validate';
 
 export const presetContentSchema=z.strictObject({name:z.string().trim().min(1).max(160),description:z.string().max(2000),definition:workflowDefinitionSchema});
 export const presetSaveSchema=z.strictObject({requestId:z.string().uuid(),expectedRevision:z.number().int().min(0),content:presetContentSchema});
+export const presetLifecycleSchema=z.strictObject({requestId:z.string().uuid(),expectedRevision:z.number().int().positive(),action:z.enum(['archive','restore'])});
 export const portablePresetSchema=z.strictObject({format:z.literal('guided-story-workflow-preset'),version:z.literal(1),content:presetContentSchema});
 export type PresetContent=z.infer<typeof presetContentSchema>;
-export type WorkflowPreset={id:string;revision:number;createdAt:string;updatedAt:string;content:PresetContent};
+export type WorkflowPreset={id:string;revision:number;createdAt:string;updatedAt:string;content:PresetContent;archived?:boolean};
 export const supportedNode=(type:string)=>Object.hasOwn(builtInStoryNodes,type)?builtInStoryNodes[type]:undefined;
 
 /** Draft diagnostics, not an execution authorization. Runtime bindings resolve later. */
@@ -24,7 +25,14 @@ export function assessPreset(definition:WorkflowDefinition){
 export function exportPreset(content:PresetContent){
   const copy=presetContentSchema.parse(content);
   copy.definition.bindings=copy.definition.bindings.map(binding=>binding.kind==='source'?{name:binding.name,kind:'source',sourceKind:binding.sourceKind}:{...binding,connectionRef:binding.connectionRef==='configured-text'?'configured-text':'unbound'});
+  copy.definition.nodes=copy.definition.nodes.map(node=>node.config?.kind==='source'?{...node,config:{kind:'source',resourceIds:[]}}:node);
   return portablePresetSchema.parse({format:'guided-story-workflow-preset',version:1,content:copy});
+}
+export function setRepairMode(graph:WorkflowDefinition,mode:'once'|'retain'){
+  const copy=structuredClone(graph),node=copy.nodes.find(n=>n.id==='repair-input');if(!node)throw new Error('Restore the built-in repair-input stage first.');
+  node.config={kind:'repair',mode};copy.edges=copy.edges.filter(e=>!(e.from.node==='repair-input'&&e.from.port==='blocked'));
+  if(mode==='retain')copy.edges.push({from:{node:'repair-input',port:'blocked'},to:{node:'blocked',port:'issues'}});
+  return copy;
 }
 export function importPreset(value:unknown):PresetContent {
   // Imported source identifiers are deliberately detached on this computer too.
