@@ -20,6 +20,7 @@
   import LoreDevPanel from '#lib/LoreDevPanel.svelte';
   import StoryCorrections from '#lib/StoryCorrections.svelte';
   import RecordEditor from '#lib/RecordEditor.svelte';
+  import WorldMapWorkspace from '#lib/WorldMapWorkspace.svelte';
   import FactPinsPanel from '#lib/FactPinsPanel.svelte';
   import LibraryControls from '#lib/LibraryControls.svelte';
   import type { RecordKind } from '#lib/record-editing';
@@ -53,6 +54,7 @@
   let view = $state(untrack(()=>data.story?'read':'library'));
   let recordsKind=$state<RecordKind>('place'),recordsId=$state(''),recordsSession=$state(0),recordsDirty=$state(false);
   let pinsDirty=$state(false);
+  let mapDirty=$state(false);
   let preparationDirty=$state(false),devDirty=$state(false),workflowDirty=$state(false),backgroundDirty=$state(false);
   let librarySearch=$state(''),contentsSearch=$state(''),libraryLoading=$state(false);
   let libraryRenameDrafts=$state<Record<string,boolean>>({});
@@ -68,6 +70,7 @@
   async function closeCorrection(){showCorrection=false;correctionDirty=false;await tick();correctionTrigger?.focus({preventScroll:true});correctionTrigger?.scrollIntoView({block:'nearest'});}
   function correctionSaved(saved:Story){if(story)reconcileNotebook(story,saved);story=saved;refreshCharacterDraft(saved);updateLibrary(saved);if(saved.recap?.stale)recapCurrent=false;status='Reviewed corrections saved to current story records';}
   function leaveEditor(){
+    if(view==='map'&&mapDirty)return confirm('Discard the unsaved world map record edits or AI instructions? Save them first to keep them.');
     if(view==='workflows'&&workflowDirty)return confirm('Discard the unsubmitted workflow rechecking guidance? Submit it with Retry world updates first to keep it.');
     if(view==='prepare'&&preparationDirty)return confirm('Discard the scene preparation draft? Saved previews remain available.');
     if(view==='dev'&&devDirty)return confirm('Discard the unsaved developer context or lore edits? Save them first to keep them.');
@@ -366,7 +369,7 @@
   });
 </script>
 
-<svelte:window onbeforeunload={e=>{if(preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
+<svelte:window onbeforeunload={e=>{if(mapDirty||preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
 
 <svelte:head><title>{story?.title || 'Library'} · Storyweaver</title><meta name="description" content="Read, direct and illustrate your own ongoing novel." /></svelte:head>
 
@@ -375,7 +378,7 @@
   <header>
     <div class="identity"><a class="brand" href="/" onclick={event=>{event.preventDefault();navigate('library');}}>✦ <span>Storyweaver</span></a><span class="book-name">{view === 'new' ? 'New story' : story?.title || 'Your library'}</span><span class="instance">{data.instance === 'play' ? 'Your instance · 5175' : 'Development · 5173'}</span></div>
     <nav class="app-navigation" aria-label="Story navigation">
-      <div class="navigation-group" role="group" aria-label="Current story"><span class="navigation-label">Story</span>{#each [['read', 'Read'], ['contents', 'Contents'], ['recap', 'Story so far'], ['records','Records'], ['background','Background'], ['pins','Pins'], ['prepare','Prepare scene'], ['gallery', 'Gallery'], ['illustrate','Illustrations']] as [name, label]}<button class:active={view === name} aria-current={view === name ? 'page' : undefined} onclick={() => navigate(name)} disabled={busy || !story}>{label}</button>{/each}</div>
+      <div class="navigation-group" role="group" aria-label="Current story"><span class="navigation-label">Story</span>{#each [['read', 'Read'], ['contents', 'Contents'], ['recap', 'Story so far'], ['map','World map'], ['records','Records'], ['background','Background'], ['pins','Pins'], ['prepare','Prepare scene'], ['gallery', 'Gallery'], ['illustrate','Illustrations']] as [name, label]}<button class:active={view === name} aria-current={view === name ? 'page' : undefined} onclick={() => navigate(name)} disabled={busy || !story}>{label}</button>{/each}</div>
       <div class="navigation-group workspace-navigation" role="group" aria-label="Workspace"><span class="navigation-label">Workspace</span>{#each [['library', 'Library'], ['new','New story'], ['settings', 'Settings'], ['help','Help'], ['workflows','Workflows'], ['dev', 'Dev']] as [name, label]}<button class:active={view === name} aria-current={view === name ? 'page' : undefined} onclick={() => navigate(name)} disabled={busy && name !== 'dev'}>{label}</button>{/each}</div>
     </nav>
   </header>
@@ -462,6 +465,8 @@
         {:else}<button onclick={()=>editRecords('thread')} disabled={busy}>Edit story threads</button><p class="muted" role="status">{notebookThreads.length} of {story.canon.threads.length} story threads</p>{#each notebookThreads as thread (thread.id)}{@const threadDirty=threadDrafts[thread.id]&&(threadDrafts[thread.id].notes!==thread.notes||threadDrafts[thread.id].status!==thread.status)}{#if threadDrafts[thread.id]}<form class="thread" aria-label={thread.title} onsubmit={async e => { e.preventDefault(); const values=threadDrafts[thread.id];if(await mutate({ type: 'thread', threadId: thread.id, notes: values.notes, status: values.status }))resetThread(thread.id); }}><fieldset class="notebook-character-fields" disabled={busy}><h3>{thread.title}</h3><label>Notes<textarea bind:value={threadDrafts[thread.id].notes} maxlength="40000"></textarea></label><label>Status<select bind:value={threadDrafts[thread.id].status}><option value="open">Open</option><option value="resolved">Resolved</option></select></label><p class="muted" role="status">{threadDirty?'Unsaved thread changes':'Thread matches the saved story'}</p><div class="row"><button disabled={busy||!threadDirty}>Save thread</button>{#if threadDirty}<button type="button" onclick={()=>resetThread(thread.id)}>Reset thread</button>{/if}</div></fieldset></form>{/if}{:else}<p class="muted">{notebookSearch.trim()?'No story threads match this search.':'No story threads yet. Add a possibility in Records or prepare a scene.'}</p>{/each}<p class="muted">Future possibilities stay separate from events that have happened.</p>{/if}
       </aside>
     </div>
+  {:else if view === 'map' && story}
+    {#key story.id}<WorldMapWorkspace {story} bind:busy canGenerate={Boolean(connections?.text.model.trim())} onMutate={mutate} onReload={reloadRecords} onSaved={correctionSaved} onDirty={value=>mapDirty=value}/>{/key}
   {:else if view === 'records' && story}
     {#key `${story.id}:${recordsSession}`}<RecordEditor {story} bind:busy canGenerate={Boolean(connections?.text.model.trim())} onSaved={correctionSaved} initialKind={recordsKind} initialId={recordsId} onMutate={mutate} onReload={reloadRecords} onDirty={dirty=>recordsDirty=dirty} />{/key}
   {:else if view === 'background' && story}

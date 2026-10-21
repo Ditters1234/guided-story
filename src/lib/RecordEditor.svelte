@@ -8,15 +8,17 @@
   import { inventoryHolders, inventoryPath, itemRootOwnerId } from './inventory';
   import { normalizeCharacterProfile } from './character-profile';
   import { recordCollections, type RecordKind } from './record-editing';
-  let {story,busy=$bindable(false),initialKind='place',initialId='',canGenerate=false,onSaved=()=>{},onMutate,onReload,onDirty}: {
-    story:Story;busy?:boolean;initialKind?:RecordKind;initialId?:string;canGenerate?:boolean;onSaved?:(story:Story)=>void;
-    onMutate:(action:unknown)=>Promise<boolean>;onReload:()=>Promise<boolean>;onDirty:(dirty:boolean)=>void;
+  let {story,busy=$bindable(false),initialKind='place',initialId='',embedded=false,canGenerate=false,onSaved=()=>{},onSelection=()=>{},onMutate,onReload,onDirty}: {
+    story:Story;busy?:boolean;initialKind?:RecordKind;initialId?:string;embedded?:boolean;canGenerate?:boolean;onSaved?:(story:Story)=>void;
+    onMutate:(action:unknown)=>Promise<boolean>;onReload:()=>Promise<boolean>;onDirty:(dirty:boolean)=>void;onSelection?:(kind:RecordKind,id:string)=>void;
   }=$props();
   const labels={character:'Cast',place:'Places',item:'Items',relationship:'Relationships',thread:'Threads'};
   type Draft={id:string|null;name:string;role:string;notes:string;appearance:string;outfit:string;locationId:string;noNsfw:boolean;pinnedAppearance:boolean;description:string;visualDescription:string;parentId:string|null;quantity:number;ownerId:string;equipped:boolean;isContainer:boolean;fromId:string;toId:string;title:string;status:'open'|'resolved'} & {unlimited:boolean} & Pick<Character,'visual'|'persona'|'currentState'|'wardrobe'|'injuries'|'appearanceNotes'|'outfitNotes'>;
   let kind=$state<RecordKind>(untrack(()=>initialKind)),selectedId=$state(untrack(()=>initialId));
   let draft=$state<Draft>(untrack(()=>makeDraft(initialKind,initialId))),baseline=$state(untrack(()=>JSON.stringify(draft)));
   let revision=$state(untrack(()=>story.revision)),note=$state('');
+  let draftRevision=$state(untrack(()=>story.revision));
+  const stale=$derived(draftRevision!==story.revision);
   let aiDirty=$state(false),aiSession=$state(0);
   let splitOpen=$state(false),splitQuantity=$state<number>(1),splitOwnerId=$state('');
   let recordSearch=$state('');
@@ -36,10 +38,10 @@
     return JSON.parse(JSON.stringify(type==='character'?normalizeCharacterProfile(values):values));
   }
   function label(row:typeof rows[number]) {return 'title' in row?row.title:'name' in row?row.name:`${story.canon.characters.find(c=>c.id===row.fromId)?.name||row.fromId} → ${story.canon.characters.find(c=>c.id===row.toId)?.name||row.toId}`;}
-  function reset(id=selectedId,clearAi=true){selectedId=id;draft=makeDraft(kind,id);baseline=JSON.stringify(draft);note='';splitOpen=false;splitQuantity=1;splitOwnerId=draft.ownerId;if(clearAi){aiDirty=false;aiSession++;}}
+  function reset(id=selectedId,clearAi=true){selectedId=id;draft=makeDraft(kind,id);baseline=JSON.stringify(draft);draftRevision=story.revision;note='';splitOpen=false;splitQuantity=1;splitOwnerId=draft.ownerId;if(clearAi){aiDirty=false;aiSession++;}}
   function mayLeave(){return !(dirty||aiDirty||splitOpen)||confirm(`Discard the unsaved ${splitOpen?'stack split':dirty&&aiDirty?'record fields and AI correction draft':dirty?'changes to this record':'AI correction draft'}?`);}
   function changeKind(next:RecordKind){if(next===kind)return;if(mayLeave()){kind=next;recordSearch='';reset('');}}
-  function select(id:string){if(mayLeave()){reset(id);return true;}return false;}
+  function select(id:string){if(mayLeave()){reset(id);onSelection(kind,id);return true;}return false;}
   $effect(()=>{onDirty(dirty||aiDirty||splitOpen);});onDestroy(()=>onDirty(false));
   $effect(()=>{if(revision!==story.revision){if(!dirty&&!splitOpen)reset(selectedId,false);else note='The saved story changed. Your unsaved fields are still here.';revision=story.revision;}});
   async function reload(){if(mayLeave()&&await onReload()){reset();revision=story.revision;}}
@@ -54,6 +56,7 @@
     }
   }
   async function save(){
+    if(busy||stale)return;
     const oldIds=new Set(rows.map(r=>r.id)),id=draft.id;
     if(await onMutate({type:'record-save',edit:{kind,value:value()}})){
       const savedId=id||story.canon[recordCollections[kind]].find(r=>!oldIds.has(r.id))?.id||'';reset(savedId,false);note='Record saved.';
@@ -66,34 +69,37 @@
     note='AI corrections applied. Saved record loaded.';
   }
   async function remove(){
+    if(busy||stale)return;
     if(!draft.id||!confirm(`Remove this ${kind} from current story records?${aiDirty?' Its unsaved AI correction draft will also be discarded.':''} Written passages and picture history remain. This cannot be undone.`))return;
-    if(await onMutate({type:'record-remove',kind,id:draft.id})){reset('');note='Record removed. Historical passages and pictures were kept.';}
+    if(await onMutate({type:'record-remove',kind,id:draft.id})){reset('');onSelection(kind,'');note='Record removed. Historical passages and pictures were kept.';}
   }
   function openSplit(){
-    if(busy||dirty||aiDirty||!canSplit||!savedItem)return;
+    if(busy||stale||dirty||aiDirty||!canSplit||!savedItem)return;
     splitQuantity=1;splitOwnerId=savedItem.ownerId;splitOpen=true;note='';
   }
   async function split(){
-    if(busy||dirty||aiDirty||!splitOpen||!savedItem||!canSplit)return;
+    if(busy||stale||dirty||aiDirty||!splitOpen||!savedItem||!canSplit)return;
     const source={...savedItem},quantity=splitQuantity,oldIds=new Set(story.canon.items.map(item=>item.id));
     if(!Number.isInteger(quantity)||quantity<1||quantity>=source.quantity)return;
     if(await onMutate({type:'item-split',itemId:source.id,quantity,ownerId:splitOwnerId})){
       const created=story.canon.items.find(item=>!oldIds.has(item.id));
       const remaining=story.canon.items.find(item=>item.id===source.id);
       reset(created?.id||source.id);
+      onSelection(kind,created?.id||source.id);
       note=created&&remaining?`Stack split: ${created.quantity} at ${inventoryPath(story.canon,created.ownerId)}; ${remaining.quantity} remain in the original stack. Total preserved: ${source.quantity}.`:'Stack split and saved.';
     }
   }
 </script>
 
-<main class="full-view records-view">
-  <div class="eyebrow">{story.title}</div><h1>Story records</h1>
+<svelte:element this={embedded?'section':'main'} class:full-view={!embedded} class="records-view">
+  {#if embedded}<h2>Selected record editor</h2>{:else}<div class="eyebrow">{story.title}</div><h1>Story records</h1>{/if}
   <p class="muted">Correct current facts or add something the story needs. Saving a record does not narrate an event. Canon edits refresh memory coverage and pause latest-passage event replacement until the story continues.</p>
-  <div class="tabs" role="group" aria-label="Record sections">{#each Object.entries(labels) as [key,title]}<button class:active={kind===key} aria-pressed={kind===key} disabled={busy} onclick={()=>changeKind(key as RecordKind)}>{title}</button>{/each}</div>
+  {#if !embedded}<div class="tabs" role="group" aria-label="Record sections">{#each Object.entries(labels) as [key,title]}<button class:active={kind===key} aria-pressed={kind===key} disabled={busy} onclick={()=>changeKind(key as RecordKind)}>{title}</button>{/each}</div>
   <RecordSearch label={`Search ${labels[kind].toLowerCase()}`} query={recordSearch} count={visibleRows.length} total={rows.length} disabled={busy} onSearch={value=>recordSearch=value} />
   {#if recordSearch.trim()&&!visibleRows.length}<p class="notice">No saved {labels[kind].toLowerCase()} match this search. Clear the search to see all records. Your editor stays open.</p>{/if}
   <div class="record-picker"><label>Saved {labels[kind].toLowerCase()}<select value={selectedId} disabled={busy} onchange={e=>{if(!select(e.currentTarget.value))e.currentTarget.value=selectedId;}}><option value="">New {kind}</option>{#if selectionOutsideSearch&&selectedRow}<option value={selectedId}>Editing: {label(selectedRow)} (outside search)</option>{/if}{#each visibleRows as row}<option value={row.id}>{label(row)}</option>{/each}</select></label><button disabled={busy} onclick={()=>select('')}>Add {kind}</button></div>
-  {#if kind==='item'}<InventoryTree canon={story.canon} {selectedId} disabled={busy} query={recordSearch} showSearch={false} onSelect={select} />{/if}
+  {#if kind==='item'}<InventoryTree canon={story.canon} {selectedId} disabled={busy} query={recordSearch} showSearch={false} onSelect={select} />{/if}{/if}
+  {#if stale}<p class="notice" role="alert">The saved story changed. Your unsaved fields are kept. Copy any edits you want to keep, then Reload saved record before saving.</p>{/if}
   <form aria-label={`${kind} editor`} onsubmit={e=>{e.preventDefault();save();}}><fieldset disabled={busy||splitOpen}>
     <h2>{isNew?`New ${kind}`:`Edit ${kind}`}</h2>
     {#if kind==='character'}
@@ -127,7 +133,7 @@
     {:else}
       <label>Title<input bind:value={draft.title} required maxlength="200" /></label><label>Thread notes<textarea bind:value={draft.notes} maxlength="40000"></textarea></label><label>Status<select bind:value={draft.status}><option value="open">Open</option><option value="resolved">Resolved</option></select></label>
     {/if}
-    <div class="row"><button class="primary" disabled={!dirty||(kind==='relationship'&&story.canon.characters.length<2)}>{isNew?'Create record':'Save record'}</button><button type="button" onclick={reload}>Reload saved record</button>{#if !isNew}<button class="danger" type="button" onclick={remove}>Remove record</button>{/if}</div>
+    <div class="row"><button class="primary" disabled={stale||!dirty||(kind==='relationship'&&story.canon.characters.length<2)}>{isNew?'Create record':'Save record'}</button><button type="button" onclick={reload}>Reload saved record</button>{#if !isNew}<button class="danger" type="button" disabled={stale} onclick={remove}>Remove record</button>{/if}</div>
     <p class="muted">{dirty?'Unsaved record changes.':isNew?'Fill in the new record.':'Saved record loaded.'}</p>
   </fieldset></form>
   {#if kind==='item'&&savedItem}
@@ -138,17 +144,17 @@
         <form aria-label="Split item stack" onsubmit={e=>{e.preventDefault();split();}}><fieldset disabled={busy}>
           <div class="form-grid"><label>Quantity to split<input type="number" min="1" max={savedItem.quantity-1} step="1" bind:value={splitQuantity} required /></label><label>Destination<select aria-label="Destination" bind:value={splitOwnerId} required>{#each holders as holder}<option value={holder.id}>{holder.name}</option>{/each}</select></label></div>
           <p class="muted">{Number.isInteger(splitQuantity)&&splitQuantity>0&&splitQuantity<savedItem.quantity?`${savedItem.quantity-splitQuantity} will remain in the original stack.`:'Choose a whole quantity that leaves at least one item in the original stack.'}</p>
-          <div class="row"><button class="primary" disabled={dirty||aiDirty||!Number.isInteger(splitQuantity)||splitQuantity<1||splitQuantity>=savedItem.quantity}>Split and save</button><button type="button" onclick={()=>{splitOpen=false;splitQuantity=1;splitOwnerId=savedItem?.ownerId||'';}}>Discard split</button></div>
+          <div class="row"><button class="primary" disabled={stale||dirty||aiDirty||!Number.isInteger(splitQuantity)||splitQuantity<1||splitQuantity>=savedItem.quantity}>Split and save</button><button type="button" onclick={()=>{splitOpen=false;splitQuantity=1;splitOwnerId=savedItem?.ownerId||'';}}>Discard split</button></div>
         </fieldset></form>
       {:else}
         <p class="muted">{savedItem.unlimited?'Always available supplies do not need splitting.':savedItem.isContainer?'Containers cannot be split. Create another container and move items into it.':savedItem.quantity<2?'This stack needs at least two items before it can be split.':dirty||aiDirty?'Save or discard the record fields and AI correction draft before splitting.':'Move part of this stack to a cast member, place or container while preserving its total quantity.'}</p>
-        <button type="button" disabled={busy||dirty||aiDirty||!canSplit} onclick={openSplit}>Split this stack</button>
+        <button type="button" disabled={busy||stale||dirty||aiDirty||!canSplit} onclick={openSplit}>Split this stack</button>
       {/if}
     </section>
   {/if}
   {#if note}<p role="status" class="muted">{note}</p>{/if}
-  {#key `${kind}:${selectedId}:${aiSession}`}<StoryCorrections {story} passageId={story.passages.at(-1)!.id} mode="record" recordKind={kind} targetId={selectedId} {canGenerate} bind:busy disabled={dirty||splitOpen} blockedReason="Save or reload the record fields, and finish or discard any stack split, before requesting AI changes. AI works from saved records and will not silently save manual edits." onSaved={correctionsSaved} onDirty={value=>aiDirty=value} />{/key}
-</main>
+  {#key `${kind}:${selectedId}:${aiSession}`}<StoryCorrections {story} passageId={story.passages.at(-1)!.id} mode="record" recordKind={kind} targetId={selectedId} {canGenerate} bind:busy disabled={stale||dirty||splitOpen} blockedReason="Save or reload the record fields, and finish or discard any stack split, before requesting AI changes. AI works from saved records and will not silently save manual edits." onSaved={correctionsSaved} onDirty={value=>aiDirty=value} />{/key}
+</svelte:element>
 
 <style>
   .container-contents{margin:18px 0;padding:16px;background:var(--panel);border-radius:6px;overflow-wrap:anywhere}.container-contents ul{list-style:none;padding:0;margin:8px 0}.container-contents button{text-align:left;margin:3px 0}.container-contents p{margin:8px 0 0}

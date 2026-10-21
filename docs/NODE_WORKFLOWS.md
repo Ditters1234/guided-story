@@ -1,6 +1,6 @@
 # Node-based story workflows — next project milestone
 
-Decision date: October 21, 2026. **Phases 1–3 are implemented.** This evolves the existing Storyweaver TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records contracts; [phase 2](NODE_WORKFLOW_PHASE_TWO.md) implements all passage modes and durable recovery; [phase 3](NODE_WORKFLOW_PHASE_THREE.md) adds read-only workflow inspection, supported retries and local history controls. The location-first world map and editable workflow canvas remain pending.
+Decision date: October 21, 2026. **Phases 1–4 are implemented.** This evolves the existing Storyweaver TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records contracts; [phase 2](NODE_WORKFLOW_PHASE_TWO.md) implements all passage modes and durable recovery; [phase 3](NODE_WORKFLOW_PHASE_THREE.md) adds read-only workflow inspection, supported retries and local history controls; [phase 4](NODE_WORKFLOW_PHASE_FOUR.md) connects a location-first map to existing story/setup editors. Editable built-in workflows and presets remain phase 5.
 
 The prior application checkpoint is [the recovery review](PASSAGE_RECOVERY_REVIEW.md): 366 automated tests, clean type/build checks and four isolated browser suites. Phase-1 verification is recorded separately in the [implementation notes](NODE_WORKFLOW_PHASE_ONE.md); historical browser results are not new workflow verification.
 
@@ -100,6 +100,8 @@ Model/API configuration supplies an existing connection; it does not itself make
 
 ### 4. Location-first world map and existing editors
 
+**Implemented:** collapsed saved location trees, typed presence/storage/containment and separate reference links, search/scene focus, existing story/setup editors with explicit saves and stale-draft guards, browser-local layout and explicit scene hints. See [phase-4 verification](NODE_WORKFLOW_PHASE_FOUR.md).
+
 - Start collapsed at root locations; search or focus the current scene and expand downward into sublocations, people, possessions and containers.
 - Label containment, current presence, immediate storage and related lore/tasks separately. Support multiple references to one entity without creating duplicate canonical records.
 - Open existing setup/record editors beside the selected node, preserving explicit saves, unsaved-draft guards, stale revision checks and manual recovery invalidation.
@@ -144,4 +146,4 @@ The milestone is complete when the default pipeline runs through the new engine,
 
 ## Starting point for the next implementation turn
 
-Phases 1–3 are implemented. Next start **phase 4** with the location-first world map connected to existing setup/record editors. Start collapsed at root places; distinguish containment, presence, storage and related knowledge/lore. Preserve unsaved edits, explicit authoring actions, current-source guards and deterministic model scope. Editable workflows/presets follow in phase 5.
+Phases 1–4 are implemented. Next start **phase 5** with editable supported built-in workflows and reusable versioned presets. Validate typed connections, required inputs, explicit source/model bindings and bounded branches before execution. Preserve default model-call/context budgets, mandatory server-side final validation, source freshness, explicit saves and atomic recovery. Arbitrary plugins/scripts remain deferred.

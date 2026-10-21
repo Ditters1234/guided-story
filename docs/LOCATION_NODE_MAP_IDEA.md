@@ -1,6 +1,6 @@
 # Location-first node map idea
 
-October 21, 2026. This records the user's location-first map design alongside the recovery review. It is now included in the approved [node-workflow milestone](NODE_WORKFLOWS.md), with phased delivery and acceptance gates. The map remains unimplemented; approving its plan does not change model context selection.
+October 21, 2026. This records the user's location-first map design alongside the recovery review. It is included in the approved [node-workflow milestone](NODE_WORKFLOWS.md). The saved-world map and existing-editor integration are now implemented in [phase 4](NODE_WORKFLOW_PHASE_FOUR.md); model context selection remains unchanged. The design discussion below records the original intent.
 
 ## User intent
 

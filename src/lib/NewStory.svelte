@@ -16,12 +16,18 @@
   import SceneResourceHints from './SceneResourceHints.svelte';
   import RecordSearch from './RecordSearch.svelte';
   import PassageRecovery from './PassageRecovery.svelte';
+  import WorldMap from './WorldMap.svelte';
+  import { buildWorldMap, sceneReferenceIds, type WorldNode } from './world-map';
   let { initial = null, canGenerate = false, busy = $bindable(false), onSaved, onCreated, onDirty = () => {} }: { initial?: SetupDraft | null; canGenerate: boolean; busy: boolean; onSaved: (draft: SetupDraft) => void; onCreated: (story: Story, setupId: string) => void; onDirty?: (dirty: boolean) => void } = $props();
   let saved = $state<SetupDraft | null>(untrack(() => initial ? structuredClone($state.snapshot(initial)) : null));
   let input = $state<SetupInput>(untrack(() => initial ? structuredClone($state.snapshot(initial.input)) : setupInputSchema.parse({ premise: 'A science-fiction story about a rogue space trader and their crew.' })));
   let plan = $state<SetupPlan | null>(untrack(() => initial?.plan ? structuredClone($state.snapshot(initial.plan)) : null));
   let tab = $state('cast'), error = $state(''), note = $state(''), phase = $state('');
   let recordSearch = $state(''), matchingRecordIds = $state<string[]>([]);
+  let mapOpen=$state(false),mapId=$state(''),mapSelected=$state('');
+  function selectMap(node:WorldNode){if(busy)return;tab=({place:'world',character:'cast',item:'items',lore:'background',thread:'threads',relationship:'relationships'})[node.kind];recordSearch='';mapId=node.id;mapSelected=node.key;}
+  function referenceMap(node:WorldNode){if(!plan||busy)return;try{const draftNode=buildWorldMap(plan.canon,plan.context).nodes.get(node.key);if(!draftNode)throw new Error('This record was removed from your draft. Save or reload the setup first.');plan.context.sceneBrief.resourceIds=sceneReferenceIds(plan.context,draftNode);note='Scene reference added to your setup draft. Choose Save setup draft to apply it.';}catch(e){error=e instanceof Error?e.message:'Could not add scene reference.';}}
+  function toggleMap(){if(tab==='prepare'&&!mayLeavePreparation())return;mapOpen=!mapOpen;mapId='';mapSelected='';}
   const searchableSections: Record<string,string> = { cast:'cast', world:'places', background:'background', items:'possessions', relationships:'relationships', threads:'story threads' };
   const sectionRecords = $derived(!plan ? [] : tab === 'cast' ? plan.canon.characters : tab === 'world' ? plan.canon.places : tab === 'background' ? plan.context.lore : tab === 'items' ? plan.canon.items : tab === 'relationships' ? plan.canon.relationships : tab === 'threads' ? plan.canon.threads : []);
   const matchingRecordCount = $derived(recordSearch.trim() ? sectionRecords.filter(record => matchingRecordIds.includes(record.id)).length : sectionRecords.length);
@@ -33,11 +39,11 @@
       return `${JSON.stringify(record)} ${links}`.toLocaleLowerCase().includes(query);
     }).map(record => record.id);
   }
-  function recordVisible(id: string) { return !recordSearch.trim() || matchingRecordIds.includes(id); }
-  function showAddedRecord() { recordSearch = ''; matchingRecordIds = []; }
+  function recordVisible(id: string) { return mapOpen?id===mapId:!recordSearch.trim() || matchingRecordIds.includes(id); }
+  function showAddedRecord() { recordSearch = ''; matchingRecordIds = []; mapOpen=false;mapId='';mapSelected=''; }
   let preparationDirty = $state(false),recoveryDirty=$state(false),recoveryRefresh=$state(0),retainedCount=$state(0);
   function mayLeavePreparation() { return !preparationDirty || confirm('Discard the scene preparation draft? Saved previews remain available.'); }
-  function chooseTab(next: string) { if(next===tab)return; if (tab === 'prepare' && !mayLeavePreparation()) return; tab = next; showAddedRecord(); }
+  function chooseTab(next: string) { if(next===tab&&!mapOpen)return; if (tab === 'prepare' && !mayLeavePreparation()) return; tab = next; showAddedRecord(); }
   $effect(() => { if (error) untrack(() => reportUiError(error, 'New story')); });
   let characterDirections = $state<Record<string,string>>({});
   let setupDirections = $state<Record<string,string>>({});
@@ -156,7 +162,7 @@
   onDestroy(() => { onDirty(false); controller?.abort(); });
 </script>
 
-<main class="full-view setup-view">
+<main class="full-view setup-view" class:map-open={mapOpen}>
   <div class="eyebrow">A novel begins with an idea</div><h1>{plan ? 'Shape your story' : 'New story'}</h1>
   <p class="muted">Suggest a premise, review the ensemble and world, then begin chapter one. Each continuation adds a passage to your growing chapter. Everything in the setup is editable.</p>
   {#if error}<p class="error" role="alert">{error}</p>{#if saved}<button onclick={reload} disabled={busy}>Reload saved setup (discards unsaved edits)</button>{/if}{/if}
@@ -181,13 +187,19 @@
     {#if !canGenerate}<p class="muted">Choose and save a text model in Settings to generate. Manual setup and saving are available now.</p>{/if}
     {#if plan}
       <div class="form-grid"><label>Book title<input bind:value={plan.title} oninput={e => input.title = e.currentTarget.value} maxlength="200" /></label><label>Chapter one title<input bind:value={plan.chapterTitle} maxlength="200" /></label></div>
+      <button type="button" aria-pressed={mapOpen} onclick={toggleMap} disabled={!saved?.plan}>{mapOpen?'Close setup map':'Explore setup map'}</button>
       <div class="tabs" role="group" aria-label="Setup sections">{#each [['cast','Cast'],['world','World'],['background','Background'],['items','Possessions'],['relationships','Relationships'],['threads','Story threads'],['opening','Opening'],['prepare','Prepare scene'],['pins','Pins & rules']] as [key,label]}<button class:active={tab === key} aria-pressed={tab === key} onclick={() => chooseTab(key)}>{label}</button>{/each}</div>
       <p class="muted">AI options save your edits first, then update only the chosen part of the setup. Every generated result stays editable.</p>
-      {#if searchableSections[tab]}
+      <div class:setup-map-columns={mapOpen}>
+      {#if mapOpen&&saved?.plan}<WorldMap canon={saved.plan.canon} context={saved.plan.context} layoutKey={`setup:${saved.id}`} selected={mapSelected} disabled={busy} onSelect={selectMap} onReference={referenceMap}/>{/if}
+      <section class="setup-map-editor" aria-label={mapOpen?'Setup map editor':'Setup fields'}>
+      {#if mapOpen}<p class="notice">Map: saved revision {saved?.revision}. Fields: your editable setup draft. All setup edits stay in this draft when you select another node. Choose Save setup draft to apply them.</p>{/if}
+      {#if searchableSections[tab]&&!mapOpen}
         <RecordSearch label={`Search ${searchableSections[tab]}`} query={recordSearch} count={matchingRecordCount} total={sectionRecords.length} disabled={busy} onSearch={searchRecords} />
         {#if recordSearch.trim() && !matchingRecordCount}<p class="notice">No {searchableSections[tab]} match this search. Clear the search to see all records, or add a record below. All setup edits are kept.</p>{:else if !sectionRecords.length}<p class="muted">No {searchableSections[tab]} yet. Add one manually or use the AI options below.</p>{/if}
       {/if}
-      {#if tab === 'cast'}
+      {#if mapOpen&&!mapId}<h2>Choose a saved record</h2><p>Expand a location, focus the opening scene or search. The existing setup editor opens here.</p>
+      {:else if tab === 'cast'}
         <h2>Your ensemble</h2><p class="muted">Viewpoint is a storytelling choice; no one has to be a player avatar. Reassign possessions, relationships, and opening references before removing a cast member.</p>
         {#each plan.canon.characters.filter(c => recordVisible(c.id)) as c, i (c.id)}
           <details class="setup-record" open={i === 0}>
@@ -211,7 +223,7 @@
             <summary>{p.name || 'Unnamed place'}</summary>
             <label>Place name<input bind:value={p.name} maxlength="200" /></label><label>Place description<textarea bind:value={p.description} maxlength="40000"></textarea></label>
             <label>Visual description for pictures<textarea bind:value={p.visualDescription} maxlength="4000" placeholder="Layout, materials, colors and recurring visible features"></textarea><small>Optional reusable image details. Pictures use the place description when this is blank.</small></label>
-            <label>Inside<select bind:value={p.parentId}><option value={null}>Independent place</option>{#each plan.canon.places.filter(q => q.id !== p.id) as q}<option value={q.id}>{q.name}</option>{/each}</select></label>
+            <label>Inside<select aria-label="Inside" bind:value={p.parentId}><option value={null}>Independent place</option>{#each plan.canon.places.filter(q => q.id !== p.id) as q}<option value={q.id}>{q.name}</option>{/each}</select></label>
             <SetupAiControls label={`Place · ${p.name || 'Unnamed place'}`} direction={setupDirections[`place:${p.id}`] || ''} onDirection={v => setupDirections[`place:${p.id}`] = v} placeholder="Make this an abandoned mining port, with hints that someone still lives here…" hint="Revise follows your direction; full redesign creates fresh details. Name reroll changes only the name." actions={[{mode:'revise',label:'Revise place'},{mode:'full',label:'Full place redesign'},{mode:'name',label:'Reroll place name'}]} canGenerate={canGenerate && !hasBlankRule} onGenerate={mode => design('place', mode, p.id)} />
             <button onclick={() => removeRecord('places',p.id)} disabled={placeUsed(p.id) || recordPinned('place',p.id)}>Remove place</button>
             {#if recordPinned('place',p.id)}<p class="muted">This place has pinned fields. Remove its pins in Pins &amp; rules before removing the record.</p>{/if}
@@ -308,10 +320,17 @@
         <SceneResourceHints canon={plan.canon} lore={plan.context.lore} bind:ids={plan.context.sceneBrief.resourceIds} saveLabel="Save setup draft" />
         <SetupAiControls label="Opening plan" direction={setupDirections['opening:new'] || ''} onDirection={v => setupDirections['opening:new'] = v} placeholder="Begin during an unexpected customs inspection, with the crew trying to hide their cargo…" hint="Plan the opening situation, tension and stopping point. Prose is written only when you begin chapter one." actions={[{mode:'revise',label:'Revise opening plan'},{mode:'full',label:'Regenerate opening plan'}]} canGenerate={canGenerate && !hasBlankRule} onGenerate={mode => design('opening', mode)} />
       {/if}
+      </section></div>
       {#if retainedCount}<p class="notice">A generated opening is retained below. Retry its world updates or discard that draft before beginning another opening.</p>{/if}
       <div class="setup-finish"><h2>Ready to begin chapter one?</h2><p class="muted">Write an opening passage of about {input.preferences.passageWords} words toward a chapter of roughly {(input.preferences.chapterWords ?? 3000).toLocaleString()} words. Continue the story to develop the chapter. Your reviewed setup is saved first; prose and world changes are validated together.</p><button class="primary" onclick={() => generate('opening')} disabled={!canGenerate || hasBlankRule || retainedCount>0}>Begin chapter one</button><button onclick={save} disabled={!dirty || hasBlankRule}>Save setup draft</button></div>
     {/if}
   </fieldset>
   {#if saved?.plan}<PassageRecovery source={saved} kind="setup" refreshKey={recoveryRefresh} bind:busy {canGenerate} disabled={dirty||preparationDirty} onReload={reload} onCount={count=>retainedCount=count} onDirty={value=>recoveryDirty=value} onDiscard={()=>generation=null} onSaved={story=>{generation=null;onCreated(story,saved!.id);}} onEdit={(kind,id)=>{chooseTab(kind==='item'?'items':kind==='place'?'world':'cast');showAddedRecord();generatedRecordId=id;note='Edit the saved record above, save the setup, then retry the retained passage below.';}} />{/if}
-  {#if tab === 'prepare' && saved?.plan}<ScenePreparation source={saved} kind="setup" bind:busy {canGenerate} disabled={dirty} onDirty={value => preparationDirty = value} onApplied={value => accept(value as SetupDraft)} />{/if}
+  {#if !mapOpen && tab === 'prepare' && saved?.plan}<ScenePreparation source={saved} kind="setup" bind:busy {canGenerate} disabled={dirty} onDirty={value => preparationDirty = value} onApplied={value => accept(value as SetupDraft)} />{/if}
 </main>
+
+<style>
+  .setup-view.map-open{max-width:1280px}
+  .setup-map-editor{min-width:0}.setup-map-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;margin-top:20px}.setup-map-columns .setup-map-editor{border-left:1px solid var(--line);padding-left:24px}
+  @media(max-width:1000px){.setup-map-columns{grid-template-columns:minmax(0,1fr)}.setup-map-columns .setup-map-editor{border-left:0;border-top:1px solid var(--line);padding:18px 0 0}}
+</style>

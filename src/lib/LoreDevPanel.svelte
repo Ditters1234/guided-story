@@ -4,16 +4,16 @@
   import type { ContextData, ContextReport } from './context-types';
   import { buildLoreAudit, captureLoreEditBaseline, prepareLoreContextMutation, type LoreAuditSelection } from './lore-audit';
 
-  let { story, report = null, busy = false, mode = 'developer', onMutate, onDirty = () => {} }: {
+  let { story, report = null, busy = false, mode = 'developer', selectedEntryId = '', onMutate, onDirty = () => {} }: {
     story: Story; report?: ContextReport | null; busy?: boolean;
-    mode?: 'author' | 'developer';
+    mode?: 'author' | 'developer'; selectedEntryId?:string;
     onMutate: (action: unknown) => Promise<boolean>; onDirty?: (dirty: boolean) => void;
   } = $props();
   let baseline = $state(untrack(() => captureLoreEditBaseline(story)));
   let baselineLore = $state(untrack(() => JSON.stringify(story.context.lore)));
   let draft = $state<ContextData['lore']>(untrack(() => JSON.parse(baselineLore)));
   let search = $state(''), visibility = $state('all'), review = $state('all'), selection = $state('all');
-  let saving = $state(false), problem = $state(''), note = $state(''), openedId = $state('');
+  let saving = $state(false), problem = $state(''), note = $state(''), openedId = $state(untrack(()=>selectedEntryId));
   let addButton = $state<HTMLButtonElement>();
   const dirty = $derived(JSON.stringify(draft) !== baselineLore);
   const stale = $derived(story.id !== baseline.storyId || story.revision !== baseline.revision || JSON.stringify(story.context) !== baseline.contextJson);
@@ -23,7 +23,7 @@
   function recordName(id: string) { return [...story.canon.characters, ...story.canon.places, ...story.canon.items].find(record => record.id === id)?.name || `Missing: ${id}`; }
   const matching = $derived(draft.filter(entry => {
     const inspected = audit.entries.find(record => record.id === entry.id)!;
-    return (visibility === 'all' || entry.visibility === visibility) &&
+    return (!selectedEntryId || entry.id===selectedEntryId) && (visibility === 'all' || entry.visibility === visibility) &&
       (review === 'all' || review === 'issues' && inspected.issues.length > 0 || review === 'missing' && inspected.links.some(link => !link.exists) || review === 'heuristic' && inspected.issues.some(issue => issue.heuristic)) &&
       (selection === 'all' || inspected.selection.status === selection) &&
       [entry.id, entry.title, entry.text, ...entry.keywords, ...inspected.links.map(link => `${link.id} ${link.name} ${link.pathLabel}`)].join('\n').toLocaleLowerCase().includes(search.toLocaleLowerCase());
@@ -42,7 +42,7 @@
     baseline = captureLoreEditBaseline(story);
     baselineLore = JSON.stringify(story.context.lore);
     draft = JSON.parse(baselineLore);
-    problem = ''; note = ''; openedId = '';
+    problem = ''; note = ''; openedId = selectedEntryId;
   }
   async function add() {
     if (busy || saving || stale || draft.length >= 300) return;
@@ -103,7 +103,7 @@
   <div class="row lore-actions">
     <button class="primary" onclick={save} disabled={busy || saving || stale || !dirty}>{saving ? 'Saving background…' : 'Save background edits'}</button>
     <button onclick={loadSaved} disabled={busy || saving || (!dirty && !stale)}>Reset to latest saved lore</button>
-    <button bind:this={addButton} onclick={add} disabled={busy || saving || stale || draft.length >= 300}>Add background entry</button>
+    {#if !selectedEntryId}<button bind:this={addButton} onclick={add} disabled={busy || saving || stale || draft.length >= 300}>Add background entry</button>{/if}
     <span class="muted">{dirty ? 'Unsaved edits' : `Saved revision ${baseline.revision}`}</span>
   </div>
   <div class="lore-filters">
