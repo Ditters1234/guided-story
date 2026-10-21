@@ -13,7 +13,7 @@ const content=()=>({name:'Author draft',description:'An explicit experimental pr
 const command=(revision=0)=>({requestId:randomUUID(),expectedRevision:revision,content:content()});
 
 test('default author drafts retain the exact default policy and report unresolved source bindings',()=>{
-  for(const mode of ['opening','continue','replace'] as const){const graph=defaultStoryWorkflow(mode),before=structuredClone(graph),result=assessPreset(graph);assert.equal(result.structuralValid,true);assert.equal(result.executionEnabled,false);assert.equal(result.bindings.length,1);assert.equal(result.bindings[0].code,'unbound-source');assert.deepEqual(graph,before);}
+  for(const mode of ['opening','continue','replace'] as const){const graph=defaultStoryWorkflow(mode),before=structuredClone(graph),result=assessPreset(graph);assert.equal(result.structuralValid,true);assert.equal(result.requiresRuntimeValidation,true);assert.equal(result.bindings.length,1);assert.equal(result.bindings[0].code,'unbound-source');assert.deepEqual(graph,before);}
 });
 test('portable presets detach source IDs and unavailable model references, without mutating the draft',()=>{
   const draft=content();draft.definition.bindings[0]={name:'current-source',kind:'source',sourceKind:'story',sourceId:'private-story'};draft.definition.bindings[1]={name:'text-profile',kind:'model',connectionRef:'unavailable-reference'};
@@ -57,7 +57,7 @@ test('stale edits, reused request IDs and bad schema roll back without replacing
 test('semantically incomplete drafts can be saved but never become a runner definition or canon mutation',()=>{
   const repo=new StoryRepository(':memory:');try{
     const story=repo.create(),before=unzipSync(repo.export(story.id)),request=command();request.content.definition=removeBuiltIn(request.content.definition,'commit');
-    const saved=repo.workflowPresets.save(null,request);assert.equal(assessPreset(saved.content.definition).structuralValid,false);assert.equal(assessPreset(saved.content.definition).executionEnabled,false);assert.deepEqual(repo.read(story.id),story);const after=unzipSync(repo.export(story.id));assert.deepEqual(Object.keys(after),Object.keys(before));assert.deepEqual(after['story.json'],before['story.json']);
+    const saved=repo.workflowPresets.save(null,request);assert.equal(assessPreset(saved.content.definition).structuralValid,false);assert.equal(assessPreset(saved.content.definition).requiresRuntimeValidation,true);assert.deepEqual(repo.read(story.id),story);const after=unzipSync(repo.export(story.id));assert.deepEqual(Object.keys(after),Object.keys(before));assert.deepEqual(after['story.json'],before['story.json']);
     assert.equal(defaultStoryWorkflow('continue').nodes.filter(node=>node.type==='commit').length,1);assert.equal(repo.workflows.list().length,0);
   }finally{repo.close();}
 });

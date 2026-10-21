@@ -1,6 +1,6 @@
 # Node workflows phase 5 — editable built-ins and presets
 
-October 21, 2026. **Pass 1 is implemented; phase 5 remains in progress.** The user requested multiple passes. This pass establishes explicit draft authoring and versioned persistence before enabling user graphs in the passage runner.
+October 21, 2026. **Passes 1–2 are implemented; phase 5 remains in progress.** The user requested multiple passes. This document records pass-1 authoring/persistence; [pass 2](NODE_WORKFLOW_PHASE_FIVE_PASS_TWO.md) now enables compiled saved presets through explicit passage selectors.
 
 ## Implemented in pass 1
 
@@ -14,11 +14,11 @@ Import/export uses strict version-1 preset JSON. Unknown schema fields, copied c
 
 Search/selection in run history remains separate from draft authoring. Global navigation/unload and new/open/reload/import operations guard unsaved preset edits. Failed reads/saves/imports preserve the current draft. Preset creation is lazy: ordinary repository use does not create these tables until the preset library is used. Story/setup archives and canonical revisions do not include preset state.
 
-## Execution boundary
+## Pass-1 execution boundary — historical
 
-**Draft execution is not enabled.** No Run button, preset-selection generation parameter or new provider operation was added. Normal generation still obtains its graph from `defaultStoryWorkflow`; `passage.ts#graphFor` still refuses any definition whose fingerprint differs from the matching built-in default. The new preset store is not read by generation or recovery. Existing final validation, one bounded repair, source serialization, provider/context budgets, retained prose and atomic save/recovery remain authoritative.
+**Pass 1 did not enable draft execution.** Its normal generation path used `defaultStoryWorkflow`, with the matching-default-only raw graph gate. Pass 2 retains that gate for raw overrides and adds a separate trusted saved-preset compiler and binding path. Existing final validation, one bounded repair, source serialization, provider/context budgets, retained prose and atomic save/recovery remain authoritative.
 
-This pass does not complete the phase-5 acceptance gate. A structurally valid draft is not necessarily executable by current adapters. They still resolve the current prepared source/configuration through the passage integration, and a future compile step must define supported graph shapes and binding semantics before admitting alternatives. Editable canvas positioning/groups, model-stage settings, explicit record/context source configuration, executable alternatives and preset-run recovery remain future passes.
+Pass 1 did not complete the phase-5 acceptance gate. A structurally valid draft is not necessarily executable; pass 2 defines the initial supported subset and resolves its source/model inputs. Editable canvas positioning/groups, richer model settings, explicit record/context source configuration and broader check branches remain future passes.
 
 ## Verification
 
@@ -39,4 +39,4 @@ One parallel inspector run reached its focus assertion before the asynchronous f
 
 ## Next pass
 
-Continue phase 5 with a trusted server-side compiler/eligibility gate and binding resolution. Define a bounded executable subset of built-in graphs, rather than accepting arbitrary structurally valid wiring. Resolve source kind/ID/revision and configured model references before provider work; bind node execution to those resolved inputs and retain exact definition/version provenance. Preserve the default graph and all save invariants, deduplication, cancellation and effects-only recovery. Add controlled equivalence and invalid-graph/no-call checks before exposing execution. Follow with explicit source/context configuration, canvas/groups and broader presets in subsequent passes as needed.
+The compiler/binding pass is now implemented in [pass 2](NODE_WORKFLOW_PHASE_FIVE_PASS_TWO.md), with 482 tests and seven browser suites. Continue with explicit supported source/node configuration and visual authoring while preserving typed/list access, default budgets and atomic recovery. Broader check branches require additional compiler/parity gates before execution.

@@ -17,8 +17,10 @@ import { passageAdapters, validatePassagePayload, type Connections } from './ada
 import { runStoryWorkflow, type NodeSeed } from './runner';
 import type { StoredArtifact } from './store';
 import { logEvent } from '../diagnostics';
+import { presetReferenceSchema } from '../../story-workflow/compile';
+import { compilePresetGraph,presetGraph,resolvePresetBindings } from './compile';
 
-export const passageWorkflowInputSchema = z.strictObject({ expectedRevision: z.number().int().min(0), requestId: z.string().uuid(), direction: z.string().max(10000), chapterEnding: chapterEndingSchema.default('auto') });
+export const passageWorkflowInputSchema = z.strictObject({ expectedRevision: z.number().int().min(0), requestId: z.string().uuid(), direction: z.string().max(10000), chapterEnding: chapterEndingSchema.default('auto'),preset:presetReferenceSchema.optional() });
 type Input = z.infer<typeof passageWorkflowInputSchema>;
 export type WorkflowOptions = { fetcher?: typeof fetch; onDraft?: (event: unknown) => void; graph?: unknown };
 const graphFor = (mode: WorkflowMode, value?: unknown) => {
@@ -54,7 +56,7 @@ async function execute(repository: StoryRepository, source: Story, input: Input,
   const store = repository.workflows, run = start(repository, source, input.requestId, requestFingerprint, graph, Boolean(retry));
   let ready: RetainedPassage | undefined;
   const kind = graph.mode === 'opening' ? 'setup' : 'story';
-  const adapters = passageAdapters({ repository, source, mode:graph.mode, ...(kind==='setup'?{setup:repository.readSetup(source.id)}:{}), input, connections, job, fingerprint: requestFingerprint, onDraft: event => {getJobs().transition(job.id,'generating',{details:{draft:event}});options.onDraft?.(event);},
+  const adapters = passageAdapters({ repository, source, graph,mode:graph.mode, ...(kind==='setup'?{setup:repository.readSetup(source.id)}:{}), input, connections, job, fingerprint: requestFingerprint, onDraft: event => {getJobs().transition(job.id,'generating',{details:{draft:event}});options.onDraft?.(event);},
     ...(retry ? { retained: retry.retained, retry: {notes:retry.notes,issues:retry.issues}, onReady: (record:RetainedPassage) => { ready = record; } } : {}) });
   const seeds: Record<string, NodeSeed> | undefined = retry ? { retain: {outputs:{retained:retry.retained},parents:retry.parents} } : undefined;
   try {
@@ -85,13 +87,15 @@ async function execute(repository: StoryRepository, source: Story, input: Input,
 
 /** Built-in passage execution; the application entry point handles legacy replay and maintenance. */
 export async function runPassageWorkflow(repository: StoryRepository, mode: WorkflowMode, storyId: string, value: unknown, configuration: Connections, signal: AbortSignal, options: WorkflowOptions = {}): Promise<Story> {
-  const input = passageWorkflowInputSchema.parse(value), graph = graphFor(mode, options.graph), connections = structuredClone(connectionSchema.parse(configuration)), hash = fingerprint(input, graph);
+  const input = passageWorkflowInputSchema.parse(value), graph = input.preset?presetGraph(repository,input.preset,mode,storyId):graphFor(mode, options.graph), connections = structuredClone(connectionSchema.parse(configuration)), hash = fingerprint(input, graph);
+  if(input.preset&&options.graph)throw new StoryError('Choose a saved preset reference without supplying another graph.');
   const kind = mode==='opening'?'setup':'story';
   const previous=repository.workflows.find(storyId,input.requestId),previousJob=getJobs().find({storyId,requestId:input.requestId});
   if(previous && previous.requestFingerprint!==hash)throw new StoryError('This request ID belongs to different workflow inputs.',409);
   // Refuse an uncertain/failed root request before creating another job attempt.
   // Replayed HTTP requests must preserve the cancellation/failure receipt too.
   if(previous && (['blocked','failed','cancelled','interrupted'].includes(previous.status) || previousJob && ['failed','cancelled','interrupted'].includes(previousJob.state)) && !savedResult(repository,kind,storyId,input.requestId,hash))throw new StoryError('This workflow request already started. Recover its draft or explicitly retry its world updates with a new request; no model call was resubmitted.',409);
+  if(input.preset&&!previous)resolvePresetBindings(repository,graph,storyId,input.expectedRevision,connections,input.preset);
   const replay = () => {
     const saved=savedResult(repository,kind,storyId,input.requestId,hash);
     if(!saved)throw new StoryError('No committed workflow receipt is available. Inspect the retained run.',409);
@@ -101,6 +105,7 @@ export async function runPassageWorkflow(repository: StoryRepository, mode: Work
   return runStoryJob({ kind:`story-workflow-${mode}`,storyId,requestId:input.requestId,expectedRevision:input.expectedRevision,lockKey:`${kind}:${storyId}`,input:{input,graph} },signal,async job => {
     const saved = savedResult(repository,kind,storyId,input.requestId,hash);
     if(saved){const run=repository.workflows.find(storyId,input.requestId);if(run)reconcileReceipt(repository,run.id);job.stage('validating');job.stage('committing');return saved;}
+    if(input.preset)resolvePresetBindings(repository,graph,storyId,input.expectedRevision,connections,input.preset);
     const source=repository.readPreparationSource(kind,storyId);
     if(source.revision!==input.expectedRevision)throw new StoryError('The story changed. Reload before generating the next passage.',409);
     if(repository.listRetained(kind,storyId).length)throw new StoryError('A generated passage is already retained. Recover or discard it before generating another passage.',409);
@@ -111,7 +116,11 @@ export async function runPassageWorkflow(repository: StoryRepository, mode: Work
 /** An explicit retry uses current saved facts and retained prose; never narrates. */
 export async function retryPassageWorkflow(repository: StoryRepository, kind: PreparationSourceKind, storyId: string, draftId: string, value: RecoveryAction, configuration: Connections, signal: AbortSignal, options: WorkflowOptions = {}): Promise<RetainedPassage> {
   const mode=kind==='setup'?'opening':repository.readRetained(kind,storyId,draftId).content.mode;
-  const action=recoveryActionSchema.parse(value),graph=graphFor(mode,options.graph),connections=structuredClone(connectionSchema.parse(configuration)),hash=fingerprint({draftId,action},graph);
+  const retained=repository.readRetained(kind,storyId,draftId),root=repository.workflows.find(storyId,retained.requestId);
+  const originalGraph=root?repository.workflows.definition(root.id):null;
+  const pinned=Boolean(originalGraph?.id.startsWith('preset-'));
+  if(pinned&&options.graph)throw new StoryError('A preset retry uses its original pinned definition; another graph cannot replace it.');
+  const action=recoveryActionSchema.parse(value),graph=pinned?compilePresetGraph(originalGraph,mode,storyId):graphFor(mode,options.graph),connections=structuredClone(connectionSchema.parse(configuration)),hash=fingerprint({draftId,action},graph);
   return runStoryJob({kind:'story-workflow-retry',storyId,requestId:action.requestId,expectedRevision:action.expectedRevision,lockKey:`${kind}:${storyId}`,input:{draftId,action,graph}},signal,async job=>{
     const existing=repository.readRetained(kind,storyId,draftId);
     // Read/verify retained provenance before claiming the retry action.
@@ -125,6 +134,7 @@ export async function retryPassageWorkflow(repository: StoryRepository, kind: Pr
     if(begun.replay){job.stage('validating');return begun.record;}
     try {
       const source=begun.source!;
+      if(pinned)resolvePresetBindings(repository,graph,storyId,action.expectedRevision,connections);
       recoveryBaseline(source,begun.record.content); // Verify current viewpoint and latest history before any provider work.
       return await execute(repository,source,{requestId:action.requestId,expectedRevision:action.expectedRevision,direction:begun.record.content.direction,chapterEnding:'auto'},connections,job,graph,hash,options,
         {retained:begun.record,notes:action.notes,issues:begun.previousIssues!.map(issue=>issue.message),parents}) as RetainedPassage;

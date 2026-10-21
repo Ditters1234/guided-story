@@ -5,6 +5,8 @@
   import DevMenu from '#lib/DevMenu.svelte';
   import WorkflowPanel from '#lib/WorkflowPanel.svelte';
   import WorkflowPresetEditor from '#lib/WorkflowPresetEditor.svelte';
+  import WorkflowPresetPicker from '#lib/WorkflowPresetPicker.svelte';
+  import type { PresetReference } from '#lib/story-workflow/compile';
   import SettingsPanel from '#lib/SettingsPanel.svelte';
   import MediaPanel from '#lib/MediaPanel.svelte';
   import { mediaUrl } from '#lib/media';
@@ -57,6 +59,7 @@
   let pinsDirty=$state(false);
   let mapDirty=$state(false);
   let presetDirty=$state(false);
+  let continuePreset=$state<PresetReference|null>(null),rewritePreset=$state<PresetReference|null>(null),continuePresetBlocked=$state(false),rewritePresetBlocked=$state(false);
   let preparationDirty=$state(false),devDirty=$state(false),workflowDirty=$state(false),backgroundDirty=$state(false);
   let librarySearch=$state(''),contentsSearch=$state(''),libraryLoading=$state(false);
   let libraryRenameDrafts=$state<Record<string,boolean>>({});
@@ -238,6 +241,7 @@
   const holderName = (id: string) => story?inventoryPath(story.canon,id):id;
 
   function prepare(s: Story) {
+    if(story?.id!==s.id){continuePreset=null;rewritePreset=null;continuePresetBlocked=false;rewritePresetBlocked=false;}
     story = s; index = s.passages.length - 1;
     notebookSearch='';notebookItemsExpanded=false;
     showCorrection=false;correctionDirty=false;correctionSession++;
@@ -277,12 +281,14 @@
   }
   async function continueSample() { if (!leaveEditor()) return;if (await mutate({ type: 'sample-continue', direction })) { index = story!.passages.length - 1; clearDirectionDraft();refreshCharacterDraft(story!); } }
   async function generateLive(mode: 'continue'|'replace') {
+    if(mode==='replace'?rewritePresetBlocked:continuePresetBlocked){error='Refresh and choose a current supported workflow preset, or choose Default workflow.';return;}
     if(mode==='replace'&&(!showRewrite||!isLatest||!story?.recovery?.valid||!rewriteDirection.trim()))return;
     if (!story || busy || !leaveEditor()) return;
     if(retainedCount){error='Recover or discard the retained passage below before generating another.';return;}
     if (mode === 'replace' && !confirm('Change the latest passage using its earlier world state? Its old illustrations will remain as earlier versions.')) return;
     const nextDirection=direction,nextEnding=chapterEnding,rewriteKey=rewriteStorageKey();
-    const targetId = story.id, body = { expectedRevision: story.revision, mode, direction:mode==='replace'?rewriteDirection.trim():direction, chapterEnding:mode==='replace'?rewriteChapterEnding:chapterEnding }, key = JSON.stringify({ id: targetId, ...body });
+    const preset=mode==='replace'?rewritePreset:continuePreset;
+    const targetId = story.id, body = { expectedRevision: story.revision, mode, direction:mode==='replace'?rewriteDirection.trim():direction, chapterEnding:mode==='replace'?rewriteChapterEnding:chapterEnding,...(preset?{preset}: {}) }, key = JSON.stringify({ id: targetId, ...body });
     if (liveRequest?.key !== key) liveRequest = { key, requestId: crypto.randomUUID() };
     busy = true; liveGenerating = true; error = ''; status = mode === 'replace' ? 'Rewriting the latest passage…' : 'Writing the next passage…'; liveController = new AbortController();
     try {
@@ -427,13 +433,15 @@
             <textarea id="rewrite-direction" bind:this={rewriteInput} bind:value={rewriteDirection} oninput={rememberRewrite} maxlength="10000" rows="6" required disabled={busy} placeholder="For example: keep the key with the captain, let the engineer discover the clue, and end before anyone opens the cargo." aria-describedby="rewrite-request-help"></textarea>
             <p id="rewrite-request-help" class="muted">Nothing is sent until you choose Rewrite latest passage and confirm. This changes events and their tracked world state; older passages stay intact.</p>
             <label for="rewrite-chapter-ending">Chapter ending for this rewrite</label><select id="rewrite-chapter-ending" bind:value={rewriteChapterEnding} onchange={rememberRewrite} disabled={busy}><option value="auto">Natural ending near the chapter target</option><option value="keep-open">Keep this chapter open</option><option value="close">Bring this passage to a chapter ending</option></select>
-            <div class="row"><button class="primary" disabled={busy||!rewriteDirection.trim()||!connections?.text.model.trim()||!story.recovery?.valid}>{liveGenerating?'Rewriting passage…':'Rewrite latest passage'}</button>{#if liveGenerating}<button type="button" onclick={cancelLive}>Cancel generation</button>{/if}</div>
+            <WorkflowPresetPicker sourceId={story.id} mode="replace" label="Rewrite workflow" bind:value={rewritePreset} bind:blocked={rewritePresetBlocked} disabled={busy}/>
+            <div class="row"><button class="primary" disabled={busy||rewritePresetBlocked||!rewriteDirection.trim()||!connections?.text.model.trim()||!story.recovery?.valid}>{liveGenerating?'Rewriting passage…':'Rewrite latest passage'}</button>{#if liveGenerating}<button type="button" onclick={cancelLive}>Cancel generation</button>{/if}</div>
           </form>
         </section>{/if}
         {#if isLatest}{#key `${story.id}:${sceneSession}`}<SceneDirection {story} {busy} onMutate={mutate} onPrepare={() => navigate('prepare')} onDirty={dirty=>sceneDirty=dirty} />{/key}<section class="director"><h3>{passage.endOfChapter ? 'Begin the next chapter' : 'What happens next?'}</h3><p class="muted">{story.origin === 'sample' ? 'Try the saved sample continuation, or continue this story with your configured model.' : `Add a passage of about ${story.preferences.passageWords} words${passage.endOfChapter ? ' to the next chapter' : ' to this chapter'}. Guide the story, or leave the direction empty and let the narrator continue.`}</p><label for="direction">{story.origin === 'sample' ? 'Optional direction (saved with the sample passage)' : 'Optional story direction'}</label><textarea id="direction" bind:value={direction} oninput={rememberDirectionDraft} disabled={busy} placeholder="A character to follow, a complication, a change of pace…" maxlength="10000" aria-describedby="direction-draft-help"></textarea>
           <label for="chapter-ending">Chapter ending for AI generation</label><select id="chapter-ending" bind:value={chapterEnding} onchange={rememberDirectionDraft} disabled={busy}><option value="auto">Natural ending near the chapter target</option><option value="keep-open">Keep this chapter open</option><option value="close">Bring this passage to a chapter ending</option></select>
           <div class="row"><button type="button" onclick={clearDirectionDraft} disabled={busy||(!direction&&chapterEnding==='auto')}>Clear direction draft</button><p class="muted" id="direction-draft-help">{directionStored?'Direction and ending drafts stay in this browser for each story until you continue successfully or clear them.':'Browser storage is unavailable. This draft stays while the page is open; copy it before closing.'}</p></div>
-          <div class="composer-foot"><span class="muted">{liveGenerating ? 'Writing prose, checking length, then checking continuity…' : story.origin === 'sample' ? story.passages.length === 3 ? 'One sample passage available' : 'You’ve reached the end of the sample' : 'Prose and world changes save together'}</span>{#if story.origin === 'sample'}<button class="primary" onclick={continueSample} disabled={busy || story.passages.length !== 3}>{busy ? 'Saving…' : 'Continue reading ↗'}</button>{/if}<button class:primary={story.origin !== 'sample'} onclick={() => generateLive('continue')} disabled={busy || retainedCount>0 || !connections?.text.model.trim()}>{liveGenerating&&!showRewrite ? 'Generating…' : story.origin === 'sample' ? 'Continue with AI ↗' : 'Continue story ↗'}</button>{#if liveGenerating&&!showRewrite}<button type="button" onclick={cancelLive}>Cancel generation</button>{/if}</div>{#if !story.recovery?.valid}<p class="muted">Manual world edits changed the recovery point. Continue forward to start a new one.</p>{/if}</section>{/if}
+          <WorkflowPresetPicker sourceId={story.id} mode="continue" label="Continuation workflow" bind:value={continuePreset} bind:blocked={continuePresetBlocked} disabled={busy}/>
+          <div class="composer-foot"><span class="muted">{liveGenerating ? 'Writing prose, checking length, then checking continuity…' : story.origin === 'sample' ? story.passages.length === 3 ? 'One sample passage available' : 'You’ve reached the end of the sample' : 'Prose and world changes save together'}</span>{#if story.origin === 'sample'}<button class="primary" onclick={continueSample} disabled={busy || story.passages.length !== 3}>{busy ? 'Saving…' : 'Continue reading ↗'}</button>{/if}<button class:primary={story.origin !== 'sample'} onclick={() => generateLive('continue')} disabled={busy || continuePresetBlocked || retainedCount>0 || !connections?.text.model.trim()}>{liveGenerating&&!showRewrite ? 'Generating…' : story.origin === 'sample' ? 'Continue with AI ↗' : 'Continue story ↗'}</button>{#if liveGenerating&&!showRewrite}<button type="button" onclick={cancelLive}>Cancel generation</button>{/if}</div>{#if !story.recovery?.valid}<p class="muted">Manual world edits changed the recovery point. Continue forward to start a new one.</p>{/if}</section>{/if}
         <nav id="reading-navigation" class="reading-navigation" aria-label="Passage and chapter navigation">
           <div class="reading-navigation-row">
             {#if index > 0}<button onclick={() => openPassage(index - 1)} disabled={busy}>← Previous passage</button>{/if}

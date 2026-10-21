@@ -86,7 +86,7 @@
   {#if loading}<p role="status">Loading run and current saved facts…</p>{/if}
   {#if detail}
     <section class="run-detail" aria-label="Selected workflow run">
-      <h2>{detail.title} · {workflowModeName(detail.run.mode)}</h2><p><strong>{detail.displayStatus.replaceAll('-',' ')}</strong> · Source revision {detail.run.source.revision} · Workflow v{detail.run.workflowVersion}</p>
+      <h2>{detail.title} · {workflowModeName(detail.run.mode)}</h2><p><strong>{detail.displayStatus.replaceAll('-',' ')}</strong> · Source revision {detail.run.source.revision} · Workflow v{detail.run.workflowVersion}</p><p class="muted">Definition: {detail.run.workflowId} · version {detail.run.workflowVersion}</p>
       {#if detail.active}<p role="status">Generation or checking is active for this source. Refresh to see its progress. Recovery and history removal wait until it finishes.</p>{/if}
       {#if detail.changes.length}<aside class="notice" aria-label="Changes since this run"><h3>Changes since this run</h3><ul>{#each detail.changes as change}<li>{change}</li>{/each}</ul></aside>{:else if !detail.removedAt}<p class="muted">The saved source still matches this run’s source. A completed model result remains the result of its recorded attempt.</p>{/if}
       {#if sourceStale}<p class="notice">The source changed while this inspector loaded. Refresh workflow history before using recovery.</p>{/if}

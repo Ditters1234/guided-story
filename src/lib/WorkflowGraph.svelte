@@ -3,7 +3,7 @@
   import { workflowNodeName } from './story-workflow/presentation';
   let {inspection,selected,onSelect}:{inspection:WorkflowInspection;selected:string;onSelect:(id:string)=>void}=$props();
   const main=['source','prepare','preflight','narrate','length','expand','content','retain','extraction-preflight','extract','validate','review','repair-input','repair','revalidate','rereview','acceptance','commit'];
-  const position=(id:string)=>id==='model'?{x:20,y:22}:id==='blocked'?{x:530,y:16*114+22}:{x:255,y:Math.max(0,main.indexOf(id))*114+22};
+  function position(id:string){const model=inspection.nodes.filter(node=>node.type==='model').findIndex(node=>node.id===id);if(model>=0)return {x:20,y:model*114+22};if(id==='blocked')return {x:530,y:16*114+22};const stage=main.indexOf(id);return stage>=0?{x:255,y:stage*114+22}:{x:530,y:Math.max(0,inspection.nodes.filter(node=>node.type!=='model'&&!main.includes(node.id)&&node.id!=='blocked').findIndex(node=>node.id===id))*114+22};}
   const edgeType=(node:string,port:string)=>inspection.nodes.find(n=>n.id===node)?.outputs[port]?.type??'unknown';
   function path(from:string,to:string){const a=position(from),b=position(to),x=a.x+100,y=a.y+66,xx=b.x+100,yy=b.y;return `M${x},${y} C${x},${y+32} ${xx},${yy-32} ${xx},${yy}`;}
 </script>

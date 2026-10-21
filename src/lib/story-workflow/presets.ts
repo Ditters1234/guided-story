@@ -18,7 +18,7 @@ export function assessPreset(definition:WorkflowDefinition){
     if(binding.kind==='model'&&binding.connectionRef!=='configured-text')bindings.push({code:'unbound-model',message:`${binding.name}: model connection reference is unavailable. Choose configured-text.`});
   }
   for(const type of ['source','retain','acceptance','commit'])if(definition.nodes.filter(node=>node.type===type).length!==1)structural.issues.push({code:'required-stage',message:`A passage workflow needs exactly one ${type} stage.`});
-  return {structuralValid:structural.issues.length===0,issues:structural.issues,bindings,executionEnabled:false as const};
+  return {structuralValid:structural.issues.length===0,issues:structural.issues,bindings,requiresRuntimeValidation:true as const};
 }
 /** Portable definitions retain connection references, never source IDs or copied facts. */
 export function exportPreset(content:PresetContent){

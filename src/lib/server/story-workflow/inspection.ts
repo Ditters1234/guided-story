@@ -10,6 +10,7 @@ import { recoveryBaseline } from '../passage-recovery-state';
 import { configurationHash, sourceIdentity } from './passage';
 import type { Connections } from './adapters';
 import { estimateInputTokens } from '../token-budget';
+import { inspectExecutableWorkflow } from '../../story-workflow/compile';
 
 export const runIdSchema=z.string().uuid();
 export const listRunsSchema=z.strictObject({before:z.coerce.number().int().positive().max(Number.MAX_SAFE_INTEGER).optional(),limit:z.coerce.number().int().min(1).max(100).default(25)});
@@ -64,7 +65,7 @@ export function inspectWorkflowRun(r:StoryRepository,idValue:string,configuratio
     if(current.revision!==run.source.revision&&!changes.length)changes.push('The saved revision changed. A checked proposal must be rechecked before acceptance.');
   }
   const expected=defaultStoryWorkflow(run.mode);
-  const implementationChanged=definition.version!==expected.version||definition.nodes.some(node=>builtInStoryNodes[node.type]?.version!==node.version);
+  const implementationChanged=definition.id.startsWith('preset-')?!inspectExecutableWorkflow(definition).eligible:definition.version!==expected.version||definition.nodes.some(node=>builtInStoryNodes[node.type]?.version!==node.version);
   if(implementationChanged)changes.push('This workflow implementation is historical. A supported retry uses the current built-in operations.');
   const configurationChanged=configuration&&attempts.length?attempts[0].configurationFingerprint!==configurationHash(configuration):null;
   if(configurationChanged)changes.push('Model or request settings changed. A new explicit check uses the current settings; stored model results remain historical results.');

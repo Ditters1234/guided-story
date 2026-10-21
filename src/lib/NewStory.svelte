@@ -17,6 +17,8 @@
   import RecordSearch from './RecordSearch.svelte';
   import PassageRecovery from './PassageRecovery.svelte';
   import WorldMap from './WorldMap.svelte';
+  import WorkflowPresetPicker from './WorkflowPresetPicker.svelte';
+  import type { PresetReference } from './story-workflow/compile';
   import { buildWorldMap, sceneReferenceIds, type WorldNode } from './world-map';
   let { initial = null, canGenerate = false, busy = $bindable(false), onSaved, onCreated, onDirty = () => {} }: { initial?: SetupDraft | null; canGenerate: boolean; busy: boolean; onSaved: (draft: SetupDraft) => void; onCreated: (story: Story, setupId: string) => void; onDirty?: (dirty: boolean) => void } = $props();
   let saved = $state<SetupDraft | null>(untrack(() => initial ? structuredClone($state.snapshot(initial)) : null));
@@ -25,6 +27,7 @@
   let tab = $state('cast'), error = $state(''), note = $state(''), phase = $state('');
   let recordSearch = $state(''), matchingRecordIds = $state<string[]>([]);
   let mapOpen=$state(false),mapId=$state(''),mapSelected=$state('');
+  let openingPreset=$state<PresetReference|null>(null),openingPresetBlocked=$state(false);
   function selectMap(node:WorldNode){if(busy)return;tab=({place:'world',character:'cast',item:'items',lore:'background',thread:'threads',relationship:'relationships'})[node.kind];recordSearch='';mapId=node.id;mapSelected=node.key;}
   function referenceMap(node:WorldNode){if(!plan||busy)return;try{const draftNode=buildWorldMap(plan.canon,plan.context).nodes.get(node.key);if(!draftNode)throw new Error('This record was removed from your draft. Save or reload the setup first.');plan.context.sceneBrief.resourceIds=sceneReferenceIds(plan.context,draftNode);note='Scene reference added to your setup draft. Choose Save setup draft to apply it.';}catch(e){error=e instanceof Error?e.message:'Could not add scene reference.';}}
   function toggleMap(){if(tab==='prepare'&&!mayLeavePreparation())return;mapOpen=!mapOpen;mapId='';mapSelected='';}
@@ -83,6 +86,7 @@
   function saveAndExport() { return action(async () => { phase = 'Saving and exporting setup…'; const draft = await persist(); await downloadSetup(draft.id, draft.revision); note = 'Setup saved and ZIP downloaded. Import it from Library to create a separate editable draft.'; }); }
   function manual() { if (!plan) { plan = blankSetupPlan(); if (input.title.trim()) plan.title = input.title; } return save(); }
   async function generate(kind: 'generate'|'opening') {
+    if(kind==='opening'&&openingPresetBlocked){error='Refresh and choose a current supported opening workflow, or choose Default workflow.';return;}
     if (busy) return;
     if (kind === 'generate' && hasFieldPins) { chooseTab('pins'); note = 'Remove individual field pins before replacing the whole cast and world. Targeted AI edits remain available and respect your pins.'; return; }
     if(kind==='opening'&&retainedCount){note='Recover or discard the retained opening below before writing another.';return;}
@@ -92,9 +96,10 @@
     await action(async () => {
       phase = 'Saving setup…'; const draft = await persist();
       if (draft.storyId) { onCreated(await json(await fetch(`/api/stories/${draft.storyId}`)), draft.id); return; }
-      const key = `${draft.id}:${draft.revision}:${kind}`; if (generation?.key !== key) generation = { key, id: crypto.randomUUID() };
+      const preset=kind==='opening'?openingPreset:null;
+      const key = JSON.stringify({id:draft.id,revision:draft.revision,kind,...(preset?{preset}:{})}); if (generation?.key !== key) generation = { key, id: crypto.randomUUID() };
       controller = new AbortController(); phase = kind === 'generate' ? 'Designing the cast & world…' : 'Writing the opening passage and checking its world changes…';
-      const result = await send(`/api/setups/${draft.id}/${kind}`, { expectedRevision: draft.revision, requestId: generation.id }, 'POST', controller.signal);
+      const result = await send(`/api/setups/${draft.id}/${kind}`, { expectedRevision: draft.revision, requestId: generation.id,...(preset?{preset}:{}) }, 'POST', controller.signal);
       generation = null;
       if (kind === 'generate') { accept(result); clearAiInstructions(); tab = 'cast'; showAddedRecord(); note = 'Cast and world generated. Edit anything, save, then begin chapter one.'; }
       else onCreated(result, draft.id);
@@ -321,8 +326,9 @@
         <SetupAiControls label="Opening plan" direction={setupDirections['opening:new'] || ''} onDirection={v => setupDirections['opening:new'] = v} placeholder="Begin during an unexpected customs inspection, with the crew trying to hide their cargo…" hint="Plan the opening situation, tension and stopping point. Prose is written only when you begin chapter one." actions={[{mode:'revise',label:'Revise opening plan'},{mode:'full',label:'Regenerate opening plan'}]} canGenerate={canGenerate && !hasBlankRule} onGenerate={mode => design('opening', mode)} />
       {/if}
       </section></div>
+      {#if saved?.plan}<WorkflowPresetPicker sourceId={saved.id} mode="opening" label="Opening workflow" bind:value={openingPreset} bind:blocked={openingPresetBlocked} disabled={busy}/>{/if}
       {#if retainedCount}<p class="notice">A generated opening is retained below. Retry its world updates or discard that draft before beginning another opening.</p>{/if}
-      <div class="setup-finish"><h2>Ready to begin chapter one?</h2><p class="muted">Write an opening passage of about {input.preferences.passageWords} words toward a chapter of roughly {(input.preferences.chapterWords ?? 3000).toLocaleString()} words. Continue the story to develop the chapter. Your reviewed setup is saved first; prose and world changes are validated together.</p><button class="primary" onclick={() => generate('opening')} disabled={!canGenerate || hasBlankRule || retainedCount>0}>Begin chapter one</button><button onclick={save} disabled={!dirty || hasBlankRule}>Save setup draft</button></div>
+      <div class="setup-finish"><h2>Ready to begin chapter one?</h2><p class="muted">Write an opening passage of about {input.preferences.passageWords} words toward a chapter of roughly {(input.preferences.chapterWords ?? 3000).toLocaleString()} words. Continue the story to develop the chapter. Your reviewed setup is saved first; prose and world changes are validated together.</p><button class="primary" onclick={() => generate('opening')} disabled={!canGenerate || openingPresetBlocked || hasBlankRule || retainedCount>0}>Begin chapter one</button><button onclick={save} disabled={!dirty || hasBlankRule}>Save setup draft</button></div>
     {/if}
   </fieldset>
   {#if saved?.plan}<PassageRecovery source={saved} kind="setup" refreshKey={recoveryRefresh} bind:busy {canGenerate} disabled={dirty||preparationDirty} onReload={reload} onCount={count=>retainedCount=count} onDirty={value=>recoveryDirty=value} onDiscard={()=>generation=null} onSaved={story=>{generation=null;onCreated(story,saved!.id);}} onEdit={(kind,id)=>{chooseTab(kind==='item'?'items':kind==='place'?'world':'cast');showAddedRecord();generatedRecordId=id;note='Edit the saved record above, save the setup, then retry the retained passage below.';}} />{/if}

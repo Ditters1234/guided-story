@@ -18,6 +18,9 @@ import {
 } from '../story-generation';
 import type { JobContext } from '../jobs';
 import type { NodeAdapter, NodeContext } from './runner';
+import { jobFingerprint } from '../jobs';
+import { defaultStoryWorkflow,builtInStoryNodes } from '../../story-workflow/default-graph';
+import type { WorkflowDefinition } from '../../story-workflow/contracts';
 
 export type Connections = z.infer<typeof connectionSchema>;
 type Content = ReturnType<typeof finalizePassageContent>;
@@ -64,18 +67,22 @@ const check = (kind: WorkflowCheck['kind'], issues: string[], required = true): 
 
 export function passageAdapters(options: {
   repository: StoryRepository; source: Story; setup?: SetupDraft; mode: 'opening'|'continue'|'replace'; input: { requestId: string; expectedRevision: number; direction: string; chapterEnding: 'auto' | 'close' | 'keep-open' };
-  fingerprint: string; connections: Connections; job: JobContext; onDraft: (event: unknown) => void;
+  fingerprint: string; connections: Connections; job: JobContext; onDraft: (event: unknown) => void;graph?:WorkflowDefinition;
   retained?: RetainedPassage; retry?: ExtractionRetry; onReady?: (record: RetainedPassage) => void;
 }) {
   const { repository: repository, source, input, connections: c, job, onDraft } = options;
   const kind = options.mode === 'opening' ? 'setup' : 'story';
+  const graph=options.graph??defaultStoryWorkflow(options.mode);
+  const publicModel=()=>{const {apiKey:_key,baseUrl:_url,...text}=c.text;return {connectionRef:'configured-text' as const,settings:{text,context:c.context,prompts:c.prompts}};};
   let retained = options.retained;
   let working: Story; // The pre-event state for replacement; current constraints remain on source.
   const handlers: Record<string, NodeAdapter['execute']> = {
     source: () => ({ source: options.setup ?? source }),
-    model: () => { const { apiKey: _key, baseUrl: _url, ...text } = c.text; return { model: { connectionRef: 'configured-text', settings: { text, context: c.context, prompts: c.prompts } } }; },
-    prepare: () => {
-      const generation: PassageSource = options.setup ? {setup:options.setup} : {story:source,mode:options.mode==='replace'?'replace':'continue',direction:input.direction,chapterEnding:input.chapterEnding};
+    model: context => {const node=graph.nodes.find(node=>node.id===context.attempt.nodeId),binding=graph.bindings.find(binding=>binding.name===node?.binding);if(binding?.kind!=='model'||binding.connectionRef!=='configured-text')throw new StoryError('The model node has no resolved configured text binding.');return {model:publicModel()};},
+    prepare: context => {
+      const resolved=pick<Story|SetupDraft>(context,'source');
+      if(resolved.id!==source.id||resolved.revision!==source.revision)throw new StoryError('The resolved workflow source changed before preparation.',409);
+      const generation: PassageSource = options.setup ? {setup:setupDraftSchema.parse(resolved)} : {story:storySchema.parse(resolved),mode:options.mode==='replace'?'replace':'continue',direction:input.direction,chapterEnding:input.chapterEnding};
       const prepared = preparePassageGeneration(generation, c, {effectsOnly:Boolean(options.retry)});
       working = prepared.story;
       return {prepared};
@@ -170,5 +177,8 @@ export function passageAdapters(options: {
     },
     blocked: context => ({ draft: pick(context, 'issues') })
   };
-  return Object.fromEntries(Object.entries(handlers).map(([type, execute]) => [type, { execute, validate: (port: string, value: unknown) => validatePassagePayload(type, port, value) }])) as Record<string, NodeAdapter>;
+  return Object.fromEntries(Object.entries(handlers).map(([type, execute]) => [type, { execute:(context:NodeContext)=>{
+    if(builtInStoryNodes[type].inputs.model&&jobFingerprint(pick(context,'model'))!==jobFingerprint(publicModel()))throw new StoryError('The stage model input does not match its resolved configured profile.');
+    return execute(context);
+  }, validate: (port: string, value: unknown) => validatePassagePayload(type, port, value) }])) as Record<string, NodeAdapter>;
 }

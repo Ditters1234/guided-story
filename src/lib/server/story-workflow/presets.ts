@@ -5,13 +5,14 @@ import { StoryError } from '../../errors';
 import { jobFingerprint } from '../jobs';
 import { presetContentSchema,presetSaveSchema,type WorkflowPreset } from '../../story-workflow/presets';
 
-/** Independent draft definitions. Never read by the generation runner or story archive. */
+/** Independent versioned definitions. Execution resolves immutable revisions; story archives omit them. */
 export class WorkflowPresetStore {
   constructor(private db:DatabaseSync){db.exec(`CREATE TABLE IF NOT EXISTS workflow_presets(id TEXT PRIMARY KEY,revision INTEGER NOT NULL,payload TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS workflow_preset_versions(id TEXT NOT NULL,revision INTEGER NOT NULL,payload TEXT NOT NULL,PRIMARY KEY(id,revision));
     CREATE TABLE IF NOT EXISTS workflow_preset_receipts(request_id TEXT PRIMARY KEY,fingerprint TEXT NOT NULL,payload TEXT NOT NULL);`);}
   list():WorkflowPreset[]{return (this.db.prepare('SELECT payload FROM workflow_presets ORDER BY rowid DESC LIMIT 100').all() as {payload:string}[]).map(row=>JSON.parse(row.payload));}
   read(id:string):WorkflowPreset {const row=this.db.prepare('SELECT payload FROM workflow_presets WHERE id=?').get(id) as {payload:string}|undefined;if(!row)throw new StoryError('Workflow preset not found.',404);return JSON.parse(row.payload);}
+  readVersion(id:string,revision:number):WorkflowPreset {const row=this.db.prepare('SELECT payload FROM workflow_preset_versions WHERE id=? AND revision=?').get(id,revision) as {payload:string}|undefined;if(!row)throw new StoryError('Workflow preset revision not found. Refresh the preset library.',404);return JSON.parse(row.payload);}
   save(id:string|null,value:unknown):WorkflowPreset {
     if(id)z.string().uuid().parse(id);const input=presetSaveSchema.parse(value),fingerprint=jobFingerprint({id,input});
     this.db.exec('BEGIN IMMEDIATE');

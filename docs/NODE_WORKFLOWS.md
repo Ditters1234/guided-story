@@ -112,7 +112,7 @@ Model/API configuration supplies an existing connection; it does not itself make
 
 ### 5. Editable built-in workflows and reusable presets
 
-**In progress:** [pass 1](NODE_WORKFLOW_PHASE_FIVE.md) provides a built-in list/port editor, draft validation, explicit source/model references, immutable preset revisions and portable JSON. Draft execution remains disabled; the default-only runtime gate is unchanged. Continue with trusted compilation/binding resolution and controlled execution in the next pass.
+**In progress:** [pass 1](NODE_WORKFLOW_PHASE_FIVE.md) provides list/port authoring and versioned presets. [Pass 2](NODE_WORKFLOW_PHASE_FIVE_PASS_TWO.md) adds trusted compilation/binding checks and explicit opening/continuation/rewrite selectors. The executable subset keeps the full built-in check path with routed model nodes; unsupported definitions remain drafts. Default generation, budgets and final save rules remain intact. Richer source/node configuration, visual authoring/groups and check-branch alternatives remain later passes.
 
 - Allow supported built-in nodes to be added/configured/connected, with typed ports, required inputs and clear invalid-graph errors before execution.
 - Expose explicit model choices, context sources, configurable check branches and bounded repair/recovery paths. No automatic provider fallback or new default model stage is implied.
@@ -148,4 +148,4 @@ The milestone is complete when the default pipeline runs through the new engine,
 
 ## Starting point for the next implementation turn
 
-Phases 1–4 and **phase 5, pass 1** are implemented. Continue phase 5 with a server-side compile/eligibility gate, source/model binding resolution and a bounded executable subset. The draft editor/preset store currently cannot execute graphs; preserve the default-only runtime gate until alternatives are verified. Keep default model-call/context budgets, mandatory final validation, source freshness, explicit saves and atomic recovery. Arbitrary plugins/scripts remain deferred.
+Phases 1–4 and **phase 5, passes 1–2** are implemented. Continue with explicit supported node/source configuration and visual authoring while preserving typed/list access. The current executable subset retains all built-in check/repair/save stages and permits connected model routing to configured-text; expand it only with trusted compiler cases and controlled parity/recovery tests. Keep default budgets, final validation, source freshness, explicit saves and atomic recovery. Arbitrary plugins/scripts remain deferred.

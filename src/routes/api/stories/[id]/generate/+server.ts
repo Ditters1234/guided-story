@@ -7,7 +7,8 @@ import { readPrivateConnections } from '#lib/server/connections';
 import { generatePassageEntry } from '#lib/server/passage-entry';
 import { readJson, failure } from '#lib/server/http';
 import { chapterEndingSchema } from '#lib/settings';
-const schema = generationRequestSchema.extend({ mode: z.enum(['continue','replace']), direction: z.string().max(10000), chapterEnding: chapterEndingSchema.default('auto') });
+import { presetReferenceSchema } from '#lib/story-workflow/compile';
+const schema = generationRequestSchema.extend({ mode: z.enum(['continue','replace']), direction: z.string().max(10000), chapterEnding: chapterEndingSchema.default('auto'),preset:presetReferenceSchema.optional() });
 export const POST: RequestHandler = async ({ params, request }) => {
   try {
     const {mode,...input}=schema.parse(await readJson(request));
