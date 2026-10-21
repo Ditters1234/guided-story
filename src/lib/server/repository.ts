@@ -34,6 +34,7 @@ import { applyScenePreparation as applyPreparedScene, scenePreparationSourceHash
 import { retainedPassageSchema, recoveryActionSchema, type RetainedPassage, type RecoveryAction, type RecoveryIssue } from '../passage-recovery';
 import { passageContentSchema, passageProposalSchema as recoveredProposalSchema, type PassageContent, type PassageProposal } from '../passage-proposal';
 import { recoveryHistoryHash, recoverySourceHash, recoveryFacts, recoveryBaseline } from './passage-recovery-state';
+import { StoryWorkflowStore } from './story-workflow/store';
 export { StoryError } from '../errors';
 export type PreparationSourceKind = 'setup' | 'story';
 const id = z.string().min(1).max(100);
@@ -68,6 +69,9 @@ type GeneratedRecap = z.infer<typeof generatedRecapSchema>;
 export class StoryRepository {
   private db: DatabaseSync;
   readonly mediaStore: MediaStore;
+  private workflowStore?: StoryWorkflowStore;
+  /** Experimental workflow state is opt-in; ordinary repository use creates no workflow tables. */
+  get workflows() { return this.workflowStore ??= new StoryWorkflowStore(this.db); }
   constructor(path: string, seed = false, mediaRoot?: string) {
     this.mediaStore = new MediaStore(mediaRoot || resolve(dirname(path), 'media'));
     if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
@@ -250,7 +254,7 @@ export class StoryRepository {
     if(!row)return;
     const record=retainedPassageSchema.parse(JSON.parse(row.payload));record.status='saved';record.activeRequestId=null;record.issues=[];record.savedRevision=story.revision;record.version++;record.updatedAt=new Date().toISOString();this.writeRetained(record);
   }
-  applyRetained(kind:PreparationSourceKind,id:string,draftId:string,value:RecoveryAction):Story {
+  applyRetained(kind:PreparationSourceKind,id:string,draftId:string,value:RecoveryAction,onCommitted?: (story:Story)=>void):Story {
     const input=recoveryActionSchema.parse(value);
     if(input.notes)throw new StoryError('Submit rechecking guidance with Retry world updates before saving a recovered passage.');
     this.db.exec('BEGIN IMMEDIATE');
@@ -275,7 +279,7 @@ export class StoryRepository {
         this.db.prepare('UPDATE operations SET hash=? WHERE story_id=? AND request_id=?').run(hash,id,record.requestId);
         this.db.prepare('INSERT INTO generation_receipts VALUES(?,?,?)').run(id,record.requestId,record.fingerprint);
       }
-      this.markRetainedSaved(kind,id,record.requestId,saved);this.db.exec('COMMIT');
+      this.markRetainedSaved(kind,id,record.requestId,saved);onCommitted?.(saved);this.db.exec('COMMIT');
       logEvent('info','storage','Saved a recovered passage',{draftId,mode:record.content.mode,sourceKind:kind,sourceRevision:source.revision,revision:saved.revision},saved.id,input.requestId);
       return saved;
     }catch(e){this.db.exec('ROLLBACK');throw e;}
@@ -467,7 +471,7 @@ export class StoryRepository {
       return valid;
     } catch(e) { this.db.exec('ROLLBACK');throw e; }
   }
-  commitGeneratedPassage(id: string, value: PassageCommit, generationFingerprint?: string): Story {
+  commitGeneratedPassage(id: string, value: PassageCommit, generationFingerprint?: string, onCommitted?: (story:Story)=>void): Story {
     const input = passageCommitSchema.parse(value);
     const hash = createHash('sha256').update(JSON.stringify(input)).digest('hex');
     this.db.exec('BEGIN IMMEDIATE');
@@ -484,6 +488,7 @@ export class StoryRepository {
       if(prior)this.db.prepare('UPDATE operations SET hash=? WHERE story_id=? AND request_id=?').run(hash,id,input.requestId);else this.db.prepare('INSERT INTO operations VALUES (?, ?, ?)').run(id,input.requestId,hash);
       this.markRetainedSaved('story',id,input.requestId,valid);
       if (generationFingerprint) this.db.prepare('INSERT INTO generation_receipts VALUES (?, ?, ?)').run(id, input.requestId, generationFingerprint);
+      onCommitted?.(valid);
       this.db.exec('COMMIT');
       const trace = beginTrace('passage-commit', { mode: input.proposal.mode, requestId: input.requestId, sourceRevision: input.expectedRevision }, id, input.expectedRevision);
       endTrace(trace, { passageId: prepared.passage.id, revision: valid.revision, assignedIds: prepared.assigned, effects: prepared.effects, changes: stateChanges(before, valid) });

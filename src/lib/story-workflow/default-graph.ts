@@ -29,14 +29,14 @@ export const builtInStoryNodes: NodeRegistry = Object.freeze({
   repair: definition({ repair: port('repair'), request: port('extraction-request'), model: port('model') }, { proposal: port('proposal') }, [extraction], { providerCalls: 1, invocation: 'repair-needed' }),
   revalidate: definition({ proposal: port('proposal'), retained: port('retained'), prepared: port('prepared') }, { candidate: port('proposal'), blocked: port('blocked') }, [extraction]),
   rereview: definition({ candidate: port('proposal'), prepared: port('prepared'), model: port('model') }, { checked: port('checked'), blocked: port('blocked') }, [extraction, review], { providerCalls: 1, invocation: 'inventory-trigger' }),
-  acceptance: definition({ candidates: alternative('checked'), source: port('source') }, { approved: port('approved') }, ['src/lib/server/passage-recovery.ts#retryRetainedPassage', ...commit]),
+  acceptance: definition({ candidates: alternative('checked'), source: port('source') }, { approved: port('approved'), review: port('retained') }, ['src/lib/server/passage-recovery.ts#retryRetainedPassage', ...commit]),
   commit: definition({ approved: port('approved'), source: port('source') }, { committed: port('committed') }, [...commit, 'src/lib/server/passage-commit.ts#preparePassageCommit']),
   blocked: definition({ issues: alternative('blocked'), retained: port('retained') }, { draft: port('blocked') }, ['src/lib/server/repository.ts#blockRetained'], { invocation: 'unresolved' })
 });
 
 /** Immutable default behavior expressed as a DAG, with the single repair unrolled. */
 export function defaultStoryWorkflow(mode: WorkflowMode): WorkflowDefinition {
-  // Registering a future built-in must not silently change the version-1 fixture.
+  // Registering a future built-in must not silently change this fixture.
   const types = ['source', 'model', 'prepare', 'preflight', 'narrate', 'length', 'expand', 'content', 'retain', 'extraction-preflight', 'extract', 'validate', 'review', 'repair-input', 'repair', 'revalidate', 'rereview', 'acceptance', 'commit', 'blocked'];
   const nodes = types.map(type => ({ id: type, type, version: 1 as const,
     ...(type === 'source' ? { binding: 'current-source' } : type === 'model' ? { binding: 'text-profile' } : {}) }));
@@ -64,7 +64,7 @@ export function defaultStoryWorkflow(mode: WorkflowMode): WorkflowDefinition {
   for (const node of ['review', 'rereview']) connect(node, 'checked', 'acceptance', 'candidates');
   for (const node of ['revalidate', 'rereview']) connect(node, 'blocked', 'blocked', 'issues');
   connect('acceptance', 'approved', 'commit', 'approved');
-  return { schemaVersion: 1, id: `default-story-${mode}`, version: 1, mode,
+  return { schemaVersion: 1, id: `default-story-${mode}`, version: 2, mode,
     bindings: [{ name: 'current-source', kind: 'source', sourceKind: mode === 'opening' ? 'setup' : 'story' }, { name: 'text-profile', kind: 'model', connectionRef: 'configured-text' }],
     nodes, edges, policy: { repairLimit: 1, acceptance: 'existing-policy', scheduling: 'serial-per-source' } };
 }

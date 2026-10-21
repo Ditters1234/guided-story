@@ -1,5 +1,7 @@
 # Story workflow phase 1 — contracts and preparation
 
+Historical phase-1 checkpoint. [Phase 2's continuation runner/artifact slice](NODE_WORKFLOW_PHASE_TWO.md) is now implemented; opening/replacement execution and production integration remain pending. The descriptor-only statements below describe phase 1 at its checkpoint.
+
 October 21, 2026. Phase 1 adds descriptors and validation inside the existing application. It does not execute a graph, switch production generation, choose a canvas library or migrate saved stories. The [milestone plan](NODE_WORKFLOWS.md) remains the delivery sequence.
 
 ## Source checkpoint and Git hygiene

@@ -45,7 +45,7 @@ export const modelSetupSchema = z.strictObject({
 export const narrationSchema = z.strictObject({ title: z.string().trim().min(1).max(200), chapterTitle: z.string().trim().min(1).max(200), viewpointId: z.string().min(1).max(100), endOfChapter: z.boolean(), paragraphs: z.array(z.string().trim().min(1).max(20000)).min(1).max(60) });
 export const extractionSchema = z.strictObject({ effects: effectsSchema, memory: passageMemorySchema });
 const extractionWireSchema = z.strictObject({ effects: indexedEffectsSchema, memory: passageMemorySchema });
-const extractionResponseSchema = z.strictObject({ effects: z.array(z.unknown()).max(100), memory: passageMemorySchema });
+export const extractionResponseSchema = z.strictObject({ effects: z.array(z.unknown()).max(100), memory: passageMemorySchema });
 
 // Picture-only design notes stay out of prose/extraction context.
 function narrativeCanon(canon: Story['canon']) {
@@ -193,7 +193,9 @@ export function previewContinuationContext(story: Story,direction: string,c: Con
   return contextForNarration(story,direction,c,narrationRequirements(story,c,{opening:false,replacing:false,startsChapter:last.endOfChapter,chapterTitle:last.chapterTitle,writtenWords:chapterStats(story.passages,chapter).words,chapterEnding:'auto'}));
 }
 
-export async function generatePassage(source: { setup: SetupDraft } | { story: Story; mode: 'continue'|'replace'; direction: string; chapterEnding?: z.infer<typeof chapterEndingSchema> }, c: Connections, signal: AbortSignal, onDraft: (draft: unknown) => void = () => {}, fetcher: typeof fetch = fetch) {
+export type PassageSource = { setup: SetupDraft } | { story: Story; mode: 'continue'|'replace'; direction: string; chapterEnding?: z.infer<typeof chapterEndingSchema> };
+export type Narration = z.infer<typeof narrationSchema>;
+export function preparePassageGeneration(source: PassageSource, c: Connections, options: {effectsOnly?:boolean} = {}) {
   const opening = 'setup' in source, story = opening ? setupStoryBase(source.setup) : structuredClone(source.story);
   if(opening)story.revision=source.setup.revision;
   // A replacement restores fictional state, while author constraints retain
@@ -212,15 +214,21 @@ export async function generatePassage(source: { setup: SetupDraft } | { story: S
   const chapterTarget = story.preferences.chapterWords;
   const minimumWords = Math.ceil(story.preferences.passageWords * 0.6);
   const minimum = Math.ceil(story.preferences.passageWords * 1.6) + 256;
-  if (c.text.maxTokens < minimum) throw new StoryError(`The requested passage length needs at least ${minimum} output tokens. Increase Text LLM → Output tokens or reduce Story → Passage words.`);
+  if (!options.effectsOnly && c.text.maxTokens < minimum) throw new StoryError(`The requested passage length needs at least ${minimum} output tokens. Increase Text LLM → Output tokens or reduce Story → Passage words.`);
   const requirements=narrationRequirements(story,c,{opening,replacing,startsChapter,chapterTitle,writtenWords,chapterEnding});
   const {schema,requestedViewpoint,pacing}=requirements;
+  return {story,opening,replacing,latest,direction,startsChapter,chapterTitle,writtenWords,chapterEnding,chapterTarget,minimumWords,requirements,factPins,schema,requestedViewpoint,pacing};
+}
+export type PreparedPassage = ReturnType<typeof preparePassageGeneration>;
+export function prepareNarrationRequest(prepared: PreparedPassage, c: Connections, onDraft: (draft: unknown)=>void=()=>{}) {
+  const {story,opening,replacing,direction,factPins,requirements,schema}=prepared;
   const extractSchema=z.toJSONSchema(extractionWireSchema);
   // Refuse obviously impossible state updates before spending a narration request.
   // Actual generated prose/extra references are checked again before extraction.
   const preflight=extractionMessagesFor(story,[],direction,factPins);
   if(inputTokens(preflight,c,extractSchema)+Math.max(256,story.preferences.passageWords*3)+Math.min(c.text.maxTokens,1024)+c.context.overheadTokens>c.text.contextTokens)throw new StoryError('The state-update context does not fit the context budget. Nothing was generated. Shorten required constraints or reduce the passage length.');
   let messages: ModelMessage[];
+  let contextReport: ReturnType<typeof contextForNarration> | undefined;
   if (!story.passages.length) {
     const {scope,referencedCharacters,lore}=openingContext(story,direction,factPins);
     const canon=narrativeCanon({...story.canon,characters:story.canon.characters.filter(c=>scope.castIds.has(c.id)),places:story.canon.places.filter(p=>scope.placeIds.has(p.id)),items:scope.selectedItems,relationships:story.canon.relationships.filter(r=>scope.resourceIds.has(r.id)||(scope.castIds.has(r.fromId)&&scope.castIds.has(r.toId)))});
@@ -228,35 +236,57 @@ export async function generatePassage(source: { setup: SetupDraft } | { story: S
       { role: 'user', content: JSON.stringify({ premise: story.premise, style: story.narrationStyle, adultContent: story.adultContent, preferences: story.preferences, canon, referencedCharacters, factPins, brief: story.context.sceneBrief, lore,...(scope.activity.sources.length||scope.activity.clipped?{goalReferences:scope.activity.sources,goalReferenceNote:'Routine/past references are possible resources, not completed actions. Current record condition/holder/location takes precedence; respect viewpoint knowledge.',goalReferencesClipped:scope.activity.clipped}:{}),...(scope.resourcesClipped?{resourceReferencesClipped:true,resourceReferenceNote:'Reviewed resources reached the bounded task/background dependency limit. Additional dependencies may be omitted; do not invent missing facts.'}:{}),direction }) }];
   } else {
     const report = contextForNarration(story,direction,c,requirements,factPins);
+    contextReport = report;
     onDraft({ stage: 'context', report });
     if (!report.runnable) throw new StoryError('Required story facts do not fit the context budget. Inspect Dev → Context and increase the budget.');
     messages = report.messages;
   }
   if (!story.passages.length) messages = [{ role: 'system', content: messages[0].content + requirements.instructions }, ...messages.slice(1)];
   checkedBudget(messages, c, c.text.maxTokens, schema);
-  const narrationText = await completeText(c.text, messages, { outputTokens: c.text.maxTokens, signal, kind: opening ? 'story-opening' : replacing ? 'story-replacement' : 'story-narration', storyId: story.id, storyRevision: opening ? source.setup.revision : source.story.revision, temperature: c.text.temperature, jsonSchema: schema, maxCharacters: 40000 }, fetcher);
+  return {messages,schema,...(contextReport?{contextReport}:{})};
+}
+export type NarrationRequest = ReturnType<typeof prepareNarrationRequest>;
+export async function requestPassageNarration(prepared: PreparedPassage, request: NarrationRequest, c: Connections, signal: AbortSignal, fetcher: typeof fetch=fetch) {
+  const {story,opening,replacing,schema,requestedViewpoint}=prepared, {messages}=request;
+  const narrationText = await completeText(c.text, messages, { outputTokens: c.text.maxTokens, signal, kind: opening ? 'story-opening' : replacing ? 'story-replacement' : 'story-narration', storyId: story.id, storyRevision: story.revision, temperature: c.text.temperature, jsonSchema: schema, maxCharacters: 40000 }, fetcher);
   let narration = parseModelObject(narrationText, narrationSchema, 'narration');
   if (!story.canon.characters.some(c => c.id === narration.viewpointId)) throw new StoryError('The narrator returned an unknown viewpoint ID.', 502);
   if (requestedViewpoint && narration.viewpointId !== requestedViewpoint) throw new StoryError('The narrator did not use the selected scene viewpoint. Nothing was saved.',502);
-  const firstWords = countWords(narration.paragraphs);
-  if (firstWords < minimumWords) {
-    onDraft({ stage: 'expanding-short-passage', words: firstWords, targetWords: story.preferences.passageWords, narration });
-    const expansionMessages: ModelMessage[] = [...messages, { role: 'assistant', content: JSON.stringify(narration) }, { role: 'user', content: `The draft is only ${firstWords} words; the requested passage is approximately ${story.preferences.passageWords}. Rewrite this same passage at the requested length. Preserve its viewpoint, established events and intended stopping point. Develop dialogue, immediate action, sensory detail and character reactions rather than adding new plot outcomes or padding. Return the complete revised JSON object using the same schema. ${pacing}` }];
-    checkedBudget(expansionMessages, c, c.text.maxTokens, schema);
-    const expandedText = await completeText(c.text, expansionMessages, { outputTokens: c.text.maxTokens, signal, kind: 'story-length-expansion', storyId: story.id, storyRevision: opening ? source.setup.revision : source.story.revision, temperature: c.text.temperature, jsonSchema: schema, maxCharacters: 40000 }, fetcher);
-    narration = parseModelObject(expandedText, narrationSchema, 'expanded narration');
-    if (!story.canon.characters.some(c => c.id === narration.viewpointId)) throw new StoryError('The narrator returned an unknown viewpoint ID.', 502);
-    if (requestedViewpoint && narration.viewpointId !== requestedViewpoint) throw new StoryError('The narrator did not use the selected scene viewpoint. Nothing was saved.',502);
-    if (countWords(narration.paragraphs) < minimumWords) throw new StoryError(`The model returned only ${countWords(narration.paragraphs)} words after expansion (target ${story.preferences.passageWords}). Nothing was saved. Try again or adjust passage length in Story settings.`, 502);
-  }
+  return narration;
+}
+export async function expandPassageNarration(prepared: PreparedPassage, request: NarrationRequest, initial: Narration, c: Connections, signal: AbortSignal, onDraft:(draft:unknown)=>void=()=>{}, fetcher:typeof fetch=fetch) {
+  const {story,schema,requestedViewpoint,pacing,minimumWords}=prepared, {messages}=request;
+  let narration=structuredClone(initial); const firstWords=countWords(narration.paragraphs);
+  onDraft({ stage: 'expanding-short-passage', words: firstWords, targetWords: story.preferences.passageWords, narration });
+  const expansionMessages: ModelMessage[] = [...messages, { role: 'assistant', content: JSON.stringify(narration) }, { role: 'user', content: `The draft is only ${firstWords} words; the requested passage is approximately ${story.preferences.passageWords}. Rewrite this same passage at the requested length. Preserve its viewpoint, established events and intended stopping point. Develop dialogue, immediate action, sensory detail and character reactions rather than adding new plot outcomes or padding. Return the complete revised JSON object using the same schema. ${pacing}` }];
+  checkedBudget(expansionMessages, c, c.text.maxTokens, schema);
+  const expandedText = await completeText(c.text, expansionMessages, { outputTokens: c.text.maxTokens, signal, kind: 'story-length-expansion', storyId: story.id, storyRevision: story.revision, temperature: c.text.temperature, jsonSchema: schema, maxCharacters: 40000 }, fetcher);
+  narration = parseModelObject(expandedText, narrationSchema, 'expanded narration');
+  if (!story.canon.characters.some(c => c.id === narration.viewpointId)) throw new StoryError('The narrator returned an unknown viewpoint ID.', 502);
+  if (requestedViewpoint && narration.viewpointId !== requestedViewpoint) throw new StoryError('The narrator did not use the selected scene viewpoint. Nothing was saved.',502);
+  if (countWords(narration.paragraphs) < minimumWords) throw new StoryError(`The model returned only ${countWords(narration.paragraphs)} words after expansion (target ${story.preferences.passageWords}). Nothing was saved. Try again or adjust passage length in Story settings.`, 502);
+
+  return narration;
+}
+export function finalizePassageContent(prepared: PreparedPassage, input: Narration, firstWords: number, onDraft:(draft:unknown)=>void=()=>{}) {
+  const {story,chapterEnding,writtenWords,chapterTarget,minimumWords,replacing,latest,direction,startsChapter,opening,chapterTitle}=prepared;
+  const narration=structuredClone(input);
   const canClose = chapterEnding === 'close' || (chapterEnding === 'auto' && writtenWords + countWords(narration.paragraphs) >= Math.ceil(chapterTarget * 0.8));
   narration.endOfChapter = chapterEnding === 'close' || (canClose && narration.endOfChapter);
   const length = { words: countWords(narration.paragraphs), targetWords: story.preferences.passageWords, originalWords: firstWords, expanded: firstWords < minimumWords, chapterWords: writtenWords + countWords(narration.paragraphs), chapterTarget, chapterEnding, endOfChapter: narration.endOfChapter };
   onDraft({ stage: 'length-check', ...length });
   onDraft({ stage: 'narration', narration, length });
   const content=passageContentSchema.parse({mode:replacing?'replace':'continue',...(replacing?{passageId:latest!.id}:{}),direction,draft:{...narration,startsChapter,chapterTitle:!replacing&&startsChapter&&!opening?narration.chapterTitle:chapterTitle}});
+  return {content,length,narration};
+}
+export async function generatePassage(source: PassageSource, c: Connections, signal: AbortSignal, onDraft:(draft:unknown)=>void=()=>{}, fetcher:typeof fetch=fetch) {
+  const prepared=preparePassageGeneration(source,c), request=prepareNarrationRequest(prepared,c,onDraft);
+  let narration=await requestPassageNarration(prepared,request,c,signal,fetcher);
+  const firstWords=countWords(narration.paragraphs);
+  if(firstWords<prepared.minimumWords)narration=await expandPassageNarration(prepared,request,narration,c,signal,onDraft,fetcher);
+  const {content}=finalizePassageContent(prepared,narration,firstWords,onDraft);
   onDraft({stage:'retained-content',content});
-  return extractPassageUpdates(story,content,c,signal,onDraft,fetcher,undefined,factPins);
+  return extractPassageUpdates(prepared.story,content,c,signal,onDraft,fetcher,undefined,prepared.factPins);
 }
 
 export class PassageUpdateError extends StoryError {
@@ -264,7 +294,8 @@ export class PassageUpdateError extends StoryError {
 }
 
 /** Reusable update stage: never invokes narration or changes retained prose. */
-export async function extractPassageUpdates(story:Story,content:import('../passage-proposal').PassageContent,c:Connections,signal:AbortSignal,onDraft:(draft:unknown)=>void=()=>{},fetcher:typeof fetch=fetch,retry?:{notes:string;issues:string[]},factPins=resolvedFactPins(story)) {
+export type ExtractionRetry = {notes:string;issues:string[]};
+export function preparePassageExtraction(story:Story,content:import('../passage-proposal').PassageContent,c:Connections,retry?:ExtractionRetry,factPins=resolvedFactPins(story)) {
   const narration=content.draft;
   const extractSchema=z.toJSONSchema(extractionWireSchema);
   const sources=evidenceSources(narration.paragraphs);
@@ -275,16 +306,42 @@ export async function extractPassageUpdates(story:Story,content:import('../passa
   const availableOutput = c.text.contextTokens - inputTokens(extractionMessages, c, extractSchema) - c.context.overheadTokens;
   checkedBudget(extractionMessages, c, Math.min(c.text.maxTokens, 1024), extractSchema);
   const extractionTokens = Math.min(c.text.maxTokens, availableOutput);
+  return {messages:extractionMessages,schema:extractSchema,sources,outputTokens:extractionTokens};
+}
+export type ExtractionRequest = ReturnType<typeof preparePassageExtraction>;
+export async function requestPassageExtraction(story:Story,request:ExtractionRequest,c:Connections,signal:AbortSignal,fetcher:typeof fetch=fetch) {
+  const {messages:extractionMessages,schema:extractSchema,outputTokens:extractionTokens}=request;
   const extractionText = await completeText(c.text, extractionMessages, { outputTokens: extractionTokens, signal, kind: 'story-effects', storyId: story.id, storyRevision: story.revision, temperature: 0.1, jsonSchema: extractSchema, maxCharacters: 40000 }, fetcher);
   const response = parseModelObject(extractionText, extractionResponseSchema, 'passage effects');
+  return {text:extractionText,response};
+}
+export function validatePassageExtraction(story:Story,content:import('../passage-proposal').PassageContent,result:z.infer<typeof extractionResponseSchema>,sources:ReturnType<typeof evidenceSources>) {
+  const narration=content.draft;
+  const effects=resolveEffectEvidence(result.effects,sources,narration.paragraphs);
+  // Dry-run all changes before semantic review. Invalid fields/preconditions
+  // need the same bounded repair as omissions, never weaker validation.
+  applyStoryEffects(story.canon,effects,narration.paragraphs.join('\n\n'));
+  return {memory:result.memory,effects};
+}
+export function preparePassageRepair(request:ExtractionRequest,extractionText:string,issues:string[],c:Connections) {
+  const {messages:extractionMessages,schema:extractSchema}=request;
+  const repairMessages:ModelMessage[]=[...extractionMessages,{role:'assistant',content:extractionText},{role:'user',content:JSON.stringify({task:'Correct the extracted effects and memory using only the same source paragraphs. Return the complete effects/memory JSON. Preserve all valid changes and fix these consistency issues; do not change prose or invent events.',issues})}];
+  const repairOutput=Math.min(c.text.maxTokens,c.text.contextTokens-inputTokens(repairMessages,c,extractSchema)-c.context.overheadTokens);
+  checkedBudget(repairMessages,c,Math.min(c.text.maxTokens,1024),extractSchema);
+  return {...request,messages:repairMessages,outputTokens:repairOutput};
+}
+export async function requestPassageRepair(story:Story,request:ExtractionRequest,c:Connections,signal:AbortSignal,fetcher:typeof fetch=fetch) {
+  const {messages:repairMessages,schema:extractSchema,outputTokens:repairOutput}=request;
+  const repaired=await completeText(c.text,repairMessages,{outputTokens:repairOutput,signal,kind:'story-effects',stage:'inventory-repair',storyId:story.id,storyRevision:story.revision,temperature:0.1,jsonSchema:extractSchema,maxCharacters:40000},fetcher);
+  const checked=parseModelObject(repaired,extractionResponseSchema,'repaired passage effects');
+  return {text:repaired,response:checked};
+}
+
+export async function extractPassageUpdates(story:Story,content:import('../passage-proposal').PassageContent,c:Connections,signal:AbortSignal,onDraft:(draft:unknown)=>void=()=>{},fetcher:typeof fetch=fetch,retry?:{notes:string;issues:string[]},factPins=resolvedFactPins(story)) {
+  const narration=content.draft, request=preparePassageExtraction(story,content,c,retry,factPins);
+  const {text:extractionText,response}=await requestPassageExtraction(story,request,c,signal,fetcher);
   onDraft({stage:'extracted-effects',effects:response.effects});
-  const validateExtraction=(result:z.infer<typeof extractionResponseSchema>)=>{
-    const effects=resolveEffectEvidence(result.effects,sources,narration.paragraphs);
-    // Dry-run all changes before semantic review. Invalid fields/preconditions
-    // need the same bounded repair as omissions, never weaker validation.
-    applyStoryEffects(story.canon,effects,narration.paragraphs.join('\n\n'));
-    return {memory:result.memory,effects};
-  };
+  const validateExtraction=(result:z.infer<typeof extractionResponseSchema>)=>validatePassageExtraction(story,content,result,request.sources);
   let extracted:ReturnType<typeof validateExtraction>|undefined, issues:string[]=[];
   try { extracted=validateExtraction(response); }
   catch(error){if(!(error instanceof StoryError || error instanceof z.ZodError))throw error;issues=[error.message];}
@@ -296,11 +353,8 @@ export async function extractPassageUpdates(story:Story,content:import('../passa
   }
   if(issues.length){
       onDraft({stage:'repairing-inventory',issues});
-      const repairMessages:ModelMessage[]=[...extractionMessages,{role:'assistant',content:extractionText},{role:'user',content:JSON.stringify({task:'Correct the extracted effects and memory using only the same source paragraphs. Return the complete effects/memory JSON. Preserve all valid changes and fix these consistency issues; do not change prose or invent events.',issues})}];
-      const repairOutput=Math.min(c.text.maxTokens,c.text.contextTokens-inputTokens(repairMessages,c,extractSchema)-c.context.overheadTokens);
-      checkedBudget(repairMessages,c,Math.min(c.text.maxTokens,1024),extractSchema);
-      const repaired=await completeText(c.text,repairMessages,{outputTokens:repairOutput,signal,kind:'story-effects',stage:'inventory-repair',storyId:story.id,storyRevision:story.revision,temperature:0.1,jsonSchema:extractSchema,maxCharacters:40000},fetcher);
-      const checked=parseModelObject(repaired,extractionResponseSchema,'repaired passage effects');
+      const repair=preparePassageRepair(request,extractionText,issues,c);
+      const {response:checked}=await requestPassageRepair(story,repair,c,signal,fetcher);
       onDraft({stage:'extracted-effects',effects:checked.effects});
       try { extracted=validateExtraction(checked); }
       catch(error){if(!(error instanceof StoryError || error instanceof z.ZodError))throw error;throw new StoryError('The model returned invalid passage effects after one repair attempt. Nothing was saved. '+error.message+' Check the affected item quantity and unit in setup Possessions if the prose requires more stock than recorded.',502);}
