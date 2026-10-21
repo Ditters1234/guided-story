@@ -27,8 +27,8 @@ const graphFor = (mode: WorkflowMode, value?: unknown) => {
   if (jobFingerprint(validation.graph) !== jobFingerprint(expected)) throw new StoryError('Only the matching built-in passage workflow is executable.');
   return validation.graph!;
 };
-const sourceIdentity = (story: Story, mode: WorkflowMode): WorkflowSource => ({ ...(mode==='replace'?{replacementBaselineHash:jobFingerprint(story.recovery)}:{}), kind: mode==='opening'?'setup':'story', id: story.id, revision: story.revision, factsHash: jobFingerprint(story.canon), historyHash: recoveryHistoryHash(story), constraintsHash: jobFingerprint({ pins: story.factPins, preferences: story.preferences, context: story.context, premise: story.premise, narrationStyle: story.narrationStyle, adultContent: story.adultContent }) });
-const configurationHash = (connections: Connections) => { const {apiKey: _key, ...text} = connections.text; return jobFingerprint({text,context:connections.context,prompts:connections.prompts}); };
+export const sourceIdentity = (story: Story, mode: WorkflowMode): WorkflowSource => ({ ...(mode==='replace'?{replacementBaselineHash:jobFingerprint(story.recovery)}:{}), kind: mode==='opening'?'setup':'story', id: story.id, revision: story.revision, factsHash: jobFingerprint(story.canon), historyHash: recoveryHistoryHash(story), constraintsHash: jobFingerprint({ pins: story.factPins, preferences: story.preferences, context: story.context, premise: story.premise, narrationStyle: story.narrationStyle, adultContent: story.adultContent }) });
+export const configurationHash = (connections: Connections) => { const {apiKey: _key, ...text} = connections.text; return jobFingerprint({text,context:connections.context,prompts:connections.prompts}); };
 const fingerprint = (input: unknown, graph: ReturnType<typeof graphFor>) => jobFingerprint({ input, graph });
 const savedResult = (r:StoryRepository,kind:PreparationSourceKind,id:string,requestId:string,hash:string) => kind==='setup'?r.openingResult(id,requestId,hash):r.generatedPassageResult(id,requestId,hash);
 function reconcileReceipt(repository:StoryRepository,runId:string){

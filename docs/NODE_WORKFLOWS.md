@@ -1,6 +1,6 @@
 # Node-based story workflows — next project milestone
 
-Decision date: October 21, 2026. **Phases 1 and 2 are implemented.** This evolves the existing Storyweaver TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records contracts and operation ownership; [phase 2](NODE_WORKFLOW_PHASE_TWO.md) implements all passage modes, durable outputs, reviewed recovery and production entry-point integration. New generation requests use the runner, with legacy replay/fallback preserved. The canvas and editable graph UI remain pending.
+Decision date: October 21, 2026. **Phases 1–3 are implemented.** This evolves the existing Storyweaver TypeScript/SvelteKit engine. [Phase 1](NODE_WORKFLOW_PHASE_ONE.md) records contracts; [phase 2](NODE_WORKFLOW_PHASE_TWO.md) implements all passage modes and durable recovery; [phase 3](NODE_WORKFLOW_PHASE_THREE.md) adds read-only workflow inspection, supported retries and local history controls. The location-first world map and editable workflow canvas remain pending.
 
 The prior application checkpoint is [the recovery review](PASSAGE_RECOVERY_REVIEW.md): 366 automated tests, clean type/build checks and four isolated browser suites. Phase-1 verification is recorded separately in the [implementation notes](NODE_WORKFLOW_PHASE_ONE.md); historical browser results are not new workflow verification.
 
@@ -88,6 +88,8 @@ Model/API configuration supplies an existing connection; it does not itself make
 
 ### 3. Workflow canvas, inspection and supported reruns
 
+**Implemented:** read-only dependency diagram and keyboard/list inspector, current-source and superseded-check explanations, existing effects-only recovery/acceptance controls, complete-content promotion and guarded history cleanup. See [phase-3 verification and limits](NODE_WORKFLOW_PHASE_THREE.md). Editable canvas interactions remain phase 5.
+
 - Display the default graph with typed connections and clear queued/running/completed/blocked/failed/interrupted states.
 - Open a node inspector for resolved inputs, outputs, selected entity references, token estimates, actual provider usage when available, issues and source provenance.
 - Provide supported downstream retries from retained artifacts. Changing guidance or saved facts must not silently accept an older checked proposal.
@@ -142,4 +144,4 @@ The milestone is complete when the default pipeline runs through the new engine,
 
 ## Starting point for the next implementation turn
 
-Phases 1 and 2 are implemented. Next start **phase 3** with persisted-run inspection, typed outputs/checks, stale-result explanations, supported explicit reruns and artifact lifecycle controls. Keep the legacy path available and preserve the existing provider/context/recovery constraints. Continue to the location-first map and editable built-ins in order after their gates are met.
+Phases 1–3 are implemented. Next start **phase 4** with the location-first world map connected to existing setup/record editors. Start collapsed at root places; distinguish containment, presence, storage and related knowledge/lore. Preserve unsaved edits, explicit authoring actions, current-source guards and deterministic model scope. Editable workflows/presets follow in phase 5.

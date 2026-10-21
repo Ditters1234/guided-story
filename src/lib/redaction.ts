@@ -1,5 +1,5 @@
 const sensitiveField = /^(api[-_]?key|authorization|proxy[-_]?authorization|cookie|set-cookie|password|passwd|secret|access[-_]?token|refresh[-_]?token|credential)$/i;
-export function redact(value: unknown, secrets: Iterable<string> = [], maxString = 40000): unknown {
+export function redact(value: unknown, secrets: Iterable<string> = [], maxString = 40000, limits: {depth?:number;entries?:number} = {}): unknown {
   const known = [...secrets].filter(Boolean).sort((a, b) => b.length - a.length);
   const seen = new WeakSet<object>();
   function string(text: string) {
@@ -16,12 +16,12 @@ export function redact(value: unknown, secrets: Iterable<string> = [], maxString
     if (input === undefined) return null;
     if (typeof input !== 'object') return string(String(input));
     if (seen.has(input)) return '[circular]';
-    if (depth > 10) return '[nested data omitted]';
+    if (depth > (limits.depth ?? 10)) return '[nested data omitted]';
     seen.add(input);
     if (input instanceof Error) return { name: input.name, message: string(input.message), stack: string(input.stack || '') };
-    if (Array.isArray(input)) return input.slice(0, 200).map(v => visit(v, depth + 1));
+    if (Array.isArray(input)) return input.slice(0, limits.entries ?? 200).map(v => visit(v, depth + 1));
     const result: Record<string, unknown> = {};
-    for (const [key, item] of Object.entries(input).slice(0, 200)) result[key] = sensitiveField.test(key) ? '[redacted]' : visit(item, depth + 1);
+    for (const [key, item] of Object.entries(input).slice(0, limits.entries ?? 200)) result[key] = sensitiveField.test(key) ? '[redacted]' : visit(item, depth + 1);
     return result;
   }
   return visit(value, 0);

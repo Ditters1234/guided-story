@@ -3,6 +3,7 @@
   import type { PageData } from './$types';
   import type { Character, LibraryEntry, Story } from '#lib/story';
   import DevMenu from '#lib/DevMenu.svelte';
+  import WorkflowPanel from '#lib/WorkflowPanel.svelte';
   import SettingsPanel from '#lib/SettingsPanel.svelte';
   import MediaPanel from '#lib/MediaPanel.svelte';
   import { mediaUrl } from '#lib/media';
@@ -52,7 +53,7 @@
   let view = $state(untrack(()=>data.story?'read':'library'));
   let recordsKind=$state<RecordKind>('place'),recordsId=$state(''),recordsSession=$state(0),recordsDirty=$state(false);
   let pinsDirty=$state(false);
-  let preparationDirty=$state(false),devDirty=$state(false),backgroundDirty=$state(false);
+  let preparationDirty=$state(false),devDirty=$state(false),workflowDirty=$state(false),backgroundDirty=$state(false);
   let librarySearch=$state(''),contentsSearch=$state(''),libraryLoading=$state(false);
   let libraryRenameDrafts=$state<Record<string,boolean>>({});
   const libraryDirty=$derived(Object.values(libraryRenameDrafts).some(Boolean));
@@ -67,6 +68,7 @@
   async function closeCorrection(){showCorrection=false;correctionDirty=false;await tick();correctionTrigger?.focus({preventScroll:true});correctionTrigger?.scrollIntoView({block:'nearest'});}
   function correctionSaved(saved:Story){if(story)reconcileNotebook(story,saved);story=saved;refreshCharacterDraft(saved);updateLibrary(saved);if(saved.recap?.stale)recapCurrent=false;status='Reviewed corrections saved to current story records';}
   function leaveEditor(){
+    if(view==='workflows'&&workflowDirty)return confirm('Discard the unsubmitted workflow rechecking guidance? Submit it with Retry world updates first to keep it.');
     if(view==='prepare'&&preparationDirty)return confirm('Discard the scene preparation draft? Saved previews remain available.');
     if(view==='dev'&&devDirty)return confirm('Discard the unsaved developer context or lore edits? Save them first to keep them.');
     if(view==='background'&&backgroundDirty)return confirm('Discard the unsaved background edits? Use Save background edits first to keep them.');
@@ -85,6 +87,14 @@
     return true;
   }
   function editRecords(kind:RecordKind='place',id=''){if(!busy&&leaveEditor()){recordsKind=kind;recordsId=id;recordsSession++;recordsDirty=false;view='records';}}
+  async function openWorkflowSource(kind:'setup'|'story',id:string,record?:{kind:'item'|'character'|'place';id:string}){
+    if(busy||!leaveEditor())return;
+    if(kind==='setup'){await resumeSetup(id);return;}
+    busy=true;error='';
+    try{const saved:Story=await responseJson(await fetch(`/api/stories/${id}`));prepare(saved);updateLibrary(saved);if(record){recordsKind=record.kind;recordsId=record.id;recordsSession++;view='records';}else view='read';}
+    catch(e){error=e instanceof Error?e.message:'Could not open the current saved source.';}
+    finally{busy=false;}
+  }
   function navigate(name:string){
     if(busy&&name!=='dev')return;
     if(name==='records'){if(view!=='records')editRecords();return;}
@@ -356,7 +366,7 @@
   });
 </script>
 
-<svelte:window onbeforeunload={e=>{if(preparationDirty||devDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
+<svelte:window onbeforeunload={e=>{if(preparationDirty||devDirty||workflowDirty||backgroundDirty||libraryDirty||recordsDirty||pinsDirty||setupDirty||characterDirty||settingsDirty||mediaDirty||sceneDirty||worldDirty||threadsDirty||titleDirty||recapDirty||correctionDirty||recoveryDirty||directionDraftUnsaved){e.preventDefault();e.returnValue='';}}} />
 
 <svelte:head><title>{story?.title || 'Library'} · Storyweaver</title><meta name="description" content="Read, direct and illustrate your own ongoing novel." /></svelte:head>
 
@@ -366,7 +376,7 @@
     <div class="identity"><a class="brand" href="/" onclick={event=>{event.preventDefault();navigate('library');}}>✦ <span>Storyweaver</span></a><span class="book-name">{view === 'new' ? 'New story' : story?.title || 'Your library'}</span><span class="instance">{data.instance === 'play' ? 'Your instance · 5175' : 'Development · 5173'}</span></div>
     <nav class="app-navigation" aria-label="Story navigation">
       <div class="navigation-group" role="group" aria-label="Current story"><span class="navigation-label">Story</span>{#each [['read', 'Read'], ['contents', 'Contents'], ['recap', 'Story so far'], ['records','Records'], ['background','Background'], ['pins','Pins'], ['prepare','Prepare scene'], ['gallery', 'Gallery'], ['illustrate','Illustrations']] as [name, label]}<button class:active={view === name} aria-current={view === name ? 'page' : undefined} onclick={() => navigate(name)} disabled={busy || !story}>{label}</button>{/each}</div>
-      <div class="navigation-group workspace-navigation" role="group" aria-label="Workspace"><span class="navigation-label">Workspace</span>{#each [['library', 'Library'], ['new','New story'], ['settings', 'Settings'], ['help','Help'], ['dev', 'Dev']] as [name, label]}<button class:active={view === name} aria-current={view === name ? 'page' : undefined} onclick={() => navigate(name)} disabled={busy && name !== 'dev'}>{label}</button>{/each}</div>
+      <div class="navigation-group workspace-navigation" role="group" aria-label="Workspace"><span class="navigation-label">Workspace</span>{#each [['library', 'Library'], ['new','New story'], ['settings', 'Settings'], ['help','Help'], ['workflows','Workflows'], ['dev', 'Dev']] as [name, label]}<button class:active={view === name} aria-current={view === name ? 'page' : undefined} onclick={() => navigate(name)} disabled={busy && name !== 'dev'}>{label}</button>{/each}</div>
     </nav>
   </header>
   {#if connections&&!connections.text.model.trim()}<div class="build-note"><span>Welcome to Storyweaver</span> Connect your text model in Settings to begin generating. You can explore the sample and edit records now. <button onclick={openConnections} disabled={busy}>Set up connections</button></div>{/if}
@@ -377,6 +387,8 @@
     <HelpPanel version={APP_VERSION} instance={data.instance} onSettings={openConnections} onNew={newStory} />
   {:else if view === 'new'}
     {#key setupSession}<NewStory initial={setupInitial} canGenerate={Boolean(connections?.text.model.trim())} bind:busy onSaved={draftSaved} onCreated={storyCreated} onDirty={dirty=>setupDirty=dirty} />{/key}
+  {:else if view === 'workflows'}
+    <WorkflowPanel bind:busy canGenerate={Boolean(connections?.text.model.trim())} onDirty={value=>workflowDirty=value} onOpenSource={openWorkflowSource} onSaved={saved=>{prepare(saved);updateLibrary(saved);status='Recovered passage saved';}} />
   {:else if view === 'dev'}
     <DevMenu {story} {busy} onDirty={value=>devDirty=value} onReload={reloadRecords} canGenerate={Boolean(connections?.text.model.trim())} bind:direction={() => direction, value => { direction=value;rememberDirectionDraft(); }} onMutate={mutate} onStorySaved={saved => { story = saved; updateLibrary(saved); status = 'Continuity memory saved locally'; }} />
   {:else if view === 'illustrate' && story}

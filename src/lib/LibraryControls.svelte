@@ -25,7 +25,7 @@
   async function send(action:'rename'|'remove'){
     if(busy)return;
     if(action==='rename'&&stale){problem='This story changed while its title was being edited. Load the saved title before renaming.';return;}
-    if(action==='remove'&&!confirm(kind==='story'?`Delete “${title}” from this library? Export a ZIP first if you want a copy. This removes its saved story and editor history. Shared picture files are retained. This cannot be undone.`:`Discard the unfinished setup “${title}”? This cannot be undone.`))return;
+    if(action==='remove'&&!confirm(kind==='story'?`Delete “${title}” from this library? Export a ZIP first if you want a copy. This removes its saved story, editor history and stored workflow details. Shared picture files are retained. This cannot be undone.`:`Discard the unfinished setup “${title}” and its stored workflow details? This cannot be undone.`))return;
     const expectedRevision=action==='rename'?renameRevision:revision;
     const key=JSON.stringify({id,revision:expectedRevision,action,title:name.trim()});if(pending?.key!==key)pending={key,requestId:crypto.randomUUID()};
     busy=true;activity=action==='rename'?'Saving story title…':kind==='story'?'Deleting story…':'Discarding setup…';problem='';

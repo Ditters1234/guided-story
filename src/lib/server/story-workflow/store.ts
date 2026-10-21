@@ -18,6 +18,7 @@ export class StoryWorkflowStore {
       CREATE TABLE IF NOT EXISTS workflow_attempts(id TEXT PRIMARY KEY,run_id TEXT NOT NULL,node_id TEXT NOT NULL,attempt_number INTEGER NOT NULL,payload TEXT NOT NULL,UNIQUE(run_id,node_id,attempt_number));
       CREATE TABLE IF NOT EXISTS workflow_artifacts(id TEXT PRIMARY KEY,run_id TEXT NOT NULL,payload_key TEXT UNIQUE NOT NULL,metadata TEXT NOT NULL,value TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS workflow_provider_io(id TEXT PRIMARY KEY,attempt_id TEXT NOT NULL,request TEXT NOT NULL,response TEXT,status INTEGER,error TEXT);
+      CREATE TABLE IF NOT EXISTS workflow_history_removals(run_id TEXT PRIMARY KEY,removed_at TEXT NOT NULL);
     `);
   }
   private transaction<T>(action: () => T): T {
@@ -34,6 +35,52 @@ export class StoryWorkflowStore {
     const row = this.db.prepare('SELECT payload FROM workflow_runs WHERE id=?').get(id) as { payload: string } | undefined;
     if (!row) throw new StoryError('Workflow run not found.', 404);
     return workflowRunSchema.parse(JSON.parse(row.payload));
+  }
+  list(limit=25,before?:number) {
+    const rows=this.db.prepare(`SELECT r.rowid cursor,r.payload,removed.removed_at,
+      (SELECT count(*) FROM workflow_attempts a WHERE a.run_id=r.id) attempts,
+      (SELECT count(*) FROM workflow_artifacts a WHERE a.run_id=r.id) artifacts,
+      (SELECT count(*) FROM workflow_provider_io io JOIN workflow_attempts a ON a.id=io.attempt_id WHERE a.run_id=r.id) calls
+      FROM workflow_runs r LEFT JOIN workflow_history_removals removed ON removed.run_id=r.id
+      WHERE r.rowid<? ORDER BY r.rowid DESC LIMIT ?`).all(before??Number.MAX_SAFE_INTEGER,Math.min(Math.max(limit,1),100)) as {cursor:number;payload:string;removed_at:string|null;attempts:number;artifacts:number;calls:number}[];
+    return rows.map(row=>({cursor:row.cursor,run:workflowRunSchema.parse(JSON.parse(row.payload)),removedAt:row.removed_at,attempts:row.attempts,artifacts:row.artifacts,calls:row.calls}));
+  }
+  removedAt(id:string) {return (this.db.prepare('SELECT removed_at FROM workflow_history_removals WHERE run_id=?').get(id) as {removed_at:string}|undefined)?.removed_at??null;}
+  metadata(runId:string):WorkflowArtifact[] {
+    this.read(runId);
+    return (this.db.prepare('SELECT metadata FROM workflow_artifacts WHERE run_id=? ORDER BY rowid').all(runId) as {metadata:string}[]).map(row=>workflowArtifactSchema.parse(JSON.parse(row.metadata)));
+  }
+  inspectionVersion(id:string) {return jobFingerprint({run:this.read(id),attempts:this.attempts(id),artifacts:this.metadata(id),removedAt:this.removedAt(id)});}
+  hasOpenRetained(sourceId:string) {return Boolean(this.db.prepare("SELECT 1 FROM retained_passages WHERE source_id=? AND json_extract(payload,'$.status') NOT IN ('saved','discarded') LIMIT 1").get(sourceId));}
+  dependentRun(id:string):string|null {
+    const row=this.db.prepare(`SELECT a.run_id FROM workflow_attempts a,json_each(a.payload,'$.inputArtifactIds') refs
+      JOIN workflow_artifacts output ON output.id=refs.value WHERE output.run_id=? AND a.run_id!=? LIMIT 1`).get(id,id) as {run_id:string}|undefined;
+    return row?.run_id??null;
+  }
+  /** Explicit removal keeps the definition/fingerprint/status receipt as a tombstone. */
+  removeDetails(id:string,expectedVersion:string) {
+    return this.transaction(()=>{
+      if(this.inspectionVersion(id)!==expectedVersion)throw new StoryError('This run changed. Reload its history before removing details.',409);
+      const run=this.read(id);
+      if(this.removedAt(id))return;
+      if(this.hasOpenRetained(run.source.id))throw new StoryError('Recover or discard the retained passage before removing workflow details.',409);
+      if(this.dependentRun(id))throw new StoryError('A later run uses these artifacts. Remove that later run’s details first to preserve provenance.',409);
+      this.settleCommitted(id);
+      this.interrupt(id); // Explicit action after the service has acquired the source-idle guard.
+      this.deleteDetails(id);
+    });
+  }
+  private deleteDetails(id:string) {
+    this.db.prepare('DELETE FROM workflow_provider_io WHERE attempt_id IN (SELECT id FROM workflow_attempts WHERE run_id=?)').run(id);
+    this.db.prepare('DELETE FROM workflow_artifacts WHERE run_id=?').run(id);
+    this.db.prepare('DELETE FROM workflow_attempts WHERE run_id=?').run(id);
+    this.db.prepare('INSERT OR IGNORE INTO workflow_history_removals VALUES(?,?)').run(id,new Date().toISOString());
+  }
+  /** A confirmed library deletion removes all source snapshots in the same transaction. */
+  removeSourceDetails(sourceId:string) {
+    return this.transaction(()=>{
+      for(const row of this.db.prepare('SELECT id FROM workflow_runs WHERE source_id=?').all(sourceId) as {id:string}[])this.deleteDetails(row.id);
+    });
   }
   definition(id: string): WorkflowDefinition {
     this.read(id);
@@ -126,6 +173,10 @@ export class StoryWorkflowStore {
     this.read(runId);
     return this.db.prepare('SELECT io.* FROM workflow_provider_io io JOIN workflow_attempts a ON a.id=io.attempt_id WHERE a.run_id=? ORDER BY io.rowid').all(runId) as ReturnType<StoryWorkflowStore['providerIO']>;
   }
+  attemptIO(runId:string,attemptId:string) {
+    if(!this.attempts(runId).some(a=>a.id===attemptId))throw new StoryError('This attempt does not belong to this workflow.',404);
+    return this.db.prepare('SELECT * FROM workflow_provider_io WHERE attempt_id=? ORDER BY rowid').all(attemptId) as ReturnType<StoryWorkflowStore['providerIO']>;
+  }
   /** Explicit restart reconciliation; called only while owning the existing job lock. */
   interrupt(runId: string) {
     return this.transaction(() => {
@@ -142,9 +193,10 @@ export class StoryWorkflowStore {
   }
   /** Latest successful check for an existing draft; acceptance rechecks its version. */
   reviewRun(kind:'setup'|'story',sourceId:string,draftId:string) {
-    const rows=this.db.prepare("SELECT id FROM workflow_runs WHERE source_id=? AND json_extract(payload,'$.source.kind')=? AND json_extract(payload,'$.acceptance')='recovered-review' ORDER BY rowid DESC").all(sourceId,kind) as {id:string}[];
-    for(const row of rows)if(this.artifacts(row.id).some(a=>a.metadata.nodeId==='acceptance'&&a.metadata.port==='review'&&(a.value as {id?:string}).id===draftId))return this.read(row.id);
-    return null;
+    const row=this.db.prepare(`SELECT a.id,r.id run_id FROM workflow_artifacts a JOIN workflow_runs r ON r.id=a.run_id
+      WHERE r.source_id=? AND json_extract(r.payload,'$.source.kind')=? AND json_extract(r.payload,'$.acceptance')='recovered-review'
+      AND json_extract(a.metadata,'$.nodeId')='acceptance' AND json_extract(a.metadata,'$.port')='review' AND json_extract(a.value,'$.id')=? ORDER BY r.rowid DESC LIMIT 1`).get(sourceId,kind,draftId) as {id:string;run_id:string}|undefined;
+    if(!row)return null;this.artifact(row.id);return this.read(row.run_id);
   }
   resumeAcceptance(id: string) {
     const run = this.read(id);

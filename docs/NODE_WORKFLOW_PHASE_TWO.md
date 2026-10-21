@@ -1,5 +1,7 @@
 # Workflow phase 2 — executable passage workflows and durable artifacts
 
+Historical phase-2 checkpoint. [Phase 3](NODE_WORKFLOW_PHASE_THREE.md) now implements workflow inspection, supported recovery and local history lifecycle controls. The phase-3 pending statements below describe this earlier checkpoint.
+
 October 21, 2026. **Phase 2 is implemented and integrated.** Opening, continuation and latest replacement execute through the built-in graph over the existing engine. Effects-only retries and recovered acceptance use the same workflow persistence. No canvas or editable graph UI is implemented; phase 3 inspection and supported reruns are next.
 
 ## Engine and entry points

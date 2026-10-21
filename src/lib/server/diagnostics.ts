@@ -11,6 +11,8 @@ const shared = globalThis as typeof globalThis & { __guidedDiagnostics?: Capture
 const state = shared.__guidedDiagnostics ??= { secrets: new Set<string>(), installed: false };
 export function registerSecrets(...values: (string | undefined)[]) { for (const v of values) if (v) state.secrets.add(v); }
 export function scrub(value: unknown) { return redact(value, state.secrets); }
+/** Display copies only: preserve full bounded workflow structures, never alter execution payloads. */
+export function scrubWorkflow(value: unknown) { return redact(value, state.secrets, 500_000, {depth:64,entries:100_000}); }
 
 export class DiagnosticStore {
   private db: DatabaseSync;

@@ -76,6 +76,14 @@ type Running = { promise: Promise<unknown>; controller: AbortController };
 const shared = globalThis as typeof globalThis & { __guidedJobs?: { store?: JobStore; active: Map<string, Running> } };
 const runtime = shared.__guidedJobs ??= { active: new Map<string, Running>() };
 export function getJobs() { return runtime.store ??= new JobStore(process.env.NODE_TEST_CONTEXT ? ':memory:' : resolve(process.env.STORY_DATA_DIR || 'data/dev', 'jobs.sqlite')); }
+/** A cancelled job can still be unwinding its provider promise. */
+export function sourceJobIsActive(sourceId:string) {
+  return [...runtime.active.keys()].some(id=>{const job=getJobs().read(id);return job.storyId===sourceId||job.targetId===sourceId||job.lockKey.endsWith(':'+sourceId);});
+}
+export function assertSourceIdle(sourceId:string) {
+  getJobs().assertScopeIdle(sourceId);
+  if(sourceJobIsActive(sourceId))throw new StoryError('An operation is still stopping. Wait for it to finish before removing stored history.',409);
+}
 export function cancelJob(id: string) {
   const job = getJobs().read(id), active = runtime.active.get(id);
   if (!pending.has(job.state)) return job;

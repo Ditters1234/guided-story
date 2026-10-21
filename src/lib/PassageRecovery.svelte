@@ -4,9 +4,10 @@
   import type { SetupDraft } from './setup';
   import type { RetainedPassage, RecoveryAction } from './passage-recovery';
   import { evidenceSources } from './passage-evidence';
-  let { source, kind, refreshKey=0, busy=$bindable(false), disabled=false, canGenerate=false, onSaved, onDiscard=()=>{}, onDirty=()=>{}, onCount=()=>{}, onReload, onEdit }: {
+  let { source, kind, refreshKey=0, busy=$bindable(false), disabled=false, canGenerate=false, onSaved, onChecked=()=>{}, onDiscard=()=>{}, onDirty=()=>{}, onCount=()=>{}, onReload, onEdit }: {
     source:Story|SetupDraft;kind:'story'|'setup';refreshKey?:number;busy?:boolean;disabled?:boolean;canGenerate?:boolean;
     onSaved:(story:Story,draft:RetainedPassage)=>void;onDiscard?:()=>void;onDirty?:(dirty:boolean)=>void;onCount?:(count:number)=>void;
+    onChecked?:(draft:RetainedPassage)=>void;
     onReload?:()=>void;onEdit?:(kind:'item'|'character'|'place',id:string)=>void;
   }=$props();
   let drafts=$state<RetainedPassage[]>([]),problem=$state(''),note=$state(''),publishedStoryId=$state(''),loading=$state(false),working=$state(''),workingVerb=$state(''),notes=$state<Record<string,string>>({}),savedRevision=$state(-1),heading=$state<HTMLHeadingElement>();
@@ -47,7 +48,7 @@
       else{if(verb==='discard'){drafts=drafts.filter(row=>row.id!==draft.id);onDiscard();note='Unaccepted draft discarded.';}else{drafts=drafts.map(row=>row.id===draft.id?result:row);note=result.status==='ready'?'World updates passed the checks. Review them, then save the recovered passage.':'The prose is kept. Review the reported issue before retrying.';}}
       await tick();heading?.focus({preventScroll:true});
     }catch(error){const message=controller.signal.aborted?'Update checking was cancelled. The retained prose is kept.':error instanceof Error?error.message:'The request failed. The retained prose is kept.';await load();problem=message;}
-    finally{busy=false;working='';workingVerb='';controller=undefined;activeRequest='';}
+    finally{busy=false;working='';workingVerb='';controller=undefined;activeRequest='';if(verb==='retry')onChecked(drafts.find(row=>row.id===draft.id)??draft);}
   }
   async function cancel(){try{await json(await fetch('/api/generation/cancel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({storyId:source.id,requestId:activeRequest})}));}catch{problem='Cancellation could not be confirmed. Inspect Dev → Jobs.';}finally{controller?.abort();}}
   async function copy(draft:RetainedPassage){try{await navigator.clipboard.writeText(`${draft.content.draft.title}\n\n${draft.content.draft.paragraphs.join('\n\n')}`);note='Retained prose copied.';}catch{problem='Could not copy automatically. Open Retained prose and select the text to copy it.';}}

@@ -132,6 +132,7 @@ export class StoryRepository {
         this.db.prepare('DELETE FROM stories WHERE id=?').run(id);
       }
       for(const table of ['retained_passages','retained_passage_actions']){if(kind==='story')this.db.prepare(`DELETE FROM ${table} WHERE source_id=?`).run(id);else this.db.prepare(`DELETE FROM ${table} WHERE source_kind='setup' AND source_id=?`).run(id);}
+      if(this.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='workflow_runs'").get())this.workflows.removeSourceDetails(id);
       // Written stories retain their original setup ID. Remove that draft too so it cannot reopen a deleted novel.
       this.db.prepare('DELETE FROM setup_operations WHERE setup_id=?').run(id);
       for(const table of ['scene_preparation_results','scene_preparation_applies'])this.db.prepare(`DELETE FROM ${table} WHERE source_kind='setup' AND source_id=?`).run(id);
