@@ -1,0 +1,37 @@
+{
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "userLibraryChanged": false,
+  "attempts": [
+    {
+      "contextTokens": 32000,
+      "requests": [
+        {
+          "stage": "narration",
+          "estimatedInputTokens": 22510,
+          "outputAllowance": 4096
+        }
+      ],
+      "error": "The required generation input does not fit the configured context budget. Increase Context budget in Text LLM settings or shorten the setup; no required facts were truncated."
+    },
+    {
+      "contextTokens": 262144,
+      "requests": [
+        {
+          "stage": "narration",
+          "estimatedInputTokens": 22510,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "effects",
+          "estimatedInputTokens": 52855,
+          "outputAllowance": 4096,
+          "characters": 24,
+          "items": 170,
+          "places": 34
+        }
+      ]
+    }
+  ],
+  "limitations": "Mock prose is repetitive filler solely for request construction. The 262144-token setting is a diagnostic probe, not a recommended configuration. Counts are app estimates, not provider token usage or quality results."
+}

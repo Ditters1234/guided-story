@@ -1,0 +1,32 @@
+{
+  "modelCalls": 0,
+  "userLibraryChanged": false,
+  "viewpointFallback": {
+    "sharedSurname": {
+      "savedViewpoint": "Mara Vale",
+      "inferredId": "mara",
+      "selectedPlaceIds": [
+        "reading",
+        "archive",
+        "brasswater"
+      ]
+    },
+    "shortName": {
+      "savedViewpoint": "Ren",
+      "inferredId": "ren",
+      "selectedPlaceIds": [
+        "chartroom",
+        "kestrel",
+        "docks",
+        "brasswater"
+      ]
+    }
+  },
+  "nestedReference": {
+    "item": "iris-ferry-ticket",
+    "irrelevantSiblingIncluded": false,
+    "ownerFullIdentityIncluded": false,
+    "holderNameAvailableInStoragePath": true
+  },
+  "limitations": "Deterministic post-fix checks; the original review-baseline.json is preserved. No model-quality claim is implied."
+}

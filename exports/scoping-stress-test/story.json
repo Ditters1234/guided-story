@@ -1,0 +1,3226 @@
+{
+  "origin": "generated",
+  "id": "64de4c99-f8e6-434d-b314-3b2ef3216b4b",
+  "title": "The Ninth Bell of Brasswater",
+  "premise": "In the tidal city of Brasswater, a municipal tide clock has lost its governor wheel hours before the storm gates must close. Captain Iris Vale and a divided salvage crew investigate from the docked airship Kestrel. Three competing institutions claim the missing wheel. The crew must establish who moved it, preserve evidence and keep ordinary life moving while a storm approaches. Travel takes time; messages and rumours do not move people or possessions. A name mentioned in conversation does not make its owner present.",
+  "revision": 0,
+  "createdAt": "2026-10-21T00:01:05.915Z",
+  "updatedAt": "2026-10-21T00:01:05.935Z",
+  "passages": [
+    {
+      "id": "passage-chartroom-1",
+      "chapter": 1,
+      "chapterTitle": "The Letter on the Chart Table",
+      "title": "Three People and an Unopened Letter",
+      "viewpoint": "Iris Vale",
+      "paragraphs": [
+        "Rain tapped the chart-room skylight. Iris set the damaged governor sketch between Tamsin and Ren. The engineer had come up from the engine room ten minutes earlier; the courier had been waiting beside the table. Beyond the closed door, a speaking tube carried the pilot’s request for a departure time. Iris left it unanswered.",
+        "“The notch is wrong,” Tamsin said, pointing to the pencil outline. “A wheel cut like that would bind before the third turn. Either the drawing is old, or someone has shown us the wrong part.”",
+        "Ren kept a sealed letter flat beneath his palm. “The registrar told me to deliver this directly. She did not tell me what it says.”",
+        "Iris recognised Mara Vale’s small, square handwriting on the envelope. Her sister was across the city at the Archive, not waiting somewhere aboard the ship. Iris could ask her about the drawing later. For now she had a sketch, a courier’s account and an unopened letter. She refused to treat any of them as proof of a theft.",
+        "“Keep the seal intact,” she said. “First, tell us exactly where you collected it.” Tamsin drew a clean sheet from the chart drawer and waited for his answer."
+      ],
+      "direction": "",
+      "endOfChapter": false,
+      "createdAt": "2026-10-21T00:01:05.915Z"
+    }
+  ],
+  "canon": {
+    "characters": [
+      {
+        "id": "iris",
+        "name": "Iris Vale",
+        "role": "Kestrel captain",
+        "appearance": "Age (actual age): 27\nGender: woman\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "chartroom",
+        "visual": {
+          "age": "27",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Short questions; lets silence do the arguing.",
+          "motives": "Keep the crew paid without surrendering evidence.",
+          "history": "Has worked as kestrel captain for 3 years."
+        },
+        "currentState": "Alert and trying not to accuse the wrong person.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "tamsin",
+        "name": "Tamsin Rook",
+        "role": "Kestrel engineer",
+        "appearance": "Age (actual age): 28\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "chartroom",
+        "visual": {
+          "age": "28",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Precise measurements and dry corrections.",
+          "motives": "Clear her maintenance work of suspicion.",
+          "history": "Has worked as kestrel engineer for 4 years."
+        },
+        "currentState": "Impatient to inspect the governor housing.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "ren",
+        "name": "Ren",
+        "role": "Kestrel courier",
+        "appearance": "Age (actual age): 29\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "chartroom",
+        "visual": {
+          "age": "29",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Fast, informal speech; jokes under pressure.",
+          "motives": "Deliver a sealed letter without breaking his promise.",
+          "history": "Has worked as kestrel courier for 5 years."
+        },
+        "currentState": "Worried that a witness will name him.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "mara",
+        "name": "Mara Vale",
+        "role": "Archive registrar",
+        "appearance": "Age (actual age): 30\nGender: man\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "reading",
+        "visual": {
+          "age": "30",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Formal citations and exact dates.",
+          "motives": "Protect the integrity of the municipal record.",
+          "history": "Has worked as archive registrar for 6 years."
+        },
+        "currentState": "Sorting flood-damaged catalogues; unaware of the chart-room discussion.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "orin",
+        "name": "Orin Pike",
+        "role": "Kestrel quartermaster",
+        "appearance": "Age (actual age): 31\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "hold",
+        "visual": {
+          "age": "31",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Counts aloud before agreeing to anything.",
+          "motives": "Keep bonded cargo separate from ship stores.",
+          "history": "Has worked as kestrel quartermaster for 7 years."
+        },
+        "currentState": "Auditing the cargo seals.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "leena",
+        "name": "Leena Moss",
+        "role": "Kestrel medic",
+        "appearance": "Age (actual age): 32\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "galley",
+        "visual": {
+          "age": "32",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Gentle instructions and direct follow-up questions.",
+          "motives": "Get replacement dressings before departure.",
+          "history": "Has worked as kestrel medic for 8 years."
+        },
+        "currentState": "Preparing tea while waiting for a clinic reply.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "sable",
+        "name": "Sable Chen",
+        "role": "Kestrel pilot",
+        "appearance": "Age (actual age): 33\nGender: woman\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "bridge",
+        "visual": {
+          "age": "33",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Low voice; nautical comparisons.",
+          "motives": "Make the evening departure window.",
+          "history": "Has worked as kestrel pilot for 9 years."
+        },
+        "currentState": "Watching the crosswind indicators.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "daro",
+        "name": "Daro Bell",
+        "role": "Kestrel cook",
+        "appearance": "Age (actual age): 34\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Weatherproof navy work jacket\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "galley",
+        "visual": {
+          "age": "34",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Expansive anecdotes interrupted by practical questions.",
+          "motives": "Feed the crew while keeping food accounts balanced.",
+          "history": "Has worked as kestrel cook for 10 years."
+        },
+        "currentState": "Annoyed by an unexplained flour shortage.",
+        "wardrobe": {
+          "upper_body": "Weatherproof navy work jacket",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "luca",
+        "name": "Luca Fen",
+        "role": "Dockmaster",
+        "appearance": "Age (actual age): 35\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "dockoffice",
+        "visual": {
+          "age": "35",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Complete sentences with no contractions.",
+          "motives": "Prevent an unlawful departure.",
+          "history": "Has worked as dockmaster for 3 years."
+        },
+        "currentState": "Reviewing an unsigned cargo entry.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "ines",
+        "name": "Ines Ward",
+        "role": "Customs inspector",
+        "appearance": "Age (actual age): 36\nGender: man\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "warehouse",
+        "visual": {
+          "age": "36",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Repeats the exact wording of a claim before challenging it.",
+          "motives": "Keep disputed freight in customs custody.",
+          "history": "Has worked as customs inspector for 4 years."
+        },
+        "currentState": "Suspicious of altered wax impressions.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "niko",
+        "name": "Niko Ash",
+        "role": "Pier rigger",
+        "appearance": "Age (actual age): 37\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "pier",
+        "visual": {
+          "age": "37",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Brief remarks and a habit of asking who benefits.",
+          "motives": "Finish the mooring inspection safely.",
+          "history": "Has worked as pier rigger for 5 years."
+        },
+        "currentState": "Checking a frayed line, not listening to the crew.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "vera",
+        "name": "Vera Flint",
+        "role": "Map-vault keeper",
+        "appearance": "Age (actual age): 38\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "vault",
+        "visual": {
+          "age": "38",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Quiet, deliberate speech with precise spatial directions.",
+          "motives": "Recover a missing catalogue sleeve.",
+          "history": "Has worked as map-vault keeper for 6 years."
+        },
+        "currentState": "Counting returned folios.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "pavel",
+        "name": "Pavel Orr",
+        "role": "Archive roof messenger",
+        "appearance": "Age (actual age): 39\nGender: woman\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "roof",
+        "visual": {
+          "age": "39",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Clipped signal codes followed by plain explanations.",
+          "motives": "Keep the signalling line open through the storm.",
+          "history": "Has worked as archive roof messenger for 7 years."
+        },
+        "currentState": "Waiting for a reply from the Observatory.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "ada",
+        "name": "Ada Quill",
+        "role": "Clinic physician",
+        "appearance": "Age (actual age): 40\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "ward",
+        "visual": {
+          "age": "40",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Calm statements of what is known and what is uncertain.",
+          "motives": "Protect patients from disruption.",
+          "history": "Has worked as clinic physician for 8 years."
+        },
+        "currentState": "Finishing a routine examination.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "bex",
+        "name": "Bex Rowan",
+        "role": "Clinic pharmacist",
+        "appearance": "Age (actual age): 41\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "pharmacy",
+        "visual": {
+          "age": "41",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Sceptical questions; exact quantities.",
+          "motives": "Balance the medicine ledger.",
+          "history": "Has worked as clinic pharmacist for 9 years."
+        },
+        "currentState": "Comparing two ordinary supply invoices.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "soren",
+        "name": "Soren Vale",
+        "role": "Tea-house proprietor",
+        "appearance": "Age (actual age): 42\nGender: man\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "tea",
+        "visual": {
+          "age": "42",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Warm greetings; carefully avoids promises.",
+          "motives": "Keep clients from turning the tea house into a battlefield.",
+          "history": "Has worked as tea-house proprietor for 10 years."
+        },
+        "currentState": "Preparing a private booth.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "neris",
+        "name": "Neris Coil",
+        "role": "Independent mechanic",
+        "appearance": "Age (actual age): 43\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "workshop",
+        "visual": {
+          "age": "43",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Explains mechanisms through everyday analogies.",
+          "motives": "Get paid for an honest repair.",
+          "history": "Has worked as independent mechanic for 3 years."
+        },
+        "currentState": "Waiting for a replacement spring.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "jo",
+        "name": "Jo",
+        "role": "Market errand runner",
+        "appearance": "Age (actual age): 44\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "market",
+        "visual": {
+          "age": "44",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Quick yes-or-no answers, then unexpected detail.",
+          "motives": "Earn enough for a ferry ticket.",
+          "history": "Has worked as market errand runner for 4 years."
+        },
+        "currentState": "Watching the message board.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "evelyn",
+        "name": "Evelyn March",
+        "role": "Stormgate superintendent",
+        "appearance": "Age (actual age): 45\nGender: woman\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "control",
+        "visual": {
+          "age": "45",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Commands shaped as clear sequences.",
+          "motives": "Close the gates on schedule without flooding the docks.",
+          "history": "Has worked as stormgate superintendent for 5 years."
+        },
+        "currentState": "Reviewing a delayed weather signal.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "quentin",
+        "name": "Quentin Rook",
+        "role": "Councillor",
+        "appearance": "Age (actual age): 46\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "chamber",
+        "visual": {
+          "age": "46",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Polished rhetoric and indirect requests.",
+          "motives": "Avoid being blamed for the missing governor.",
+          "history": "Has worked as councillor for 6 years."
+        },
+        "currentState": "Drafting a statement; has no knowledge of Tamsin’s current actions.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "liora",
+        "name": "Liora Sen",
+        "role": "Weather observer",
+        "appearance": "Age (actual age): 47\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "lens",
+        "visual": {
+          "age": "47",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Observations first, conclusions second.",
+          "motives": "Publish an accurate storm forecast.",
+          "history": "Has worked as weather observer for 7 years."
+        },
+        "currentState": "Rechecking an anomalous pressure reading.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "tem",
+        "name": "Tem Glass",
+        "role": "Observatory gardener",
+        "appearance": "Age (actual age): 48\nGender: man\nSpecies / form: human\nHair: grey-streaked black hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "garden",
+        "visual": {
+          "age": "48",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "grey-streaked black hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Unhurried speech and plant metaphors.",
+          "motives": "Secure fragile instruments before the wind rises.",
+          "history": "Has worked as observatory gardener for 8 years."
+        },
+        "currentState": "Tying down a rain gauge.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "rhea",
+        "name": "Rhea Pike",
+        "role": "Ferry operator",
+        "appearance": "Age (actual age): 49\nGender: woman\nSpecies / form: human\nHair: brown hair\nEyes: grey\nDistinctive features: ink-stained fingertips",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "ferry",
+        "visual": {
+          "age": "49",
+          "apparentAge": "",
+          "gender": "woman",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "grey",
+          "distinctive": "ink-stained fingertips"
+        },
+        "persona": {
+          "personality": "Practical, attentive to contradictions.",
+          "voice": "Practical questions about destinations and fares.",
+          "motives": "Complete the last safe crossing.",
+          "history": "Has worked as ferry operator for 9 years."
+        },
+        "currentState": "Counting passengers on the landing.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "oskar",
+        "name": "Oskar Reed",
+        "role": "Lighthouse keeper",
+        "appearance": "Age (actual age): 50\nGender: man\nSpecies / form: human\nHair: brown hair\nEyes: brown\nDistinctive features: small scar on the left knuckle",
+        "notes": "Established professional role; no secret knowledge is implied by this record.",
+        "outfit": "Upper-body clothing: Charcoal wool coat\nLower-body clothing: Plain dark trousers\nFootwear: Worn leather boots\nWorn accessories: A simple brass service badge",
+        "locationId": "lighthouse",
+        "visual": {
+          "age": "50",
+          "apparentAge": "",
+          "gender": "man",
+          "presentation": "",
+          "species": "human",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "brown hair",
+          "eyes": "brown",
+          "distinctive": "small scar on the left knuckle"
+        },
+        "persona": {
+          "personality": "Observant, cautious about commitments.",
+          "voice": "Slow radio diction; always repeats coordinates.",
+          "motives": "Keep the island signal visible.",
+          "history": "Has worked as lighthouse keeper for 10 years."
+        },
+        "currentState": "Repairing a lamp shutter two hours from the city.",
+        "wardrobe": {
+          "upper_body": "Charcoal wool coat",
+          "lower_body": "Plain dark trousers",
+          "footwear": "Worn leather boots",
+          "accessories": "A simple brass service badge"
+        },
+        "injuries": "",
+        "appearanceNotes": "",
+        "outfitNotes": "",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      }
+    ],
+    "places": [
+      {
+        "id": "brasswater",
+        "name": "Brasswater",
+        "description": "A tidal city linked by bridges and ferries.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": null
+      },
+      {
+        "id": "docks",
+        "name": "Lower Docks",
+        "description": "The working waterfront; transit to the Archive takes twenty minutes.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "kestrel",
+        "name": "Airship Kestrel",
+        "description": "Docked salvage airship. Ship-owned stores are separate from crew possessions.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "docks"
+      },
+      {
+        "id": "chartroom",
+        "name": "Kestrel Chart Room",
+        "description": "A small table, speaking tube and tide charts; the current scene location.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "kestrel"
+      },
+      {
+        "id": "bridge",
+        "name": "Kestrel Bridge",
+        "description": "Flight instruments and a locked helm; one deck above the chart room.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "kestrel"
+      },
+      {
+        "id": "engine",
+        "name": "Kestrel Engine Room",
+        "description": "Two idle engines and a service bench.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "kestrel"
+      },
+      {
+        "id": "hold",
+        "name": "Kestrel Cargo Hold",
+        "description": "Secured freight bays below the crew deck.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "kestrel"
+      },
+      {
+        "id": "locker",
+        "name": "Kestrel Supply Locker",
+        "description": "Numbered drawers inside the cargo hold.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "hold"
+      },
+      {
+        "id": "galley",
+        "name": "Kestrel Galley",
+        "description": "A kettle, shared table and dry food bins.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "kestrel"
+      },
+      {
+        "id": "cabins",
+        "name": "Kestrel Crew Cabins",
+        "description": "Separate berths reached by a narrow passage.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "kestrel"
+      },
+      {
+        "id": "dockoffice",
+        "name": "Dockmaster Office",
+        "description": "Manifests are signed here; records never automatically follow visitors.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "docks"
+      },
+      {
+        "id": "warehouse",
+        "name": "Bonded Warehouse",
+        "description": "Customs storage beside the mooring tower.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "docks"
+      },
+      {
+        "id": "pier",
+        "name": "North Pier",
+        "description": "Open waterfront beneath the Kestrel mooring.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "docks"
+      },
+      {
+        "id": "archive",
+        "name": "Municipal Archive",
+        "description": "Public record institution across the city.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "reading",
+        "name": "Archive Reading Room",
+        "description": "Supervised desks and catalogue drawers.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "archive"
+      },
+      {
+        "id": "vault",
+        "name": "Archive Map Vault",
+        "description": "Restricted shelves behind a mechanical lock.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "archive"
+      },
+      {
+        "id": "roof",
+        "name": "Archive Roof",
+        "description": "A signalling platform reached by stairs.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "archive"
+      },
+      {
+        "id": "clinic",
+        "name": "Saint Orin Clinic",
+        "description": "A district hospital with an independent stockroom.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "ward",
+        "name": "Clinic Ward",
+        "description": "Six beds and a treatment desk.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "clinic"
+      },
+      {
+        "id": "pharmacy",
+        "name": "Clinic Pharmacy",
+        "description": "Locked medicine cupboards; unrelated to the salvage investigation.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "clinic"
+      },
+      {
+        "id": "market",
+        "name": "Lantern Market",
+        "description": "Crowded stalls and a public message board.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "tea",
+        "name": "Copper Cup Tea House",
+        "description": "A meeting place with a screened private booth.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "market"
+      },
+      {
+        "id": "workshop",
+        "name": "Neris Repair Shop",
+        "description": "A civilian repair business, not the Kestrel engine room.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "market"
+      },
+      {
+        "id": "hall",
+        "name": "Stormgate Hall",
+        "description": "Municipal gate-control offices.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "control",
+        "name": "Stormgate Control Room",
+        "description": "The gate timetable is posted beside manual levers.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "hall"
+      },
+      {
+        "id": "chamber",
+        "name": "Council Chamber",
+        "description": "Public hearings take place here.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "hall"
+      },
+      {
+        "id": "observatory",
+        "name": "East Observatory",
+        "description": "An independent weather station.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "lens",
+        "name": "Observatory Lens Room",
+        "description": "A telescope platform under a copper dome.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "observatory"
+      },
+      {
+        "id": "garden",
+        "name": "Observatory Garden",
+        "description": "Weather instruments surround a sheltered courtyard.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "observatory"
+      },
+      {
+        "id": "canal",
+        "name": "Old Canal",
+        "description": "An open-water route; a ferry crossing takes ten minutes.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "brasswater"
+      },
+      {
+        "id": "ferry",
+        "name": "Canal Ferry Landing",
+        "description": "A ticket kiosk and a public gangway.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "canal"
+      },
+      {
+        "id": "island",
+        "name": "Reed Island",
+        "description": "A separate settlement two hours away by boat.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": null
+      },
+      {
+        "id": "lighthouse",
+        "name": "Reed Lighthouse",
+        "description": "An isolated signal station, outside city scenes.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "island"
+      },
+      {
+        "id": "islandstore",
+        "name": "Reed Storehouse",
+        "description": "Island supplies; never part of ship inventory.",
+        "visualDescription": "Weathered brass fittings, painted timber and rain-dark stone.",
+        "parentId": "island"
+      }
+    ],
+    "items": [
+      {
+        "id": "iris-bag",
+        "name": "Iris Vale’s satchel",
+        "description": "Personal storage belonging to Iris Vale.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "iris-notebook",
+        "name": "Iris Vale’s notebook",
+        "description": "Routine notes about the work of the kestrel captain; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "iris-ration",
+        "name": "Iris Vale’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "iris-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "iris-badge",
+        "name": "Iris Vale’s service badge",
+        "description": "Identifies Iris Vale; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "tamsin-bag",
+        "name": "Tamsin Rook’s satchel",
+        "description": "Personal storage belonging to Tamsin Rook.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tamsin",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "tamsin-notebook",
+        "name": "Tamsin Rook’s notebook",
+        "description": "Routine notes about the work of the kestrel engineer; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tamsin-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tamsin-ration",
+        "name": "Tamsin Rook’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "tamsin-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tamsin-badge",
+        "name": "Tamsin Rook’s service badge",
+        "description": "Identifies Tamsin Rook; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tamsin",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "ren-bag",
+        "name": "Ren’s satchel",
+        "description": "Personal storage belonging to Ren.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ren",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "ren-notebook",
+        "name": "Ren’s notebook",
+        "description": "Routine notes about the work of the kestrel courier; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ren-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ren-ration",
+        "name": "Ren’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "ren-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ren-badge",
+        "name": "Ren’s service badge",
+        "description": "Identifies Ren; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ren",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "mara-bag",
+        "name": "Mara Vale’s satchel",
+        "description": "Personal storage belonging to Mara Vale.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "mara",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "mara-notebook",
+        "name": "Mara Vale’s notebook",
+        "description": "Routine notes about the work of the archive registrar; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "mara-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "mara-ration",
+        "name": "Mara Vale’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "mara-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "mara-badge",
+        "name": "Mara Vale’s service badge",
+        "description": "Identifies Mara Vale; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "mara",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "orin-bag",
+        "name": "Orin Pike’s satchel",
+        "description": "Personal storage belonging to Orin Pike.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "orin",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "orin-notebook",
+        "name": "Orin Pike’s notebook",
+        "description": "Routine notes about the work of the kestrel quartermaster; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "orin-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "orin-ration",
+        "name": "Orin Pike’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "orin-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "orin-badge",
+        "name": "Orin Pike’s service badge",
+        "description": "Identifies Orin Pike; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "orin",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "leena-bag",
+        "name": "Leena Moss’s satchel",
+        "description": "Personal storage belonging to Leena Moss.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "leena",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "leena-notebook",
+        "name": "Leena Moss’s notebook",
+        "description": "Routine notes about the work of the kestrel medic; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "leena-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "leena-ration",
+        "name": "Leena Moss’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "leena-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "leena-badge",
+        "name": "Leena Moss’s service badge",
+        "description": "Identifies Leena Moss; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "leena",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "sable-bag",
+        "name": "Sable Chen’s satchel",
+        "description": "Personal storage belonging to Sable Chen.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "sable",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "sable-notebook",
+        "name": "Sable Chen’s notebook",
+        "description": "Routine notes about the work of the kestrel pilot; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "sable-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "sable-ration",
+        "name": "Sable Chen’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "sable-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "sable-badge",
+        "name": "Sable Chen’s service badge",
+        "description": "Identifies Sable Chen; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "sable",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "daro-bag",
+        "name": "Daro Bell’s satchel",
+        "description": "Personal storage belonging to Daro Bell.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "daro",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "daro-notebook",
+        "name": "Daro Bell’s notebook",
+        "description": "Routine notes about the work of the kestrel cook; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "daro-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "daro-ration",
+        "name": "Daro Bell’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "daro-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "daro-badge",
+        "name": "Daro Bell’s service badge",
+        "description": "Identifies Daro Bell; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "daro",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "luca-bag",
+        "name": "Luca Fen’s satchel",
+        "description": "Personal storage belonging to Luca Fen.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "luca",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "luca-notebook",
+        "name": "Luca Fen’s notebook",
+        "description": "Routine notes about the work of the dockmaster; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "luca-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "luca-ration",
+        "name": "Luca Fen’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "luca-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "luca-badge",
+        "name": "Luca Fen’s service badge",
+        "description": "Identifies Luca Fen; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "luca",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "ines-bag",
+        "name": "Ines Ward’s satchel",
+        "description": "Personal storage belonging to Ines Ward.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ines",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "ines-notebook",
+        "name": "Ines Ward’s notebook",
+        "description": "Routine notes about the work of the customs inspector; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ines-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ines-ration",
+        "name": "Ines Ward’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "ines-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ines-badge",
+        "name": "Ines Ward’s service badge",
+        "description": "Identifies Ines Ward; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ines",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "niko-bag",
+        "name": "Niko Ash’s satchel",
+        "description": "Personal storage belonging to Niko Ash.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "niko",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "niko-notebook",
+        "name": "Niko Ash’s notebook",
+        "description": "Routine notes about the work of the pier rigger; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "niko-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "niko-ration",
+        "name": "Niko Ash’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "niko-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "niko-badge",
+        "name": "Niko Ash’s service badge",
+        "description": "Identifies Niko Ash; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "niko",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "vera-bag",
+        "name": "Vera Flint’s satchel",
+        "description": "Personal storage belonging to Vera Flint.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "vera",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "vera-notebook",
+        "name": "Vera Flint’s notebook",
+        "description": "Routine notes about the work of the map-vault keeper; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "vera-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "vera-ration",
+        "name": "Vera Flint’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "vera-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "vera-badge",
+        "name": "Vera Flint’s service badge",
+        "description": "Identifies Vera Flint; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "vera",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "pavel-bag",
+        "name": "Pavel Orr’s satchel",
+        "description": "Personal storage belonging to Pavel Orr.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "pavel",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "pavel-notebook",
+        "name": "Pavel Orr’s notebook",
+        "description": "Routine notes about the work of the archive roof messenger; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "pavel-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "pavel-ration",
+        "name": "Pavel Orr’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "pavel-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "pavel-badge",
+        "name": "Pavel Orr’s service badge",
+        "description": "Identifies Pavel Orr; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "pavel",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "ada-bag",
+        "name": "Ada Quill’s satchel",
+        "description": "Personal storage belonging to Ada Quill.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ada",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "ada-notebook",
+        "name": "Ada Quill’s notebook",
+        "description": "Routine notes about the work of the clinic physician; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ada-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ada-ration",
+        "name": "Ada Quill’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "ada-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ada-badge",
+        "name": "Ada Quill’s service badge",
+        "description": "Identifies Ada Quill; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ada",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "bex-bag",
+        "name": "Bex Rowan’s satchel",
+        "description": "Personal storage belonging to Bex Rowan.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "bex",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "bex-notebook",
+        "name": "Bex Rowan’s notebook",
+        "description": "Routine notes about the work of the clinic pharmacist; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "bex-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "bex-ration",
+        "name": "Bex Rowan’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "bex-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "bex-badge",
+        "name": "Bex Rowan’s service badge",
+        "description": "Identifies Bex Rowan; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "bex",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "soren-bag",
+        "name": "Soren Vale’s satchel",
+        "description": "Personal storage belonging to Soren Vale.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "soren",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "soren-notebook",
+        "name": "Soren Vale’s notebook",
+        "description": "Routine notes about the work of the tea-house proprietor; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "soren-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "soren-ration",
+        "name": "Soren Vale’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "soren-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "soren-badge",
+        "name": "Soren Vale’s service badge",
+        "description": "Identifies Soren Vale; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "soren",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "neris-bag",
+        "name": "Neris Coil’s satchel",
+        "description": "Personal storage belonging to Neris Coil.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "neris",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "neris-notebook",
+        "name": "Neris Coil’s notebook",
+        "description": "Routine notes about the work of the independent mechanic; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "neris-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "neris-ration",
+        "name": "Neris Coil’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "neris-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "neris-badge",
+        "name": "Neris Coil’s service badge",
+        "description": "Identifies Neris Coil; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "neris",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "jo-bag",
+        "name": "Jo’s satchel",
+        "description": "Personal storage belonging to Jo.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "jo",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "jo-notebook",
+        "name": "Jo’s notebook",
+        "description": "Routine notes about the work of the market errand runner; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "jo-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "jo-ration",
+        "name": "Jo’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "jo-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "jo-badge",
+        "name": "Jo’s service badge",
+        "description": "Identifies Jo; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "jo",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "evelyn-bag",
+        "name": "Evelyn March’s satchel",
+        "description": "Personal storage belonging to Evelyn March.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "evelyn",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "evelyn-notebook",
+        "name": "Evelyn March’s notebook",
+        "description": "Routine notes about the work of the stormgate superintendent; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "evelyn-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "evelyn-ration",
+        "name": "Evelyn March’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "evelyn-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "evelyn-badge",
+        "name": "Evelyn March’s service badge",
+        "description": "Identifies Evelyn March; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "evelyn",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "quentin-bag",
+        "name": "Quentin Rook’s satchel",
+        "description": "Personal storage belonging to Quentin Rook.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "quentin",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "quentin-notebook",
+        "name": "Quentin Rook’s notebook",
+        "description": "Routine notes about the work of the councillor; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "quentin-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "quentin-ration",
+        "name": "Quentin Rook’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "quentin-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "quentin-badge",
+        "name": "Quentin Rook’s service badge",
+        "description": "Identifies Quentin Rook; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "quentin",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "liora-bag",
+        "name": "Liora Sen’s satchel",
+        "description": "Personal storage belonging to Liora Sen.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "liora",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "liora-notebook",
+        "name": "Liora Sen’s notebook",
+        "description": "Routine notes about the work of the weather observer; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "liora-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "liora-ration",
+        "name": "Liora Sen’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "liora-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "liora-badge",
+        "name": "Liora Sen’s service badge",
+        "description": "Identifies Liora Sen; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "liora",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "tem-bag",
+        "name": "Tem Glass’s satchel",
+        "description": "Personal storage belonging to Tem Glass.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tem",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "tem-notebook",
+        "name": "Tem Glass’s notebook",
+        "description": "Routine notes about the work of the observatory gardener; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tem-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tem-ration",
+        "name": "Tem Glass’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "tem-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tem-badge",
+        "name": "Tem Glass’s service badge",
+        "description": "Identifies Tem Glass; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tem",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "rhea-bag",
+        "name": "Rhea Pike’s satchel",
+        "description": "Personal storage belonging to Rhea Pike.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "rhea",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "rhea-notebook",
+        "name": "Rhea Pike’s notebook",
+        "description": "Routine notes about the work of the ferry operator; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "rhea-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "rhea-ration",
+        "name": "Rhea Pike’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "rhea-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "rhea-badge",
+        "name": "Rhea Pike’s service badge",
+        "description": "Identifies Rhea Pike; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "rhea",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "oskar-bag",
+        "name": "Oskar Reed’s satchel",
+        "description": "Personal storage belonging to Oskar Reed.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "oskar",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "oskar-notebook",
+        "name": "Oskar Reed’s notebook",
+        "description": "Routine notes about the work of the lighthouse keeper; not a clue unless explicitly read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "oskar-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "oskar-ration",
+        "name": "Oskar Reed’s oat biscuits",
+        "description": "An ordinary sealed packet of food.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "oskar-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "oskar-badge",
+        "name": "Oskar Reed’s service badge",
+        "description": "Identifies Oskar Reed; grants no universal access.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "oskar",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "iris-wallet",
+        "name": "Captain’s document wallet",
+        "description": "An inner document wallet.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris-bag",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "iris-ferry-ticket",
+        "name": "Unused ferry ticket",
+        "description": "One unused crossing ticket.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris-wallet",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "iris-receipt",
+        "name": "Boot repair receipt",
+        "description": "An irrelevant receipt stamped with a cobalt narwhal.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris-wallet",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "chart-key",
+        "name": "Chart cabinet key",
+        "description": "Opens only the chart-room cabinet.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "iris",
+        "equipped": true,
+        "isContainer": false
+      },
+      {
+        "id": "tamsin-tools",
+        "name": "Engineer’s roll",
+        "description": "A rolled tool container.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tamsin-bag",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "tamsin-probe",
+        "name": "Calibrated brass probe",
+        "description": "A narrow diagnostic probe.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tamsin-tools",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tamsin-washers",
+        "name": "Spare copper washers",
+        "description": "Routine consumable washers.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 12,
+        "ownerId": "tamsin-tools",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ren-letter",
+        "name": "Sealed registrar’s letter",
+        "description": "Addressed to the captain; its contents have not been read.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ren",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ren-cord",
+        "name": "Blue parcel cord",
+        "description": "Ordinary parcel cord; not established as evidence.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "ren-bag",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-1",
+        "name": "Bonded freight crate 1",
+        "description": "Sealed freight; seal number BW-411.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "hold",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "freight-1-lot-1",
+        "name": "Freight 1 / component lot 1",
+        "description": "Routine pump component lot; batch 11.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 2,
+        "ownerId": "freight-1",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-1-lot-2",
+        "name": "Freight 1 / component lot 2",
+        "description": "Routine pump component lot; batch 12.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "freight-1",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-1-lot-3",
+        "name": "Freight 1 / component lot 3",
+        "description": "Routine pump component lot; batch 13.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 4,
+        "ownerId": "freight-1",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-1-lot-4",
+        "name": "Freight 1 / component lot 4",
+        "description": "Routine pump component lot; batch 14.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "freight-1",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-1-lot-5",
+        "name": "Freight 1 / component lot 5",
+        "description": "Routine pump component lot; batch 15.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "freight-1",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-1-lot-6",
+        "name": "Freight 1 / component lot 6",
+        "description": "Routine pump component lot; batch 16.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 7,
+        "ownerId": "freight-1",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-2",
+        "name": "Bonded freight crate 2",
+        "description": "Sealed freight; seal number BW-412.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "hold",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "freight-2-lot-1",
+        "name": "Freight 2 / component lot 1",
+        "description": "Routine pump component lot; batch 21.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 2,
+        "ownerId": "freight-2",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-2-lot-2",
+        "name": "Freight 2 / component lot 2",
+        "description": "Routine pump component lot; batch 22.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "freight-2",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-2-lot-3",
+        "name": "Freight 2 / component lot 3",
+        "description": "Routine pump component lot; batch 23.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 4,
+        "ownerId": "freight-2",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-2-lot-4",
+        "name": "Freight 2 / component lot 4",
+        "description": "Routine pump component lot; batch 24.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "freight-2",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-2-lot-5",
+        "name": "Freight 2 / component lot 5",
+        "description": "Routine pump component lot; batch 25.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "freight-2",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-2-lot-6",
+        "name": "Freight 2 / component lot 6",
+        "description": "Routine pump component lot; batch 26.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 7,
+        "ownerId": "freight-2",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-3",
+        "name": "Bonded freight crate 3",
+        "description": "Sealed freight; seal number BW-413.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "hold",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "freight-3-lot-1",
+        "name": "Freight 3 / component lot 1",
+        "description": "Routine pump component lot; batch 31.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 2,
+        "ownerId": "freight-3",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-3-lot-2",
+        "name": "Freight 3 / component lot 2",
+        "description": "Routine pump component lot; batch 32.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "freight-3",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-3-lot-3",
+        "name": "Freight 3 / component lot 3",
+        "description": "Routine pump component lot; batch 33.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 4,
+        "ownerId": "freight-3",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-3-lot-4",
+        "name": "Freight 3 / component lot 4",
+        "description": "Routine pump component lot; batch 34.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "freight-3",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-3-lot-5",
+        "name": "Freight 3 / component lot 5",
+        "description": "Routine pump component lot; batch 35.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "freight-3",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "freight-3-lot-6",
+        "name": "Freight 3 / component lot 6",
+        "description": "Routine pump component lot; batch 36.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 7,
+        "ownerId": "freight-3",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-stores",
+        "name": "Kestrel reserve trunk",
+        "description": "Ship-owned reserve stores; not all contents matter in every room.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "kestrel",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "ship-spare-1",
+        "name": "Reserve fitting 1",
+        "description": "An unused standard fitting, shelf code K-1.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 3,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-2",
+        "name": "Reserve fitting 2",
+        "description": "An unused standard fitting, shelf code K-2.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 4,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-3",
+        "name": "Reserve fitting 3",
+        "description": "An unused standard fitting, shelf code K-3.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-4",
+        "name": "Reserve fitting 4",
+        "description": "An unused standard fitting, shelf code K-4.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-5",
+        "name": "Reserve fitting 5",
+        "description": "An unused standard fitting, shelf code K-5.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 7,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-6",
+        "name": "Reserve fitting 6",
+        "description": "An unused standard fitting, shelf code K-6.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 8,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-7",
+        "name": "Reserve fitting 7",
+        "description": "An unused standard fitting, shelf code K-7.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 9,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-8",
+        "name": "Reserve fitting 8",
+        "description": "An unused standard fitting, shelf code K-8.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 10,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-9",
+        "name": "Reserve fitting 9",
+        "description": "An unused standard fitting, shelf code K-9.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 11,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "ship-spare-10",
+        "name": "Reserve fitting 10",
+        "description": "An unused standard fitting, shelf code K-10.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 12,
+        "ownerId": "ship-stores",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "dockoffice-box",
+        "name": "Dockmaster Office supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "dockoffice",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "dockoffice-supply-1",
+        "name": "dockoffice stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "dockoffice-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "dockoffice-supply-2",
+        "name": "dockoffice stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "dockoffice-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "warehouse-box",
+        "name": "Bonded Warehouse supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "warehouse",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "warehouse-supply-1",
+        "name": "warehouse stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "warehouse-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "warehouse-supply-2",
+        "name": "warehouse stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "warehouse-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "reading-box",
+        "name": "Archive Reading Room supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "reading",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "reading-supply-1",
+        "name": "reading stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "reading-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "reading-supply-2",
+        "name": "reading stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "reading-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "vault-box",
+        "name": "Archive Map Vault supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "vault",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "vault-supply-1",
+        "name": "vault stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "vault-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "vault-supply-2",
+        "name": "vault stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "vault-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "pharmacy-box",
+        "name": "Clinic Pharmacy supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "pharmacy",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "pharmacy-supply-1",
+        "name": "pharmacy stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "pharmacy-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "pharmacy-supply-2",
+        "name": "pharmacy stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "pharmacy-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tea-box",
+        "name": "Copper Cup Tea House supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "tea",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "tea-supply-1",
+        "name": "tea stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "tea-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "tea-supply-2",
+        "name": "tea stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "tea-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "workshop-box",
+        "name": "Neris Repair Shop supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "workshop",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "workshop-supply-1",
+        "name": "workshop stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "workshop-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "workshop-supply-2",
+        "name": "workshop stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "workshop-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "control-box",
+        "name": "Stormgate Control Room supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "control",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "control-supply-1",
+        "name": "control stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "control-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "control-supply-2",
+        "name": "control stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "control-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "lens-box",
+        "name": "Observatory Lens Room supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "lens",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "lens-supply-1",
+        "name": "lens stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "lens-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "lens-supply-2",
+        "name": "lens stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "lens-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "islandstore-box",
+        "name": "Reed Storehouse supply box",
+        "description": "Local supplies that remain here.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "islandstore",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "islandstore-supply-1",
+        "name": "islandstore stock packet 1",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 5,
+        "ownerId": "islandstore-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "islandstore-supply-2",
+        "name": "islandstore stock packet 2",
+        "description": "Routine local consumables; unrelated to the current scene.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 6,
+        "ownerId": "islandstore-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "governor-wheel",
+        "name": "Missing tide governor wheel",
+        "description": "The world record locates the wheel here; the current viewpoint has not learned this. Do not infer viewpoint knowledge from canonical location.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "islandstore",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "clinic-amber-vial",
+        "name": "Amber glass vial",
+        "description": "An ordinary pharmacy container; an off-scene relevance marker.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "pharmacy-box",
+        "equipped": false,
+        "isContainer": false
+      },
+      {
+        "id": "archive-counterweight",
+        "name": "Blue enamel counterweight",
+        "description": "A vault balance weight; not a tide governor.",
+        "visualDescription": "Small practical object with a legible stamped inventory number.",
+        "quantity": 1,
+        "ownerId": "vault-box",
+        "equipped": false,
+        "isContainer": false
+      }
+    ],
+    "relationships": [
+      {
+        "id": "relationship-1",
+        "fromId": "iris",
+        "toId": "tamsin",
+        "notes": "Trusts her engineering judgement; disagrees about financial risk."
+      },
+      {
+        "id": "relationship-2",
+        "fromId": "tamsin",
+        "toId": "iris",
+        "notes": "Respects the captain but wants authority to inspect the damaged mechanism."
+      },
+      {
+        "id": "relationship-3",
+        "fromId": "iris",
+        "toId": "ren",
+        "notes": "Employs him as courier; has not heard the contents of his letter."
+      },
+      {
+        "id": "relationship-4",
+        "fromId": "ren",
+        "toId": "iris",
+        "notes": "Wants to honour his delivery promise before answering questions."
+      },
+      {
+        "id": "relationship-5",
+        "fromId": "iris",
+        "toId": "mara",
+        "notes": "Sisters who exchange occasional letters; Mara is not aboard."
+      },
+      {
+        "id": "relationship-6",
+        "fromId": "mara",
+        "toId": "iris",
+        "notes": "Trusts her sister to keep written evidence intact."
+      },
+      {
+        "id": "relationship-7",
+        "fromId": "iris",
+        "toId": "soren",
+        "notes": "Unrelated people sharing a surname; acquaintances through dock trade."
+      },
+      {
+        "id": "relationship-8",
+        "fromId": "tamsin",
+        "toId": "quentin",
+        "notes": "Estranged cousins; current intentions are not shared."
+      },
+      {
+        "id": "relationship-9",
+        "fromId": "quentin",
+        "toId": "tamsin",
+        "notes": "Worries that a public inquiry will implicate the family."
+      },
+      {
+        "id": "relationship-10",
+        "fromId": "orin",
+        "toId": "rhea",
+        "notes": "Siblings with separate jobs and separate possessions."
+      },
+      {
+        "id": "relationship-11",
+        "fromId": "leena",
+        "toId": "ada",
+        "notes": "Professional colleagues who share medical updates when contacted."
+      },
+      {
+        "id": "relationship-12",
+        "fromId": "ada",
+        "toId": "bex",
+        "notes": "Relies on her stock counts."
+      },
+      {
+        "id": "relationship-13",
+        "fromId": "mara",
+        "toId": "vera",
+        "notes": "Registrar and vault keeper; formal chain of custody."
+      },
+      {
+        "id": "relationship-14",
+        "fromId": "pavel",
+        "toId": "liora",
+        "notes": "Communicate by roof signal; delivery can be delayed."
+      },
+      {
+        "id": "relationship-15",
+        "fromId": "luca",
+        "toId": "ines",
+        "notes": "Overlapping authority; each requires separate signatures."
+      },
+      {
+        "id": "relationship-16",
+        "fromId": "sable",
+        "toId": "niko",
+        "notes": "Coordinate departure and mooring safety."
+      },
+      {
+        "id": "relationship-17",
+        "fromId": "daro",
+        "toId": "jo",
+        "notes": "Occasional paid market errands."
+      },
+      {
+        "id": "relationship-18",
+        "fromId": "neris",
+        "toId": "tamsin",
+        "notes": "Friendly rivals; no automatic knowledge sharing."
+      },
+      {
+        "id": "relationship-19",
+        "fromId": "tem",
+        "toId": "liora",
+        "notes": "Maintains the outdoor instruments she reads."
+      },
+      {
+        "id": "relationship-20",
+        "fromId": "rhea",
+        "toId": "oskar",
+        "notes": "Carries island supplies only on scheduled crossings."
+      }
+    ],
+    "threads": [
+      {
+        "id": "thread-wheel",
+        "title": "The missing governor",
+        "notes": "Determine how the tide governor left municipal custody.",
+        "status": "open"
+      },
+      {
+        "id": "thread-letter",
+        "title": "The sealed letter",
+        "notes": "Ren must deliver the registrar’s sealed letter; contents remain unknown.",
+        "status": "open"
+      },
+      {
+        "id": "thread-storm",
+        "title": "The gate deadline",
+        "notes": "The storm gates must close before the evening surge.",
+        "status": "open"
+      },
+      {
+        "id": "thread-seals",
+        "title": "Altered cargo seals",
+        "notes": "Customs has questioned one freight impression; no culprit established.",
+        "status": "open"
+      },
+      {
+        "id": "thread-catalogue",
+        "title": "The missing catalogue sleeve",
+        "notes": "The map vault has an unaccounted sleeve.",
+        "status": "open"
+      },
+      {
+        "id": "thread-forecast",
+        "title": "The delayed forecast",
+        "notes": "The gate office awaits an Observatory signal.",
+        "status": "open"
+      },
+      {
+        "id": "thread-flour",
+        "title": "The galley shortage",
+        "notes": "Daro’s flour count is short; no theft has been established.",
+        "status": "open"
+      },
+      {
+        "id": "thread-lamp",
+        "title": "The island lamp",
+        "notes": "Oskar needs a shutter repair before dark.",
+        "status": "open"
+      }
+    ],
+    "funds": 684,
+    "cargoNotes": "Three sealed freight crates remain in the Kestrel hold. Shared operating funds are 684 crowns; personal money is not shared money."
+  },
+  "recovery": null,
+  "narrationStyle": "Close third person, past tense. Clear physical staging, distinct voices, restrained description and grounded causality.",
+  "artStyle": "Painterly brass-and-timber maritime fantasy; overcast daylight.",
+  "adultContent": false,
+  "preferences": {
+    "tense": "past",
+    "person": "third-limited",
+    "passageWords": 600,
+    "chapterWords": 3000,
+    "writingGuide": "Keep the scene focused on the people physically present. Mention background facts only when they affect an immediate action or decision.",
+    "contentNotes": ""
+  },
+  "recap": null,
+  "summaryCache": [],
+  "context": {
+    "sceneBrief": {
+      "purpose": "Compare the damaged governor sketch with the courier’s account without opening the sealed letter.",
+      "tension": "The crew must distinguish a witness report from a proven fact.",
+      "stopAt": "A decision about the next interview; nobody travels or opens the letter yet.",
+      "viewpointId": "iris",
+      "locationId": "chartroom",
+      "castIds": [
+        "iris",
+        "tamsin",
+        "ren"
+      ],
+      "scope": "current-scene",
+      "clearAfterPassage": false
+    },
+    "lore": [
+      {
+        "id": "lore-transit",
+        "title": "Transit and communication",
+        "text": "The Kestrel is docked. City districts require travel. A radio or written message conveys only its stated content. Physical possessions remain with their recorded owner or container until an evidenced transfer.",
+        "keywords": [
+          "travel",
+          "message",
+          "ferry"
+        ],
+        "relatedIds": [],
+        "visibility": "always"
+      },
+      {
+        "id": "lore-archive",
+        "title": "Archive custody",
+        "text": "Catalogue sleeves travel separately from original maps. A keeper signs every removal.",
+        "keywords": [
+          "catalogue",
+          "vault"
+        ],
+        "relatedIds": [
+          "archive",
+          "mara",
+          "vera"
+        ],
+        "visibility": "relevant"
+      },
+      {
+        "id": "lore-clinic",
+        "title": "Clinic routine",
+        "text": "Ordinary amber vials are counted every morning; they have no established connection to the missing mechanism.",
+        "keywords": [
+          "clinic",
+          "pharmacy"
+        ],
+        "relatedIds": [
+          "clinic",
+          "bex"
+        ],
+        "visibility": "relevant"
+      },
+      {
+        "id": "lore-hidden",
+        "title": "Unrevealed island lead",
+        "text": "A hidden planning possibility: the island shipment may connect the governor to an old flood inquiry. This is not established history. Hidden marker: violet albatross.",
+        "keywords": [
+          "island",
+          "governor"
+        ],
+        "relatedIds": [
+          "islandstore"
+        ],
+        "visibility": "hidden"
+      }
+    ],
+    "knowledge": [],
+    "memories": [],
+    "compaction": {
+      "epoch": 0,
+      "chapters": [],
+      "book": null
+    }
+  },
+  "media": {
+    "assets": [],
+    "portraits": {},
+    "references": {}
+  },
+  "factPins": {
+    "fields": [
+      {
+        "kind": "character",
+        "recordId": "iris",
+        "field": "visual.age"
+      },
+      {
+        "kind": "item",
+        "recordId": "chart-key",
+        "field": "name"
+      }
+    ],
+    "rules": [
+      {
+        "id": "rule-transit",
+        "text": "Characters and objects do not teleport. Mentioning an absent person does not make them present or grant them knowledge."
+      }
+    ]
+  }
+}

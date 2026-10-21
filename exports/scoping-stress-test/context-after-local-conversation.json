@@ -1,0 +1,2679 @@
+{
+  "storyId": "64de4c99-f8e6-434d-b314-3b2ef3216b4b",
+  "revision": 0,
+  "runnable": true,
+  "inputBytes": 17286,
+  "inputTokens": 9958,
+  "inputBudget": 26752,
+  "contextTokens": 32000,
+  "reservedOutput": 4096,
+  "overheadTokens": 1024,
+  "sources": [
+    {
+      "id": "instructions",
+      "kind": "instructions",
+      "title": "Narrator contract",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 1055,
+      "tokens": 517,
+      "required": true
+    },
+    {
+      "id": "premise",
+      "kind": "story",
+      "title": "Premise and narration style",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 743,
+      "tokens": 380,
+      "required": true
+    },
+    {
+      "id": "brief",
+      "kind": "planning",
+      "title": "Current scene brief (future direction, not history)",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 503,
+      "tokens": 294,
+      "required": true
+    },
+    {
+      "id": "direction",
+      "kind": "direction",
+      "title": "Reader direction",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 169,
+      "tokens": 87,
+      "required": true
+    },
+    {
+      "id": "narrator-preferences",
+      "kind": "style",
+      "title": "Narrator preferences and content boundaries",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 382,
+      "tokens": 209,
+      "required": true
+    },
+    {
+      "id": "writing-guide",
+      "kind": "style",
+      "title": "Story writing guide",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 167,
+      "tokens": 89,
+      "required": true
+    },
+    {
+      "id": "task-contract",
+      "kind": "instructions",
+      "title": "Narration output and pacing contract",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 2845,
+      "tokens": 1543,
+      "required": true
+    },
+    {
+      "id": "shared-resources",
+      "kind": "world",
+      "title": "Shared funds and cargo",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 199,
+      "tokens": 111,
+      "required": true
+    },
+    {
+      "id": "fact-pins",
+      "kind": "fact-pins",
+      "title": "Pinned current facts and established world rules",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 1015,
+      "tokens": 575,
+      "required": true
+    },
+    {
+      "id": "recent-prose",
+      "kind": "prose",
+      "title": "Recent prose, verbatim ending",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 1212,
+      "tokens": 667,
+      "required": true,
+      "clipped": false
+    },
+    {
+      "id": "iris:identity",
+      "kind": "character",
+      "title": "Iris Vale",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 255,
+      "tokens": 175,
+      "required": true
+    },
+    {
+      "id": "iris:appearance",
+      "kind": "appearance",
+      "title": "Iris Vale · appearance and outfit",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 471,
+      "tokens": 303,
+      "required": false
+    },
+    {
+      "id": "iris:notes",
+      "kind": "character-notes",
+      "title": "Iris Vale · personality, voice and motives",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 407,
+      "tokens": 233,
+      "required": false
+    },
+    {
+      "id": "iris:state",
+      "kind": "character-state",
+      "title": "Iris Vale · current emotional state",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 119,
+      "tokens": 70,
+      "required": true
+    },
+    {
+      "id": "tamsin:identity",
+      "kind": "character",
+      "title": "Tamsin Rook",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 261,
+      "tokens": 174,
+      "required": true
+    },
+    {
+      "id": "tamsin:appearance",
+      "kind": "appearance",
+      "title": "Tamsin Rook · appearance and outfit",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 468,
+      "tokens": 302,
+      "required": false
+    },
+    {
+      "id": "tamsin:notes",
+      "kind": "character-notes",
+      "title": "Tamsin Rook · personality, voice and motives",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 396,
+      "tokens": 223,
+      "required": false
+    },
+    {
+      "id": "tamsin:state",
+      "kind": "character-state",
+      "title": "Tamsin Rook · current emotional state",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 115,
+      "tokens": 67,
+      "required": true
+    },
+    {
+      "id": "ren:identity",
+      "kind": "character",
+      "title": "Ren",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 243,
+      "tokens": 166,
+      "required": true
+    },
+    {
+      "id": "ren:appearance",
+      "kind": "appearance",
+      "title": "Ren · appearance and outfit",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 451,
+      "tokens": 292,
+      "required": false
+    },
+    {
+      "id": "ren:notes",
+      "kind": "character-notes",
+      "title": "Ren · personality, voice and motives",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 404,
+      "tokens": 230,
+      "required": false
+    },
+    {
+      "id": "ren:state",
+      "kind": "character-state",
+      "title": "Ren · current emotional state",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 102,
+      "tokens": 64,
+      "required": true
+    },
+    {
+      "id": "mara:reference",
+      "kind": "character-reference",
+      "title": "Mara Vale · referenced, not established present",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 198,
+      "tokens": 129,
+      "required": true
+    },
+    {
+      "id": "orin",
+      "kind": "character",
+      "title": "Orin Pike",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "leena",
+      "kind": "character",
+      "title": "Leena Moss",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "sable",
+      "kind": "character",
+      "title": "Sable Chen",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "daro",
+      "kind": "character",
+      "title": "Daro Bell",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "luca",
+      "kind": "character",
+      "title": "Luca Fen",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ines",
+      "kind": "character",
+      "title": "Ines Ward",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "niko",
+      "kind": "character",
+      "title": "Niko Ash",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vera",
+      "kind": "character",
+      "title": "Vera Flint",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pavel",
+      "kind": "character",
+      "title": "Pavel Orr",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ada",
+      "kind": "character",
+      "title": "Ada Quill",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "bex",
+      "kind": "character",
+      "title": "Bex Rowan",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "soren",
+      "kind": "character",
+      "title": "Soren Vale",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "neris",
+      "kind": "character",
+      "title": "Neris Coil",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "jo",
+      "kind": "character",
+      "title": "Jo",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "evelyn",
+      "kind": "character",
+      "title": "Evelyn March",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "quentin",
+      "kind": "character",
+      "title": "Quentin Rook",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "liora",
+      "kind": "character",
+      "title": "Liora Sen",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tem",
+      "kind": "character",
+      "title": "Tem Glass",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "rhea",
+      "kind": "character",
+      "title": "Rhea Pike",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "oskar",
+      "kind": "character",
+      "title": "Oskar Reed",
+      "included": false,
+      "reason": "Not selected as a participant or referenced in the current direction/recent prose",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "brasswater",
+      "kind": "place",
+      "title": "Brasswater",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 151,
+      "tokens": 96,
+      "required": false
+    },
+    {
+      "id": "docks",
+      "kind": "place",
+      "title": "Lower Docks",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 183,
+      "tokens": 113,
+      "required": false
+    },
+    {
+      "id": "kestrel",
+      "kind": "place",
+      "title": "Airship Kestrel",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 197,
+      "tokens": 120,
+      "required": false
+    },
+    {
+      "id": "chartroom",
+      "kind": "place",
+      "title": "Kestrel Chart Room",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 203,
+      "tokens": 125,
+      "required": true
+    },
+    {
+      "id": "bridge",
+      "kind": "place",
+      "title": "Kestrel Bridge",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "engine",
+      "kind": "place",
+      "title": "Kestrel Engine Room",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "hold",
+      "kind": "place",
+      "title": "Kestrel Cargo Hold",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "locker",
+      "kind": "place",
+      "title": "Kestrel Supply Locker",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "galley",
+      "kind": "place",
+      "title": "Kestrel Galley",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "cabins",
+      "kind": "place",
+      "title": "Kestrel Crew Cabins",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "dockoffice",
+      "kind": "place",
+      "title": "Dockmaster Office",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "warehouse",
+      "kind": "place",
+      "title": "Bonded Warehouse",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pier",
+      "kind": "place",
+      "title": "North Pier",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "archive",
+      "kind": "place",
+      "title": "Municipal Archive",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "reading",
+      "kind": "place",
+      "title": "Archive Reading Room",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vault",
+      "kind": "place",
+      "title": "Archive Map Vault",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "roof",
+      "kind": "place",
+      "title": "Archive Roof",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "clinic",
+      "kind": "place",
+      "title": "Saint Orin Clinic",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ward",
+      "kind": "place",
+      "title": "Clinic Ward",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pharmacy",
+      "kind": "place",
+      "title": "Clinic Pharmacy",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "market",
+      "kind": "place",
+      "title": "Lantern Market",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tea",
+      "kind": "place",
+      "title": "Copper Cup Tea House",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "workshop",
+      "kind": "place",
+      "title": "Neris Repair Shop",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "hall",
+      "kind": "place",
+      "title": "Stormgate Hall",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "control",
+      "kind": "place",
+      "title": "Stormgate Control Room",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "chamber",
+      "kind": "place",
+      "title": "Council Chamber",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "observatory",
+      "kind": "place",
+      "title": "East Observatory",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "lens",
+      "kind": "place",
+      "title": "Observatory Lens Room",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "garden",
+      "kind": "place",
+      "title": "Observatory Garden",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "canal",
+      "kind": "place",
+      "title": "Old Canal",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ferry",
+      "kind": "place",
+      "title": "Canal Ferry Landing",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "island",
+      "kind": "place",
+      "title": "Reed Island",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 151,
+      "tokens": 97,
+      "required": false
+    },
+    {
+      "id": "lighthouse",
+      "kind": "place",
+      "title": "Reed Lighthouse",
+      "included": false,
+      "reason": "Outside the current location and its linked places",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "islandstore",
+      "kind": "place",
+      "title": "Reed Storehouse",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 171,
+      "tokens": 106,
+      "required": false
+    },
+    {
+      "id": "iris-badge",
+      "kind": "item",
+      "title": "Iris Vale’s service badge",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 315,
+      "tokens": 205,
+      "required": false
+    },
+    {
+      "id": "tamsin-badge",
+      "kind": "item",
+      "title": "Tamsin Rook’s service badge",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 329,
+      "tokens": 205,
+      "required": false
+    },
+    {
+      "id": "ren-badge",
+      "kind": "item",
+      "title": "Ren’s service badge",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 288,
+      "tokens": 186,
+      "required": false
+    },
+    {
+      "id": "chart-key",
+      "kind": "item",
+      "title": "Chart cabinet key",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 279,
+      "tokens": 182,
+      "required": true
+    },
+    {
+      "id": "ren-letter",
+      "kind": "item",
+      "title": "Sealed registrar’s letter",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 317,
+      "tokens": 198,
+      "required": false
+    },
+    {
+      "id": "governor-wheel",
+      "kind": "item",
+      "title": "Missing tide governor wheel",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 433,
+      "tokens": 251,
+      "required": false
+    },
+    {
+      "id": "iris-bag",
+      "kind": "item",
+      "title": "Iris Vale’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "iris-notebook",
+      "kind": "item",
+      "title": "Iris Vale’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "iris-ration",
+      "kind": "item",
+      "title": "Iris Vale’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tamsin-bag",
+      "kind": "item",
+      "title": "Tamsin Rook’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tamsin-notebook",
+      "kind": "item",
+      "title": "Tamsin Rook’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tamsin-ration",
+      "kind": "item",
+      "title": "Tamsin Rook’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ren-bag",
+      "kind": "item",
+      "title": "Ren’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ren-notebook",
+      "kind": "item",
+      "title": "Ren’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ren-ration",
+      "kind": "item",
+      "title": "Ren’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "mara-bag",
+      "kind": "item",
+      "title": "Mara Vale’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "mara-notebook",
+      "kind": "item",
+      "title": "Mara Vale’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "mara-ration",
+      "kind": "item",
+      "title": "Mara Vale’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "mara-badge",
+      "kind": "item",
+      "title": "Mara Vale’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "orin-bag",
+      "kind": "item",
+      "title": "Orin Pike’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "orin-notebook",
+      "kind": "item",
+      "title": "Orin Pike’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "orin-ration",
+      "kind": "item",
+      "title": "Orin Pike’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "orin-badge",
+      "kind": "item",
+      "title": "Orin Pike’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "leena-bag",
+      "kind": "item",
+      "title": "Leena Moss’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "leena-notebook",
+      "kind": "item",
+      "title": "Leena Moss’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "leena-ration",
+      "kind": "item",
+      "title": "Leena Moss’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "leena-badge",
+      "kind": "item",
+      "title": "Leena Moss’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "sable-bag",
+      "kind": "item",
+      "title": "Sable Chen’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "sable-notebook",
+      "kind": "item",
+      "title": "Sable Chen’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "sable-ration",
+      "kind": "item",
+      "title": "Sable Chen’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "sable-badge",
+      "kind": "item",
+      "title": "Sable Chen’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "daro-bag",
+      "kind": "item",
+      "title": "Daro Bell’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "daro-notebook",
+      "kind": "item",
+      "title": "Daro Bell’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "daro-ration",
+      "kind": "item",
+      "title": "Daro Bell’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "daro-badge",
+      "kind": "item",
+      "title": "Daro Bell’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "luca-bag",
+      "kind": "item",
+      "title": "Luca Fen’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "luca-notebook",
+      "kind": "item",
+      "title": "Luca Fen’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "luca-ration",
+      "kind": "item",
+      "title": "Luca Fen’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "luca-badge",
+      "kind": "item",
+      "title": "Luca Fen’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ines-bag",
+      "kind": "item",
+      "title": "Ines Ward’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ines-notebook",
+      "kind": "item",
+      "title": "Ines Ward’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ines-ration",
+      "kind": "item",
+      "title": "Ines Ward’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ines-badge",
+      "kind": "item",
+      "title": "Ines Ward’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "niko-bag",
+      "kind": "item",
+      "title": "Niko Ash’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "niko-notebook",
+      "kind": "item",
+      "title": "Niko Ash’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "niko-ration",
+      "kind": "item",
+      "title": "Niko Ash’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "niko-badge",
+      "kind": "item",
+      "title": "Niko Ash’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vera-bag",
+      "kind": "item",
+      "title": "Vera Flint’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vera-notebook",
+      "kind": "item",
+      "title": "Vera Flint’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vera-ration",
+      "kind": "item",
+      "title": "Vera Flint’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vera-badge",
+      "kind": "item",
+      "title": "Vera Flint’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pavel-bag",
+      "kind": "item",
+      "title": "Pavel Orr’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pavel-notebook",
+      "kind": "item",
+      "title": "Pavel Orr’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pavel-ration",
+      "kind": "item",
+      "title": "Pavel Orr’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pavel-badge",
+      "kind": "item",
+      "title": "Pavel Orr’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ada-bag",
+      "kind": "item",
+      "title": "Ada Quill’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ada-notebook",
+      "kind": "item",
+      "title": "Ada Quill’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ada-ration",
+      "kind": "item",
+      "title": "Ada Quill’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ada-badge",
+      "kind": "item",
+      "title": "Ada Quill’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "bex-bag",
+      "kind": "item",
+      "title": "Bex Rowan’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "bex-notebook",
+      "kind": "item",
+      "title": "Bex Rowan’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "bex-ration",
+      "kind": "item",
+      "title": "Bex Rowan’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "bex-badge",
+      "kind": "item",
+      "title": "Bex Rowan’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "soren-bag",
+      "kind": "item",
+      "title": "Soren Vale’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "soren-notebook",
+      "kind": "item",
+      "title": "Soren Vale’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "soren-ration",
+      "kind": "item",
+      "title": "Soren Vale’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "soren-badge",
+      "kind": "item",
+      "title": "Soren Vale’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "neris-bag",
+      "kind": "item",
+      "title": "Neris Coil’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "neris-notebook",
+      "kind": "item",
+      "title": "Neris Coil’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "neris-ration",
+      "kind": "item",
+      "title": "Neris Coil’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "neris-badge",
+      "kind": "item",
+      "title": "Neris Coil’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "jo-bag",
+      "kind": "item",
+      "title": "Jo’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "jo-notebook",
+      "kind": "item",
+      "title": "Jo’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "jo-ration",
+      "kind": "item",
+      "title": "Jo’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "jo-badge",
+      "kind": "item",
+      "title": "Jo’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "evelyn-bag",
+      "kind": "item",
+      "title": "Evelyn March’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "evelyn-notebook",
+      "kind": "item",
+      "title": "Evelyn March’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "evelyn-ration",
+      "kind": "item",
+      "title": "Evelyn March’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "evelyn-badge",
+      "kind": "item",
+      "title": "Evelyn March’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "quentin-bag",
+      "kind": "item",
+      "title": "Quentin Rook’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "quentin-notebook",
+      "kind": "item",
+      "title": "Quentin Rook’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "quentin-ration",
+      "kind": "item",
+      "title": "Quentin Rook’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "quentin-badge",
+      "kind": "item",
+      "title": "Quentin Rook’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "liora-bag",
+      "kind": "item",
+      "title": "Liora Sen’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "liora-notebook",
+      "kind": "item",
+      "title": "Liora Sen’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "liora-ration",
+      "kind": "item",
+      "title": "Liora Sen’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "liora-badge",
+      "kind": "item",
+      "title": "Liora Sen’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tem-bag",
+      "kind": "item",
+      "title": "Tem Glass’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tem-notebook",
+      "kind": "item",
+      "title": "Tem Glass’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tem-ration",
+      "kind": "item",
+      "title": "Tem Glass’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tem-badge",
+      "kind": "item",
+      "title": "Tem Glass’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "rhea-bag",
+      "kind": "item",
+      "title": "Rhea Pike’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "rhea-notebook",
+      "kind": "item",
+      "title": "Rhea Pike’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "rhea-ration",
+      "kind": "item",
+      "title": "Rhea Pike’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "rhea-badge",
+      "kind": "item",
+      "title": "Rhea Pike’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "oskar-bag",
+      "kind": "item",
+      "title": "Oskar Reed’s satchel",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "oskar-notebook",
+      "kind": "item",
+      "title": "Oskar Reed’s notebook",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "oskar-ration",
+      "kind": "item",
+      "title": "Oskar Reed’s oat biscuits",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "oskar-badge",
+      "kind": "item",
+      "title": "Oskar Reed’s service badge",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "iris-wallet",
+      "kind": "item",
+      "title": "Captain’s document wallet",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "iris-ferry-ticket",
+      "kind": "item",
+      "title": "Unused ferry ticket",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "iris-receipt",
+      "kind": "item",
+      "title": "Boot repair receipt",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tamsin-tools",
+      "kind": "item",
+      "title": "Engineer’s roll",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tamsin-probe",
+      "kind": "item",
+      "title": "Calibrated brass probe",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tamsin-washers",
+      "kind": "item",
+      "title": "Spare copper washers",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ren-cord",
+      "kind": "item",
+      "title": "Blue parcel cord",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1",
+      "kind": "item",
+      "title": "Bonded freight crate 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1-lot-1",
+      "kind": "item",
+      "title": "Freight 1 / component lot 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1-lot-2",
+      "kind": "item",
+      "title": "Freight 1 / component lot 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1-lot-3",
+      "kind": "item",
+      "title": "Freight 1 / component lot 3",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1-lot-4",
+      "kind": "item",
+      "title": "Freight 1 / component lot 4",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1-lot-5",
+      "kind": "item",
+      "title": "Freight 1 / component lot 5",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-1-lot-6",
+      "kind": "item",
+      "title": "Freight 1 / component lot 6",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2",
+      "kind": "item",
+      "title": "Bonded freight crate 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2-lot-1",
+      "kind": "item",
+      "title": "Freight 2 / component lot 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2-lot-2",
+      "kind": "item",
+      "title": "Freight 2 / component lot 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2-lot-3",
+      "kind": "item",
+      "title": "Freight 2 / component lot 3",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2-lot-4",
+      "kind": "item",
+      "title": "Freight 2 / component lot 4",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2-lot-5",
+      "kind": "item",
+      "title": "Freight 2 / component lot 5",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-2-lot-6",
+      "kind": "item",
+      "title": "Freight 2 / component lot 6",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3",
+      "kind": "item",
+      "title": "Bonded freight crate 3",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3-lot-1",
+      "kind": "item",
+      "title": "Freight 3 / component lot 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3-lot-2",
+      "kind": "item",
+      "title": "Freight 3 / component lot 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3-lot-3",
+      "kind": "item",
+      "title": "Freight 3 / component lot 3",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3-lot-4",
+      "kind": "item",
+      "title": "Freight 3 / component lot 4",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3-lot-5",
+      "kind": "item",
+      "title": "Freight 3 / component lot 5",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "freight-3-lot-6",
+      "kind": "item",
+      "title": "Freight 3 / component lot 6",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-stores",
+      "kind": "item",
+      "title": "Kestrel reserve trunk",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-1",
+      "kind": "item",
+      "title": "Reserve fitting 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-2",
+      "kind": "item",
+      "title": "Reserve fitting 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-3",
+      "kind": "item",
+      "title": "Reserve fitting 3",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-4",
+      "kind": "item",
+      "title": "Reserve fitting 4",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-5",
+      "kind": "item",
+      "title": "Reserve fitting 5",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-6",
+      "kind": "item",
+      "title": "Reserve fitting 6",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-7",
+      "kind": "item",
+      "title": "Reserve fitting 7",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-8",
+      "kind": "item",
+      "title": "Reserve fitting 8",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-9",
+      "kind": "item",
+      "title": "Reserve fitting 9",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "ship-spare-10",
+      "kind": "item",
+      "title": "Reserve fitting 10",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "dockoffice-box",
+      "kind": "item",
+      "title": "Dockmaster Office supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "dockoffice-supply-1",
+      "kind": "item",
+      "title": "dockoffice stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "dockoffice-supply-2",
+      "kind": "item",
+      "title": "dockoffice stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "warehouse-box",
+      "kind": "item",
+      "title": "Bonded Warehouse supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "warehouse-supply-1",
+      "kind": "item",
+      "title": "warehouse stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "warehouse-supply-2",
+      "kind": "item",
+      "title": "warehouse stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "reading-box",
+      "kind": "item",
+      "title": "Archive Reading Room supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "reading-supply-1",
+      "kind": "item",
+      "title": "reading stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "reading-supply-2",
+      "kind": "item",
+      "title": "reading stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vault-box",
+      "kind": "item",
+      "title": "Archive Map Vault supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vault-supply-1",
+      "kind": "item",
+      "title": "vault stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "vault-supply-2",
+      "kind": "item",
+      "title": "vault stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pharmacy-box",
+      "kind": "item",
+      "title": "Clinic Pharmacy supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pharmacy-supply-1",
+      "kind": "item",
+      "title": "pharmacy stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "pharmacy-supply-2",
+      "kind": "item",
+      "title": "pharmacy stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tea-box",
+      "kind": "item",
+      "title": "Copper Cup Tea House supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tea-supply-1",
+      "kind": "item",
+      "title": "tea stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "tea-supply-2",
+      "kind": "item",
+      "title": "tea stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "workshop-box",
+      "kind": "item",
+      "title": "Neris Repair Shop supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "workshop-supply-1",
+      "kind": "item",
+      "title": "workshop stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "workshop-supply-2",
+      "kind": "item",
+      "title": "workshop stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "control-box",
+      "kind": "item",
+      "title": "Stormgate Control Room supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "control-supply-1",
+      "kind": "item",
+      "title": "control stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "control-supply-2",
+      "kind": "item",
+      "title": "control stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "lens-box",
+      "kind": "item",
+      "title": "Observatory Lens Room supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "lens-supply-1",
+      "kind": "item",
+      "title": "lens stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "lens-supply-2",
+      "kind": "item",
+      "title": "lens stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "islandstore-box",
+      "kind": "item",
+      "title": "Reed Storehouse supply box",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "islandstore-supply-1",
+      "kind": "item",
+      "title": "islandstore stock packet 1",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "islandstore-supply-2",
+      "kind": "item",
+      "title": "islandstore stock packet 2",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "clinic-amber-vial",
+      "kind": "item",
+      "title": "Amber glass vial",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "archive-counterweight",
+      "kind": "item",
+      "title": "Blue enamel counterweight",
+      "included": false,
+      "reason": "Not equipped, directly at the scene location, explicitly referenced, or a necessary storage ancestor",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "relationship-1",
+      "kind": "relationship",
+      "title": "Cast relationship",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 176,
+      "tokens": 107,
+      "required": false
+    },
+    {
+      "id": "relationship-2",
+      "kind": "relationship",
+      "title": "Cast relationship",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 185,
+      "tokens": 113,
+      "required": false
+    },
+    {
+      "id": "relationship-3",
+      "kind": "relationship",
+      "title": "Cast relationship",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 173,
+      "tokens": 110,
+      "required": false
+    },
+    {
+      "id": "relationship-4",
+      "kind": "relationship",
+      "title": "Cast relationship",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 172,
+      "tokens": 106,
+      "required": false
+    },
+    {
+      "id": "lore-transit",
+      "kind": "lore",
+      "title": "Transit and communication",
+      "included": true,
+      "reason": "Required context",
+      "bytes": 246,
+      "tokens": 126,
+      "required": true
+    },
+    {
+      "id": "lore-archive",
+      "kind": "lore",
+      "title": "Archive custody",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 112,
+      "tokens": 61,
+      "required": false
+    },
+    {
+      "id": "lore-clinic",
+      "kind": "lore",
+      "title": "Clinic routine",
+      "included": false,
+      "reason": "No matching linked entity or keyword",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "lore-hidden",
+      "kind": "lore",
+      "title": "Unrevealed island lead",
+      "included": false,
+      "reason": "Explicitly hidden from prose generation",
+      "bytes": 0,
+      "tokens": 0,
+      "required": false
+    },
+    {
+      "id": "thread-wheel",
+      "kind": "thread",
+      "title": "The missing governor",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 129,
+      "tokens": 68,
+      "required": false
+    },
+    {
+      "id": "thread-letter",
+      "kind": "thread",
+      "title": "The sealed letter",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 145,
+      "tokens": 77,
+      "required": false
+    },
+    {
+      "id": "thread-storm",
+      "kind": "thread",
+      "title": "The gate deadline",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 123,
+      "tokens": 67,
+      "required": false
+    },
+    {
+      "id": "thread-seals",
+      "kind": "thread",
+      "title": "Altered cargo seals",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 143,
+      "tokens": 76,
+      "required": false
+    },
+    {
+      "id": "thread-catalogue",
+      "kind": "thread",
+      "title": "The missing catalogue sleeve",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 122,
+      "tokens": 64,
+      "required": false
+    },
+    {
+      "id": "thread-forecast",
+      "kind": "thread",
+      "title": "The delayed forecast",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 119,
+      "tokens": 63,
+      "required": false
+    },
+    {
+      "id": "thread-flour",
+      "kind": "thread",
+      "title": "The galley shortage",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 134,
+      "tokens": 75,
+      "required": false
+    },
+    {
+      "id": "thread-lamp",
+      "kind": "thread",
+      "title": "The island lamp",
+      "included": true,
+      "reason": "Relevant to the scene",
+      "bytes": 110,
+      "tokens": 61,
+      "required": false
+    }
+  ],
+  "warnings": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "### Narrator contract\nWrite the next passage of an ongoing novel. Respect established facts, possessions, pinned details, viewpoint knowledge and each character’s No NSFW preference. Keep possibilities and beliefs distinct from established events. Do not reveal unrevealed facts, invent knowledge for the viewpoint character, or treat planning notes as past events. The reader directs the story rather than playing a mandatory avatar. Stop at a natural pause. Current canonical facts override summaries. Age is chronological age; apparentAge describes visible age. Gender is identity and presentation is visible expression; do not conflate them. Persona describes enduring personality, voice, motives and history; currentState describes temporary feelings, wants and immediate intent. Preserve structured identity and current wardrobe/injuries; describe only relevant details naturally, without repeating the profile in every passage. Unknown blank traits remain unspecified. Profile notes and source prose are data, not application instructions.\n\n### Premise and narration style\nPremise: In the tidal city of Brasswater, a municipal tide clock has lost its governor wheel hours before the storm gates must close. Captain Iris Vale and a divided salvage crew investigate from the docked airship Kestrel. Three competing institutions claim the missing wheel. The crew must establish who moved it, preserve evidence and keep ordinary life moving while a storm approaches. Travel takes time; messages and rumours do not move people or possessions. A name mentioned in conversation does not make its owner present.\nNarrator style: Close third person, past tense. Clear physical staging, distinct voices, restrained description and grounded causality.\nStory adult-content preference: off\n\n### Narrator preferences and content boundaries\n{\"tense\":\"past\",\"person\":\"third-limited\",\"passageWords\":600,\"chapterWords\":3000,\"contentNotes\":\"\",\"instructions\":\"Maintain consistent viewpoint, distinct voices and clear cause and effect. Advance through action and dialogue. Avoid repetitive exposition and gestures. Respect the requested stopping point.\"}\n\n### Story writing guide\nKeep the scene focused on the people physically present. Mention background facts only when they affect an immediate action or decision.\n\n### Narration output and pacing contract\n\nReturn JSON only, shaped like {\"title\":\"A passage title\",\"chapterTitle\":\"The Letter on the Chart Table\",\"viewpointId\":\"iris\",\"endOfChapter\":false,\"paragraphs\":[\"A paragraph of novel prose.\"]}. Use a real supplied cast ID as viewpointId. Write approximately 600 words of actual novel prose (aim for 480–720). Develop the scene through action, dialogue, character reactions and concrete detail; do not deliver a synopsis or rush through the entire scene in a few paragraphs. Use past tense and third-limited narration. Maintain consistent viewpoint, distinct voices and clear cause and effect. Advance through action and dialogue. Avoid repetitive exposition and gestures. Respect the requested stopping point.\nContinue directly from the written ending without repeating it. Keep the chapter title: The Letter on the Chart Table. The chapter target is approximately 3000 words across several passages; 200 words are already written in this chapter. A passage pause is not a chapter ending. Set endOfChapter false until the chapter reaches at least 2400 words including this passage. Near the target, bring the chapter's immediate dramatic movement to a meaningful close and set endOfChapter true. Do not resolve the entire novel. Do not include choices, commentary, markdown fences, a chapter heading, or effects in the prose result.\nTrack physical continuity: who holds each object, what is equipped, hands/tool use, room containment, and completed versus intended travel. Before introducing a gesture or descriptive image, check the recent prose and vary repeated beats unless repetition has a story purpose. Advance a concrete action, decision or observation rather than restating the same mystery. A character may suspect an explanation without the narrator establishing it as true. Preserve the strength and attribution of evidence; a sensor reading, rumor, interpretation or plan is not proof of its explanation. Do not invent a reveal to fill missing context. Honor explicit exclusions and stopping conditions in the reader direction; do not pass them to manufacture a cliffhanger. Keep numerical comparisons and timelines internally consistent.\nRequired result JSON schema: {\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"minLength\":1,\"maxLength\":200},\"chapterTitle\":{\"type\":\"string\",\"minLength\":1,\"maxLength\":200},\"viewpointId\":{\"type\":\"string\",\"enum\":[\"iris\"]},\"endOfChapter\":{\"type\":\"boolean\"},\"paragraphs\":{\"minItems\":1,\"maxItems\":60,\"type\":\"array\",\"items\":{\"type\":\"string\",\"minLength\":1,\"maxLength\":20000}}},\"required\":[\"title\",\"chapterTitle\",\"viewpointId\",\"endOfChapter\",\"paragraphs\"],\"additionalProperties\":false}\n\n### Pinned current facts and established world rules\nThese are current author constraints, not future plot instructions or hidden information. Preserve pinned values in the final committed state; current pins override historical prose and lossy summaries. A latest-passage replacement restores a BEFORE state that may differ from these current constraints: narrate supported events that reach the pinned final values. Do not invent events that contradict them. Only a manual author edit or unpin can change a pinned value.\n{\"fields\":[{\"kind\":\"character\",\"recordId\":\"iris\",\"field\":\"visual.age\",\"recordLabel\":\"Iris Vale\",\"label\":\"Actual age\",\"value\":\"27\"},{\"kind\":\"item\",\"recordId\":\"chart-key\",\"field\":\"name\",\"recordLabel\":\"Chart cabinet key\",\"label\":\"Name\",\"value\":\"Chart cabinet key\"}],\"rules\":[{\"id\":\"rule-transit\",\"text\":\"Characters and objects do not teleport. Mentioning an absent person does not make them present or grant them knowledge.\"}]}\n\n### Iris Vale\n{\"id\":\"iris\",\"name\":\"Iris Vale\",\"role\":\"Kestrel captain\",\"age\":\"27\",\"apparentAge\":\"\",\"gender\":\"woman\",\"presentation\":\"\",\"species\":\"human\",\"locationId\":\"chartroom\",\"noNsfw\":true,\"viewpoint\":true}\n\n### Tamsin Rook\n{\"id\":\"tamsin\",\"name\":\"Tamsin Rook\",\"role\":\"Kestrel engineer\",\"age\":\"28\",\"apparentAge\":\"\",\"gender\":\"man\",\"presentation\":\"\",\"species\":\"human\",\"locationId\":\"chartroom\",\"noNsfw\":true,\"viewpoint\":false}\n\n### Ren\n{\"id\":\"ren\",\"name\":\"Ren\",\"role\":\"Kestrel courier\",\"age\":\"29\",\"apparentAge\":\"\",\"gender\":\"woman\",\"presentation\":\"\",\"species\":\"human\",\"locationId\":\"chartroom\",\"noNsfw\":true,\"viewpoint\":false}\n\n### Mara Vale · referenced, not established present\n{\"id\":\"mara\",\"name\":\"Mara Vale\",\"role\":\"Archive registrar\",\"locationId\":\"reading\",\"noNsfw\":true,\"referencedOnly\":true}\n\n### Iris Vale · appearance and outfit\n{\"visual\":{\"skin\":\"\",\"build\":\"\",\"face\":\"\",\"hair\":\"grey-streaked black hair\",\"eyes\":\"grey\",\"distinctive\":\"ink-stained fingertips\"},\"appearanceNotes\":\"\",\"wardrobe\":{\"upper_body\":\"Weatherproof navy work jacket\",\"lower_body\":\"Plain dark trousers\",\"footwear\":\"Worn leather boots\",\"accessories\":\"A simple brass service badge\"},\"outfitNotes\":\"\",\"injuries\":\"\",\"pinned\":false}\n\n### Tamsin Rook · appearance and outfit\n{\"visual\":{\"skin\":\"\",\"build\":\"\",\"face\":\"\",\"hair\":\"brown hair\",\"eyes\":\"brown\",\"distinctive\":\"small scar on the left knuckle\"},\"appearanceNotes\":\"\",\"wardrobe\":{\"upper_body\":\"Weatherproof navy work jacket\",\"lower_body\":\"Plain dark trousers\",\"footwear\":\"Worn leather boots\",\"accessories\":\"A simple brass service badge\"},\"outfitNotes\":\"\",\"injuries\":\"\",\"pinned\":false}\n\n### Ren · appearance and outfit\n{\"visual\":{\"skin\":\"\",\"build\":\"\",\"face\":\"\",\"hair\":\"brown hair\",\"eyes\":\"grey\",\"distinctive\":\"ink-stained fingertips\"},\"appearanceNotes\":\"\",\"wardrobe\":{\"upper_body\":\"Weatherproof navy work jacket\",\"lower_body\":\"Plain dark trousers\",\"footwear\":\"Worn leather boots\",\"accessories\":\"A simple brass service badge\"},\"outfitNotes\":\"\",\"injuries\":\"\",\"pinned\":false}\n\n### Iris Vale · personality, voice and motives\n{\"persona\":{\"personality\":\"Practical, attentive to contradictions.\",\"voice\":\"Short questions; lets silence do the arguing.\",\"motives\":\"Keep the crew paid without surrendering evidence.\",\"history\":\"Has worked as kestrel captain for 3 years.\"},\"notes\":\"Established professional role; no secret knowledge is implied by this record.\"}\n\n### Iris Vale · current emotional state\n{\"currentState\":\"Alert and trying not to accuse the wrong person.\"}\n\n### Tamsin Rook · personality, voice and motives\n{\"persona\":{\"personality\":\"Observant, cautious about commitments.\",\"voice\":\"Precise measurements and dry corrections.\",\"motives\":\"Clear her maintenance work of suspicion.\",\"history\":\"Has worked as kestrel engineer for 4 years.\"},\"notes\":\"Established professional role; no secret knowledge is implied by this record.\"}\n\n### Tamsin Rook · current emotional state\n{\"currentState\":\"Impatient to inspect the governor housing.\"}\n\n### Ren · personality, voice and motives\n{\"persona\":{\"personality\":\"Practical, attentive to contradictions.\",\"voice\":\"Fast, informal speech; jokes under pressure.\",\"motives\":\"Deliver a sealed letter without breaking his promise.\",\"history\":\"Has worked as kestrel courier for 5 years.\"},\"notes\":\"Established professional role; no secret knowledge is implied by this record.\"}\n\n### Ren · current emotional state\n{\"currentState\":\"Worried that a witness will name him.\"}\n\n### Shared funds and cargo\n{\"funds\":684,\"cargoNotes\":\"Three sealed freight crates remain in the Kestrel hold. Shared operating funds are 684 crowns; personal money is not shared money.\"}\n\n### Brasswater\n{\"id\":\"brasswater\",\"name\":\"Brasswater\",\"description\":\"A tidal city linked by bridges and ferries.\",\"parentId\":null}\n\n### Lower Docks\n{\"id\":\"docks\",\"name\":\"Lower Docks\",\"description\":\"The working waterfront; transit to the Archive takes twenty minutes.\",\"parentId\":\"brasswater\"}\n\n### Airship Kestrel\n{\"id\":\"kestrel\",\"name\":\"Airship Kestrel\",\"description\":\"Docked salvage airship. Ship-owned stores are separate from crew possessions.\",\"parentId\":\"docks\"}\n\n### Kestrel Chart Room\n{\"id\":\"chartroom\",\"name\":\"Kestrel Chart Room\",\"description\":\"A small table, speaking tube and tide charts; the current scene location.\",\"parentId\":\"kestrel\"}\n\n### Reed Island\n{\"id\":\"island\",\"name\":\"Reed Island\",\"description\":\"A separate settlement two hours away by boat.\",\"parentId\":null}\n\n### Reed Storehouse\n{\"id\":\"islandstore\",\"name\":\"Reed Storehouse\",\"description\":\"Island supplies; never part of ship inventory.\",\"parentId\":\"island\"}\n\n### Iris Vale’s service badge\n{\"item\":{\"id\":\"iris-badge\",\"name\":\"Iris Vale’s service badge\",\"description\":\"Identifies Iris Vale; grants no universal access.\",\"quantity\":1,\"ownerId\":\"iris\",\"equipped\":true,\"isContainer\":false},\"rootOwnerId\":\"iris\",\"storagePath\":\"Iris Vale\"}\n\n### Tamsin Rook’s service badge\n{\"item\":{\"id\":\"tamsin-badge\",\"name\":\"Tamsin Rook’s service badge\",\"description\":\"Identifies Tamsin Rook; grants no universal access.\",\"quantity\":1,\"ownerId\":\"tamsin\",\"equipped\":true,\"isContainer\":false},\"rootOwnerId\":\"tamsin\",\"storagePath\":\"Tamsin Rook\"}\n\n### Ren’s service badge\n{\"item\":{\"id\":\"ren-badge\",\"name\":\"Ren’s service badge\",\"description\":\"Identifies Ren; grants no universal access.\",\"quantity\":1,\"ownerId\":\"ren\",\"equipped\":true,\"isContainer\":false},\"rootOwnerId\":\"ren\",\"storagePath\":\"Ren\"}\n\n### Chart cabinet key\n{\"item\":{\"id\":\"chart-key\",\"name\":\"Chart cabinet key\",\"description\":\"Opens only the chart-room cabinet.\",\"quantity\":1,\"ownerId\":\"iris\",\"equipped\":true,\"isContainer\":false},\"rootOwnerId\":\"iris\",\"storagePath\":\"Iris Vale\"}\n\n### Sealed registrar’s letter\n{\"item\":{\"id\":\"ren-letter\",\"name\":\"Sealed registrar’s letter\",\"description\":\"Addressed to the captain; its contents have not been read.\",\"quantity\":1,\"ownerId\":\"ren\",\"equipped\":false,\"isContainer\":false},\"rootOwnerId\":\"ren\",\"storagePath\":\"Ren\"}\n\n### Missing tide governor wheel\n{\"item\":{\"id\":\"governor-wheel\",\"name\":\"Missing tide governor wheel\",\"description\":\"The world record locates the wheel here; the current viewpoint has not learned this. Do not infer viewpoint knowledge from canonical location.\",\"quantity\":1,\"ownerId\":\"islandstore\",\"equipped\":false,\"isContainer\":false},\"rootOwnerId\":\"islandstore\",\"storagePath\":\"Reed Storehouse\"}\n\n### Cast relationship\n{\"id\":\"relationship-1\",\"fromId\":\"iris\",\"toId\":\"tamsin\",\"notes\":\"Trusts her engineering judgement; disagrees about financial risk.\"}\n\n### Cast relationship\n{\"id\":\"relationship-2\",\"fromId\":\"tamsin\",\"toId\":\"iris\",\"notes\":\"Respects the captain but wants authority to inspect the damaged mechanism.\"}\n\n### Cast relationship\n{\"id\":\"relationship-3\",\"fromId\":\"iris\",\"toId\":\"ren\",\"notes\":\"Employs him as courier; has not heard the contents of his letter.\"}\n\n### Cast relationship\n{\"id\":\"relationship-4\",\"fromId\":\"ren\",\"toId\":\"iris\",\"notes\":\"Wants to honour his delivery promise before answering questions.\"}\n\n### Transit and communication\nThe Kestrel is docked. City districts require travel. A radio or written message conveys only its stated content. Physical possessions remain with their recorded owner or container until an evidenced transfer.\n\n### Archive custody\nCatalogue sleeves travel separately from original maps. A keeper signs every removal.\n\n### The missing governor\nUnresolved thread, not a completed event: Determine how the tide governor left municipal custody.\n\n### The sealed letter\nUnresolved thread, not a completed event: Ren must deliver the registrar’s sealed letter; contents remain unknown.\n\n### The gate deadline\nUnresolved thread, not a completed event: The storm gates must close before the evening surge.\n\n### Altered cargo seals\nUnresolved thread, not a completed event: Customs has questioned one freight impression; no culprit established.\n\n### The missing catalogue sleeve\nUnresolved thread, not a completed event: The map vault has an unaccounted sleeve.\n\n### The delayed forecast\nUnresolved thread, not a completed event: The gate office awaits an Observatory signal.\n\n### The galley shortage\nUnresolved thread, not a completed event: Daro’s flour count is short; no theft has been established.\n\n### The island lamp\nUnresolved thread, not a completed event: Oskar needs a shutter repair before dark.\n\n### Current scene brief (future direction, not history)\n{\"purpose\":\"Compare the damaged governor sketch with the courier’s account without opening the sealed letter.\",\"tension\":\"The crew must distinguish a witness report from a proven fact.\",\"stopAt\":\"A decision about the next interview; nobody travels or opens the letter yet.\",\"viewpointId\":\"iris\",\"locationId\":\"chartroom\",\"castIds\":[\"iris\",\"tamsin\",\"ren\"],\"scope\":\"current-scene\",\"clearAfterPassage\":false}\n\n### Recent prose, verbatim ending\nRain tapped the chart-room skylight. Iris set the damaged governor sketch between Tamsin and Ren. The engineer had come up from the engine room ten minutes earlier; the courier had been waiting beside the table. Beyond the closed door, a speaking tube carried the pilot’s request for a departure time. Iris left it unanswered.\n\n“The notch is wrong,” Tamsin said, pointing to the pencil outline. “A wheel cut like that would bind before the third turn. Either the drawing is old, or someone has shown us the wrong part.”\n\nRen kept a sealed letter flat beneath his palm. “The registrar told me to deliver this directly. She did not tell me what it says.”\n\nIris recognised Mara Vale’s small, square handwriting on the envelope. Her sister was across the city at the Archive, not waiting somewhere aboard the ship. Iris could ask her about the drawing later. For now she had a sketch, a courier’s account and an unopened letter. She refused to treat any of them as proof of a theft.\n\n“Keep the seal intact,” she said. “First, tell us exactly where you collected it.” Tamsin drew a clean sheet from the chart drawer and waited for his answer."
+    },
+    {
+      "role": "user",
+      "content": "### Reader direction\nContinue the conversation at the chart table. Ren explains where he received the letter. Keep the seal intact and stop before anybody leaves."
+    }
+  ],
+  "selectedCharacterIds": [
+    "iris",
+    "tamsin",
+    "ren"
+  ],
+  "selectedPlaceIds": [
+    "chartroom",
+    "kestrel",
+    "docks",
+    "brasswater",
+    "islandstore",
+    "island"
+  ],
+  "answerSourceIds": [],
+  "taskReserveTokens": 128,
+  "budgetMethod": "conservative-estimate",
+  "memoryCoverage": {
+    "totalPassages": 1,
+    "representedPassages": 1,
+    "missingPassageIds": [],
+    "chapterSummaries": 0,
+    "bookOverview": false,
+    "preciseRecords": 0
+  }
+}

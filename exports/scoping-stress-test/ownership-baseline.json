@@ -1,0 +1,30 @@
+{
+  "modelCalls": 0,
+  "userLibraryChanged": false,
+  "correctTransfer": {
+    "accepted": true,
+    "ownerId": "ren",
+    "includedInIsolatedRecipientScene": true
+  },
+  "omittedTransfer": {
+    "accepted": true,
+    "ownerId": "iris",
+    "proseSaysRecipient": "ren",
+    "memorySaysRecipient": "ren",
+    "includedInIsolatedRecipientScene": false
+  },
+  "unsupportedTransfer": {
+    "accepted": true,
+    "ownerId": "ren",
+    "sourceAnchorIsVerbatim": true,
+    "proseContainsNoHandover": true
+  },
+  "duplicateInsteadOfTransfer": {
+    "accepted": true,
+    "matchingItemCount": 2,
+    "originalOwnerId": "iris",
+    "createdItemOwnerId": "ren"
+  },
+  "conclusion": "Transfer application works when supplied. Missing semantic effects can pass validation, save conflicting prose/memory/canon, and affect later inventory scope.",
+  "limitations": "Synthetic proposals demonstrate application gaps; they do not identify what the user’s actual model returned. Source anchoring checks quote presence, not semantic entailment. Item names need not be unique, so a duplicate-name check alone is not a safe fix. The recipient-scene probe excludes earlier mentions and memories to isolate ownership-based selection."
+}

@@ -1,0 +1,477 @@
+{
+  "counts": {
+    "characters": 24,
+    "places": 34,
+    "items": 170,
+    "containers": 40,
+    "relationships": 20,
+    "threads": 8
+  },
+  "modelCalls": 0,
+  "tokenMethod": "App conservative estimate, not measured provider tokens.",
+  "scenarios": [
+    {
+      "id": "local-conversation",
+      "direction": "Continue the conversation at the chart table. Ren explains where he received the letter. Keep the seal intact and stop before anybody leaves.",
+      "active": [
+        "iris",
+        "tamsin",
+        "ren"
+      ],
+      "note": "Mara is mentioned in recent prose but remains off-scene; her possessions should not be treated as available aboard.",
+      "runnable": true,
+      "estimatedInputTokens": 9958,
+      "inputBudget": 26752,
+      "selectedCharacters": [
+        "Iris Vale",
+        "Tamsin Rook",
+        "Ren"
+      ],
+      "includedItems": 6,
+      "eligibleItems": 170,
+      "byKind": {
+        "instructions": {
+          "included": 2,
+          "tokens": 2060
+        },
+        "story": {
+          "included": 1,
+          "tokens": 380
+        },
+        "planning": {
+          "included": 1,
+          "tokens": 294
+        },
+        "direction": {
+          "included": 1,
+          "tokens": 87
+        },
+        "style": {
+          "included": 2,
+          "tokens": 298
+        },
+        "world": {
+          "included": 1,
+          "tokens": 111
+        },
+        "fact-pins": {
+          "included": 1,
+          "tokens": 575
+        },
+        "prose": {
+          "included": 1,
+          "tokens": 667
+        },
+        "character": {
+          "included": 3,
+          "tokens": 515
+        },
+        "appearance": {
+          "included": 3,
+          "tokens": 897
+        },
+        "character-notes": {
+          "included": 3,
+          "tokens": 686
+        },
+        "character-state": {
+          "included": 3,
+          "tokens": 201
+        },
+        "character-reference": {
+          "included": 1,
+          "tokens": 129
+        },
+        "place": {
+          "included": 6,
+          "tokens": 657
+        },
+        "item": {
+          "included": 6,
+          "tokens": 1227
+        },
+        "relationship": {
+          "included": 4,
+          "tokens": 436
+        },
+        "lore": {
+          "included": 2,
+          "tokens": 187
+        },
+        "thread": {
+          "included": 8,
+          "tokens": 551
+        }
+      }
+    },
+    {
+      "id": "nested-item",
+      "direction": "Iris takes her unused ferry ticket from her document wallet, shows its date, then puts it back. Nobody boards a ferry.",
+      "active": [
+        "iris",
+        "tamsin",
+        "ren"
+      ],
+      "note": "The ticket needs the satchel/wallet path; the irrelevant boot receipt and all other stored items should not receive equal attention.",
+      "runnable": true,
+      "estimatedInputTokens": 10785,
+      "inputBudget": 26752,
+      "selectedCharacters": [
+        "Iris Vale",
+        "Tamsin Rook",
+        "Ren"
+      ],
+      "includedItems": 9,
+      "eligibleItems": 170,
+      "byKind": {
+        "instructions": {
+          "included": 2,
+          "tokens": 2060
+        },
+        "story": {
+          "included": 1,
+          "tokens": 380
+        },
+        "planning": {
+          "included": 1,
+          "tokens": 294
+        },
+        "direction": {
+          "included": 1,
+          "tokens": 80
+        },
+        "style": {
+          "included": 2,
+          "tokens": 298
+        },
+        "world": {
+          "included": 1,
+          "tokens": 111
+        },
+        "fact-pins": {
+          "included": 1,
+          "tokens": 575
+        },
+        "prose": {
+          "included": 1,
+          "tokens": 667
+        },
+        "character": {
+          "included": 3,
+          "tokens": 515
+        },
+        "appearance": {
+          "included": 3,
+          "tokens": 897
+        },
+        "character-notes": {
+          "included": 3,
+          "tokens": 686
+        },
+        "character-state": {
+          "included": 3,
+          "tokens": 201
+        },
+        "character-reference": {
+          "included": 1,
+          "tokens": 129
+        },
+        "place": {
+          "included": 8,
+          "tokens": 868
+        },
+        "item": {
+          "included": 9,
+          "tokens": 1850
+        },
+        "relationship": {
+          "included": 4,
+          "tokens": 436
+        },
+        "lore": {
+          "included": 2,
+          "tokens": 187
+        },
+        "thread": {
+          "included": 8,
+          "tokens": 551
+        }
+      }
+    },
+    {
+      "id": "short-name",
+      "direction": "Jo waits at the market message board and asks about a missing parcel.",
+      "active": [
+        "jo"
+      ],
+      "location": "market",
+      "viewpoint": "jo",
+      "cast": [
+        "jo"
+      ],
+      "note": "Short names should work without bringing the ship crew or their equipment to the market.",
+      "runnable": true,
+      "estimatedInputTokens": 5698,
+      "inputBudget": 26752,
+      "selectedCharacters": [
+        "Jo"
+      ],
+      "includedItems": 2,
+      "eligibleItems": 170,
+      "byKind": {
+        "instructions": {
+          "included": 2,
+          "tokens": 2057
+        },
+        "story": {
+          "included": 1,
+          "tokens": 380
+        },
+        "planning": {
+          "included": 1,
+          "tokens": 178
+        },
+        "direction": {
+          "included": 1,
+          "tokens": 54
+        },
+        "style": {
+          "included": 2,
+          "tokens": 298
+        },
+        "world": {
+          "included": 1,
+          "tokens": 111
+        },
+        "fact-pins": {
+          "included": 1,
+          "tokens": 575
+        },
+        "prose": {
+          "included": 1,
+          "tokens": 63
+        },
+        "character": {
+          "included": 1,
+          "tokens": 165
+        },
+        "appearance": {
+          "included": 1,
+          "tokens": 294
+        },
+        "character-notes": {
+          "included": 1,
+          "tokens": 224
+        },
+        "character-state": {
+          "included": 1,
+          "tokens": 56
+        },
+        "place": {
+          "included": 2,
+          "tokens": 198
+        },
+        "item": {
+          "included": 2,
+          "tokens": 368
+        },
+        "lore": {
+          "included": 1,
+          "tokens": 126
+        },
+        "thread": {
+          "included": 8,
+          "tokens": 551
+        }
+      }
+    },
+    {
+      "id": "remote-pharmacy",
+      "direction": "Bex counts the amber glass vial in the pharmacy. Ada enters from the ward to ask for a stock total.",
+      "active": [
+        "bex",
+        "ada"
+      ],
+      "location": "pharmacy",
+      "viewpoint": "bex",
+      "cast": [
+        "bex",
+        "ada"
+      ],
+      "note": "A remote scene should keep ship cargo and tide-governor speculation out unless actually relevant. Ada’s arrival must be evidenced before her location changes.",
+      "runnable": true,
+      "estimatedInputTokens": 7461,
+      "inputBudget": 26752,
+      "selectedCharacters": [
+        "Bex Rowan",
+        "Ada Quill"
+      ],
+      "includedItems": 5,
+      "eligibleItems": 170,
+      "byKind": {
+        "instructions": {
+          "included": 2,
+          "tokens": 2057
+        },
+        "story": {
+          "included": 1,
+          "tokens": 380
+        },
+        "planning": {
+          "included": 1,
+          "tokens": 185
+        },
+        "direction": {
+          "included": 1,
+          "tokens": 70
+        },
+        "style": {
+          "included": 2,
+          "tokens": 298
+        },
+        "world": {
+          "included": 1,
+          "tokens": 111
+        },
+        "fact-pins": {
+          "included": 1,
+          "tokens": 575
+        },
+        "prose": {
+          "included": 1,
+          "tokens": 56
+        },
+        "character": {
+          "included": 2,
+          "tokens": 341
+        },
+        "appearance": {
+          "included": 2,
+          "tokens": 588
+        },
+        "character-notes": {
+          "included": 2,
+          "tokens": 444
+        },
+        "character-state": {
+          "included": 2,
+          "tokens": 124
+        },
+        "place": {
+          "included": 4,
+          "tokens": 408
+        },
+        "item": {
+          "included": 5,
+          "tokens": 986
+        },
+        "relationship": {
+          "included": 1,
+          "tokens": 89
+        },
+        "lore": {
+          "included": 2,
+          "tokens": 198
+        },
+        "thread": {
+          "included": 8,
+          "tokens": 551
+        }
+      }
+    },
+    {
+      "id": "shared-surname",
+      "direction": "Iris recalls a polite conversation with Soren Vale at the tea house. Continue the chart-room scene without introducing any arrivals.",
+      "active": [
+        "iris",
+        "tamsin",
+        "ren"
+      ],
+      "note": "Soren and Mara are different people. A shared surname and recollection do not make either one physically present.",
+      "runnable": true,
+      "estimatedInputTokens": 11028,
+      "inputBudget": 26752,
+      "selectedCharacters": [
+        "Iris Vale",
+        "Tamsin Rook",
+        "Ren"
+      ],
+      "includedItems": 6,
+      "eligibleItems": 170,
+      "byKind": {
+        "instructions": {
+          "included": 2,
+          "tokens": 2060
+        },
+        "story": {
+          "included": 1,
+          "tokens": 380
+        },
+        "planning": {
+          "included": 1,
+          "tokens": 294
+        },
+        "direction": {
+          "included": 1,
+          "tokens": 84
+        },
+        "style": {
+          "included": 2,
+          "tokens": 298
+        },
+        "world": {
+          "included": 1,
+          "tokens": 111
+        },
+        "fact-pins": {
+          "included": 1,
+          "tokens": 575
+        },
+        "prose": {
+          "included": 1,
+          "tokens": 667
+        },
+        "character": {
+          "included": 3,
+          "tokens": 515
+        },
+        "appearance": {
+          "included": 3,
+          "tokens": 897
+        },
+        "character-notes": {
+          "included": 3,
+          "tokens": 686
+        },
+        "character-state": {
+          "included": 3,
+          "tokens": 201
+        },
+        "character-reference": {
+          "included": 2,
+          "tokens": 258
+        },
+        "place": {
+          "included": 15,
+          "tokens": 1601
+        },
+        "item": {
+          "included": 6,
+          "tokens": 1227
+        },
+        "relationship": {
+          "included": 4,
+          "tokens": 436
+        },
+        "lore": {
+          "included": 2,
+          "tokens": 187
+        },
+        "thread": {
+          "included": 8,
+          "tokens": 551
+        }
+      }
+    }
+  ]
+}

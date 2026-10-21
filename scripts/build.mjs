@@ -1,0 +1,11 @@
+import {spawn} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+import {join} from 'node:path';
+import {rmSync} from 'node:fs';
+import {stampBuild,releaseSignature} from './release-runtime.mjs';
+const root=fileURLToPath(new URL('../',import.meta.url));
+const signature=releaseSignature(root);
+rmSync(join(root,'build/.storyweaver-release.json'),{force:true});
+const child=spawn(process.execPath,[join(root,'node_modules/vite/bin/vite.js'),'build'],{cwd:root,env:process.env,stdio:'inherit',windowsHide:true});
+child.on('error',e=>{console.error('Build could not start: '+e.message);process.exitCode=1;});
+child.on('exit',code=>{if(code===0){if(signature!==releaseSignature(root)){console.error('Application source changed during the build. Run the build again.');process.exitCode=1;return;}stampBuild(root);console.log('Storyweaver production build is current.');}process.exitCode=code??1;});

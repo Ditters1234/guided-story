@@ -1,0 +1,519 @@
+{
+  "origin": "generated",
+  "id": "3039aa7e-abee-4db1-a1b8-4e3b6a1fee6d",
+  "title": "The morning feed — tractor cab",
+  "premise": "Alex runs a cattle ranch. Places and possessions stay where recorded until an evidenced action moves them.",
+  "revision": 0,
+  "createdAt": "2026-10-21T01:05:30.883Z",
+  "updatedAt": "2026-10-21T01:05:30.883Z",
+  "passages": [
+    {
+      "id": "morning-1",
+      "chapter": 1,
+      "chapterTitle": "The morning round",
+      "title": "Morning",
+      "viewpoint": "Alex Morrow",
+      "viewpointId": "alex",
+      "paragraphs": [
+        "Alex waited inside the Tractor Cab of the Loader Tractor in the Equipment Yard. The feed bin was empty."
+      ],
+      "direction": "",
+      "endOfChapter": false,
+      "createdAt": "2026-10-20T12:00:00.000Z"
+    }
+  ],
+  "canon": {
+    "characters": [
+      {
+        "id": "alex",
+        "name": "Alex Morrow",
+        "role": "Rancher",
+        "appearance": "Weathered face, dark hair threaded with grey.",
+        "notes": "Knows the ranch feeding routine.",
+        "outfit": "Worn flight jacket, charcoal shirt",
+        "locationId": "tractor-cab",
+        "visual": {
+          "age": "",
+          "apparentAge": "",
+          "gender": "",
+          "presentation": "",
+          "species": "",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "",
+          "eyes": "",
+          "distinctive": ""
+        },
+        "persona": {
+          "personality": "",
+          "voice": "",
+          "motives": "",
+          "history": ""
+        },
+        "currentState": "",
+        "wardrobe": {
+          "upper_body": "",
+          "lower_body": "",
+          "footwear": "",
+          "accessories": ""
+        },
+        "injuries": "",
+        "appearanceNotes": "Weathered face, dark hair threaded with grey.",
+        "outfitNotes": "Worn flight jacket, charcoal shirt",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      },
+      {
+        "id": "ben",
+        "name": "Ben Cooper",
+        "role": "Ranch hand",
+        "appearance": "Weathered face, dark hair threaded with grey.",
+        "notes": "Working at the distant fence.",
+        "outfit": "Worn flight jacket, charcoal shirt",
+        "locationId": "south-field",
+        "visual": {
+          "age": "",
+          "apparentAge": "",
+          "gender": "",
+          "presentation": "",
+          "species": "",
+          "skin": "",
+          "build": "",
+          "face": "",
+          "hair": "",
+          "eyes": "",
+          "distinctive": ""
+        },
+        "persona": {
+          "personality": "",
+          "voice": "",
+          "motives": "",
+          "history": ""
+        },
+        "currentState": "",
+        "wardrobe": {
+          "upper_body": "",
+          "lower_body": "",
+          "footwear": "",
+          "accessories": ""
+        },
+        "injuries": "",
+        "appearanceNotes": "Weathered face, dark hair threaded with grey.",
+        "outfitNotes": "Worn flight jacket, charcoal shirt",
+        "noNsfw": true,
+        "pinnedAppearance": false
+      }
+    ],
+    "places": [
+      {
+        "id": "ranch",
+        "name": "Morrow Ranch",
+        "description": "A working cattle ranch.",
+        "parentId": null
+      },
+      {
+        "id": "porch",
+        "name": "Farmhouse Porch",
+        "description": "Alex starts here.",
+        "parentId": "ranch"
+      },
+      {
+        "id": "shed",
+        "name": "Feed Shed",
+        "description": "Storage for cattle pellets.",
+        "parentId": "ranch"
+      },
+      {
+        "id": "yard",
+        "name": "Equipment Yard",
+        "description": "Machinery parking.",
+        "parentId": "ranch"
+      },
+      {
+        "id": "pasture",
+        "name": "North Pasture",
+        "description": "The dairy herd and its trough.",
+        "parentId": "ranch"
+      },
+      {
+        "id": "south-field",
+        "name": "South Field",
+        "description": "Distant fence repairs.",
+        "parentId": "ranch"
+      },
+      {
+        "id": "vault",
+        "name": "Buried Vault",
+        "description": "A concealed chamber.",
+        "parentId": "ranch"
+      },
+      {
+        "id": "tractor",
+        "name": "Loader Tractor",
+        "description": "A working tractor with a cab and a feed bin.",
+        "parentId": "yard"
+      },
+      {
+        "id": "tractor-cab",
+        "name": "Tractor Cab",
+        "description": "The driver seat and controls inside the Loader Tractor.",
+        "parentId": "tractor"
+      }
+    ],
+    "items": [
+      {
+        "id": "feedstock",
+        "name": "Cattle pellets",
+        "description": "Dry pellets measured in whole portions.",
+        "quantity": 100,
+        "ownerId": "shed",
+        "equipped": false
+      },
+      {
+        "id": "trough",
+        "name": "Long Trough",
+        "description": "A fixed feeding trough.",
+        "quantity": 1,
+        "ownerId": "pasture",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "cows",
+        "name": "Dairy cows",
+        "description": "The twelve cows in the north pasture.",
+        "quantity": 12,
+        "ownerId": "pasture",
+        "equipped": false
+      },
+      {
+        "id": "paint",
+        "name": "Red Paint Tin",
+        "description": "Fence maintenance paint.",
+        "quantity": 1,
+        "ownerId": "shed",
+        "equipped": false
+      },
+      {
+        "id": "toolbox",
+        "name": "Workshop Toolbox",
+        "description": "A closed box of tools.",
+        "quantity": 1,
+        "ownerId": "yard",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "spanner",
+        "name": "Metric Spanner",
+        "description": "An unrelated maintenance tool.",
+        "quantity": 1,
+        "ownerId": "toolbox",
+        "equipped": false
+      },
+      {
+        "id": "secret-bin",
+        "name": "Concealed Seed Bin",
+        "description": "A secret seed stock.",
+        "quantity": 1,
+        "ownerId": "vault",
+        "equipped": false,
+        "isContainer": true
+      },
+      {
+        "id": "feed-bin",
+        "name": "Tractor Feed Bin",
+        "description": "The loader bin used to carry cattle pellets.",
+        "quantity": 1,
+        "ownerId": "tractor",
+        "equipped": false,
+        "isContainer": true
+      }
+    ],
+    "relationships": [],
+    "threads": [],
+    "funds": 0,
+    "cargoNotes": ""
+  },
+  "recovery": {
+    "passageId": "morning-1",
+    "canon": {
+      "characters": [
+        {
+          "id": "alex",
+          "name": "Alex Morrow",
+          "role": "Rancher",
+          "appearance": "Weathered face, dark hair threaded with grey.",
+          "notes": "Knows the ranch feeding routine.",
+          "outfit": "Worn flight jacket, charcoal shirt",
+          "locationId": "tractor-cab",
+          "visual": {
+            "age": "",
+            "apparentAge": "",
+            "gender": "",
+            "presentation": "",
+            "species": "",
+            "skin": "",
+            "build": "",
+            "face": "",
+            "hair": "",
+            "eyes": "",
+            "distinctive": ""
+          },
+          "persona": {
+            "personality": "",
+            "voice": "",
+            "motives": "",
+            "history": ""
+          },
+          "currentState": "",
+          "wardrobe": {
+            "upper_body": "",
+            "lower_body": "",
+            "footwear": "",
+            "accessories": ""
+          },
+          "injuries": "",
+          "appearanceNotes": "Weathered face, dark hair threaded with grey.",
+          "outfitNotes": "Worn flight jacket, charcoal shirt",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "ben",
+          "name": "Ben Cooper",
+          "role": "Ranch hand",
+          "appearance": "Weathered face, dark hair threaded with grey.",
+          "notes": "Working at the distant fence.",
+          "outfit": "Worn flight jacket, charcoal shirt",
+          "locationId": "south-field",
+          "visual": {
+            "age": "",
+            "apparentAge": "",
+            "gender": "",
+            "presentation": "",
+            "species": "",
+            "skin": "",
+            "build": "",
+            "face": "",
+            "hair": "",
+            "eyes": "",
+            "distinctive": ""
+          },
+          "persona": {
+            "personality": "",
+            "voice": "",
+            "motives": "",
+            "history": ""
+          },
+          "currentState": "",
+          "wardrobe": {
+            "upper_body": "",
+            "lower_body": "",
+            "footwear": "",
+            "accessories": ""
+          },
+          "injuries": "",
+          "appearanceNotes": "Weathered face, dark hair threaded with grey.",
+          "outfitNotes": "Worn flight jacket, charcoal shirt",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        }
+      ],
+      "places": [
+        {
+          "id": "ranch",
+          "name": "Morrow Ranch",
+          "description": "A working cattle ranch.",
+          "parentId": null
+        },
+        {
+          "id": "porch",
+          "name": "Farmhouse Porch",
+          "description": "Alex starts here.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "shed",
+          "name": "Feed Shed",
+          "description": "Storage for cattle pellets.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "yard",
+          "name": "Equipment Yard",
+          "description": "Machinery parking.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "pasture",
+          "name": "North Pasture",
+          "description": "The dairy herd and its trough.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "south-field",
+          "name": "South Field",
+          "description": "Distant fence repairs.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "vault",
+          "name": "Buried Vault",
+          "description": "A concealed chamber.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "tractor",
+          "name": "Loader Tractor",
+          "description": "A working tractor with a cab and a feed bin.",
+          "parentId": "yard"
+        },
+        {
+          "id": "tractor-cab",
+          "name": "Tractor Cab",
+          "description": "The driver seat and controls inside the Loader Tractor.",
+          "parentId": "tractor"
+        }
+      ],
+      "items": [
+        {
+          "id": "feedstock",
+          "name": "Cattle pellets",
+          "description": "Dry pellets measured in whole portions.",
+          "quantity": 100,
+          "ownerId": "shed",
+          "equipped": false
+        },
+        {
+          "id": "trough",
+          "name": "Long Trough",
+          "description": "A fixed feeding trough.",
+          "quantity": 1,
+          "ownerId": "pasture",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "cows",
+          "name": "Dairy cows",
+          "description": "The twelve cows in the north pasture.",
+          "quantity": 12,
+          "ownerId": "pasture",
+          "equipped": false
+        },
+        {
+          "id": "paint",
+          "name": "Red Paint Tin",
+          "description": "Fence maintenance paint.",
+          "quantity": 1,
+          "ownerId": "shed",
+          "equipped": false
+        },
+        {
+          "id": "toolbox",
+          "name": "Workshop Toolbox",
+          "description": "A closed box of tools.",
+          "quantity": 1,
+          "ownerId": "yard",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "spanner",
+          "name": "Metric Spanner",
+          "description": "An unrelated maintenance tool.",
+          "quantity": 1,
+          "ownerId": "toolbox",
+          "equipped": false
+        },
+        {
+          "id": "secret-bin",
+          "name": "Concealed Seed Bin",
+          "description": "A secret seed stock.",
+          "quantity": 1,
+          "ownerId": "vault",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "feed-bin",
+          "name": "Tractor Feed Bin",
+          "description": "The loader bin used to carry cattle pellets.",
+          "quantity": 1,
+          "ownerId": "tractor",
+          "equipped": false,
+          "isContainer": true
+        }
+      ],
+      "relationships": [],
+      "threads": [],
+      "funds": 0,
+      "cargoNotes": ""
+    },
+    "valid": true
+  },
+  "narrationStyle": "Grounded rural fiction with clear physical action and ordinary working details.",
+  "artStyle": "Natural light and realistic rural surroundings.",
+  "adultContent": false,
+  "preferences": {
+    "tense": "past",
+    "person": "third-limited",
+    "passageWords": 100,
+    "chapterWords": 3000,
+    "writingGuide": "",
+    "contentNotes": ""
+  },
+  "recap": null,
+  "summaryCache": [],
+  "context": {
+    "sceneBrief": {
+      "purpose": "",
+      "tension": "",
+      "stopAt": "",
+      "viewpointId": null,
+      "locationId": null,
+      "castIds": [],
+      "scope": "current-scene",
+      "clearAfterPassage": false
+    },
+    "lore": [
+      {
+        "id": "feeding-routine",
+        "title": "Morning feeding",
+        "text": "For feeding the cows, Alex normally loads Cattle pellets from the Feed Shed into the Tractor Feed Bin, drives the Loader Tractor to North Pasture and unloads into the Long Trough. The Tractor Cab moves with the tractor. This describes a routine, not an event completed today.",
+        "keywords": [
+          "feed",
+          "cows",
+          "feeding"
+        ],
+        "relatedIds": [
+          "feedstock",
+          "tractor",
+          "trough",
+          "shed",
+          "pasture",
+          "feed-bin"
+        ],
+        "visibility": "relevant"
+      }
+    ],
+    "knowledge": [],
+    "memories": [],
+    "compaction": {
+      "epoch": 0,
+      "chapters": [],
+      "book": null
+    }
+  },
+  "media": {
+    "assets": [],
+    "portraits": {},
+    "references": {}
+  },
+  "factPins": {
+    "fields": [],
+    "rules": []
+  }
+}

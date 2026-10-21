@@ -1,0 +1,48 @@
+{
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "userLibraryChanged": false,
+  "attempts": [
+    {
+      "contextTokens": 32000,
+      "requests": [
+        {
+          "stage": "narration",
+          "estimatedInputTokens": 9852,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "effects",
+          "estimatedInputTokens": 23736,
+          "outputAllowance": 4096,
+          "characters": 3,
+          "items": 5,
+          "places": 4,
+          "directoryCharacters": 24,
+          "directoryItems": 170
+        }
+      ]
+    },
+    {
+      "contextTokens": 262144,
+      "requests": [
+        {
+          "stage": "narration",
+          "estimatedInputTokens": 9852,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "effects",
+          "estimatedInputTokens": 23736,
+          "outputAllowance": 4096,
+          "characters": 3,
+          "items": 5,
+          "places": 4,
+          "directoryCharacters": 24,
+          "directoryItems": 170
+        }
+      ]
+    }
+  ],
+  "limitations": "Mock prose is repetitive filler solely for request construction. The 262144-token setting is a diagnostic probe, not a recommended configuration. Counts are app estimates, not provider token usage or quality results."
+}

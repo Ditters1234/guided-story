@@ -1,0 +1,215 @@
+{
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "userLibraryChanged": false,
+  "archiveImportValidated": true,
+  "scope": [
+    {
+      "case": "no-routine",
+      "runnable": true,
+      "estimatedInputTokens": 4510,
+      "items": [
+        {
+          "id": "feedstock",
+          "name": "Cattle pellets",
+          "ownerId": "shed",
+          "quantity": 100,
+          "description": "Dry pellets measured in whole portions."
+        },
+        {
+          "id": "cows",
+          "name": "Dairy cows",
+          "ownerId": "pasture",
+          "quantity": 12,
+          "description": "The twelve cows in the north pasture."
+        }
+      ],
+      "activeCharacters": [
+        "alex"
+      ],
+      "places": [
+        "porch",
+        "ranch",
+        "shed",
+        "pasture"
+      ],
+      "warnings": []
+    },
+    {
+      "case": "public-routine",
+      "runnable": true,
+      "estimatedInputTokens": 5174,
+      "items": [
+        {
+          "id": "feedstock",
+          "name": "Cattle pellets",
+          "ownerId": "shed",
+          "quantity": 100,
+          "description": "Dry pellets measured in whole portions."
+        },
+        {
+          "id": "tractor",
+          "name": "Loader Tractor",
+          "ownerId": "yard",
+          "quantity": 1,
+          "description": "A working tractor with a feed bin."
+        },
+        {
+          "id": "trough",
+          "name": "Long Trough",
+          "ownerId": "pasture",
+          "quantity": 1,
+          "description": "A fixed feeding trough."
+        },
+        {
+          "id": "cows",
+          "name": "Dairy cows",
+          "ownerId": "pasture",
+          "quantity": 12,
+          "description": "The twelve cows in the north pasture."
+        }
+      ],
+      "activeCharacters": [
+        "alex"
+      ],
+      "places": [
+        "porch",
+        "ranch",
+        "shed",
+        "pasture",
+        "yard"
+      ],
+      "warnings": []
+    },
+    {
+      "case": "flat-tyre",
+      "runnable": true,
+      "estimatedInputTokens": 5185,
+      "items": [
+        {
+          "id": "feedstock",
+          "name": "Cattle pellets",
+          "ownerId": "shed",
+          "quantity": 100,
+          "description": "Dry pellets measured in whole portions."
+        },
+        {
+          "id": "tractor",
+          "name": "Loader Tractor",
+          "ownerId": "yard",
+          "quantity": 1,
+          "description": "Its rear tyre is flat; it cannot be driven until repaired."
+        },
+        {
+          "id": "trough",
+          "name": "Long Trough",
+          "ownerId": "pasture",
+          "quantity": 1,
+          "description": "A fixed feeding trough."
+        },
+        {
+          "id": "cows",
+          "name": "Dairy cows",
+          "ownerId": "pasture",
+          "quantity": 12,
+          "description": "The twelve cows in the north pasture."
+        }
+      ],
+      "activeCharacters": [
+        "alex"
+      ],
+      "places": [
+        "porch",
+        "ranch",
+        "shed",
+        "pasture",
+        "yard"
+      ],
+      "warnings": []
+    }
+  ],
+  "flows": [
+    {
+      "case": "complete-effects",
+      "requests": [
+        {
+          "stage": "narration",
+          "estimatedInputTokens": 5165,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "extraction",
+          "estimatedInputTokens": 8725,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "inventory-review",
+          "estimatedInputTokens": 6994,
+          "outputAllowance": 768
+        }
+      ],
+      "final": {
+        "feedInShed": 90,
+        "feedInTrough": 6,
+        "consumed": 4,
+        "tractorLocation": "pasture",
+        "rancherLocation": "pasture"
+      }
+    },
+    {
+      "case": "omitted-effects-repair",
+      "requests": [
+        {
+          "stage": "narration",
+          "estimatedInputTokens": 5165,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "extraction",
+          "estimatedInputTokens": 8725,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "inventory-review",
+          "estimatedInputTokens": 6148,
+          "outputAllowance": 768
+        },
+        {
+          "stage": "repair",
+          "estimatedInputTokens": 9045,
+          "outputAllowance": 4096
+        },
+        {
+          "stage": "inventory-review",
+          "estimatedInputTokens": 6996,
+          "outputAllowance": 768
+        }
+      ],
+      "final": {
+        "feedInShed": 90,
+        "feedInTrough": 6,
+        "consumed": 4,
+        "tractorLocation": "pasture",
+        "rancherLocation": "pasture"
+      }
+    }
+  ],
+  "vehicle": {
+    "rancherLocation": "tractor-cab",
+    "cabParent": "tractor",
+    "tractorParent": "pasture",
+    "binHolder": "tractor",
+    "selectedPlaces": [
+      "tractor-cab",
+      "tractor",
+      "pasture",
+      "ranch",
+      "shed"
+    ],
+    "activeCharacters": [
+      "alex"
+    ],
+    "duplicateTractorItem": false
+  },
+  "limitations": "Mocked prose/completions verify request construction and state commits only. Token counts are conservative app estimates. Relevant references must already exist in visible descriptions, background, known facts or valid viewpoint memory; no universal activity planner or hidden-knowledge inference is tested."
+}

@@ -1,0 +1,33 @@
+{
+  "modelCalls": 0,
+  "userLibraryChanged": false,
+  "viewpointFallback": {
+    "sharedSurname": {
+      "savedViewpoint": "Mara Vale",
+      "inferredId": "iris",
+      "selectedPlaceIds": [
+        "chartroom",
+        "kestrel",
+        "docks",
+        "brasswater"
+      ]
+    },
+    "shortName": {
+      "savedViewpoint": "Ren",
+      "inferredId": "iris",
+      "selectedPlaceIds": [
+        "chartroom",
+        "kestrel",
+        "docks",
+        "brasswater"
+      ]
+    }
+  },
+  "nestedReference": {
+    "item": "iris-ferry-ticket",
+    "irrelevantSiblingIncluded": true,
+    "ownerFullIdentityIncluded": false,
+    "holderNameAvailableInStoragePath": true
+  },
+  "limitations": "Current fallback is bypassed by an explicit scene viewpoint. Sibling inclusion is confirmed with a narrow remote scene. No model-quality claim or application fix is implied."
+}

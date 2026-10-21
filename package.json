@@ -1,0 +1,43 @@
+{
+  "name": "guided-story",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#lib/*.svelte": "./src/lib/*.svelte",
+    "#lib/*": "./src/lib/*.ts"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node scripts/start.mjs dev",
+    "play": "node scripts/start.mjs play --production",
+    "play:dev": "node scripts/start.mjs play",
+    "start": "node scripts/start.mjs play --production",
+    "build": "node scripts/build.mjs",
+    "release": "node scripts/package-release.mjs",
+    "release:production": "node scripts/package-production.mjs",
+    "release:production:verify": "node scripts/production-package-smoke.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "check": "svelte-kit sync && svelte-check --config ./vite.config.ts --tsconfig ./tsconfig.json",
+    "test": "node --import tsx --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "@sveltejs/kit": "^3.1.0",
+    "fflate": "^0.8.2",
+    "photoswipe": "^5.4.4",
+    "sharp": "^0.35.5",
+    "svelte": "^5.57.2",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^6.0.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^24.0.0",
+    "svelte-check": "^4.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^6.0.0",
+    "vite": "^8.3.4"
+  }
+}

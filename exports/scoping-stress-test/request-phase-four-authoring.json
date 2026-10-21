@@ -1,0 +1,96 @@
+{
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "userLibraryChanged": false,
+  "fixture": {
+    "characters": 24,
+    "places": 34,
+    "items": 170
+  },
+  "results": [
+    {
+      "task": "opening",
+      "estimatedInputTokens": 7885,
+      "outputAllowance": 4096,
+      "fullRecords": {
+        "characters": 3,
+        "places": 4,
+        "items": 5,
+        "relationships": 4,
+        "threads": 8
+      }
+    },
+    {
+      "task": "opening-extraction",
+      "estimatedInputTokens": 22481,
+      "outputAllowance": 4096,
+      "fullRecords": {
+        "characters": 3,
+        "places": 4,
+        "items": 4,
+        "relationships": 4,
+        "threads": 0
+      },
+      "directory": {
+        "characters": 24,
+        "places": 34,
+        "items": 170,
+        "relationships": 20,
+        "threads": 8
+      }
+    },
+    {
+      "task": "name",
+      "estimatedInputTokens": 7775,
+      "outputAllowance": 512,
+      "directory": {
+        "characters": 0,
+        "places": 0,
+        "items": 170,
+        "relationships": 0,
+        "threads": 0
+      },
+      "selectedRecord": "iris-notebook"
+    },
+    {
+      "task": "revise",
+      "estimatedInputTokens": 16509,
+      "outputAllowance": 4096,
+      "fullRecords": {
+        "characters": 1,
+        "places": 4,
+        "items": 2,
+        "relationships": 0,
+        "threads": 0
+      },
+      "directory": {
+        "characters": 24,
+        "places": 34,
+        "items": 170,
+        "relationships": 20,
+        "threads": 8
+      },
+      "selectedRecord": "iris-notebook"
+    },
+    {
+      "task": "repair",
+      "estimatedInputTokens": 20507,
+      "outputAllowance": 4096,
+      "fullRecords": {
+        "characters": 4,
+        "places": 9,
+        "items": 9,
+        "relationships": 6,
+        "threads": 0
+      },
+      "directory": {
+        "characters": 24,
+        "places": 34,
+        "items": 170,
+        "relationships": 20,
+        "threads": 8
+      }
+    }
+  ],
+  "limitations": "Mock prose and responses test request construction and validation only. Input token counts are conservative app estimates, not provider tokenizer usage or narrative-quality measurements. Opening and revise/repair use 32000 context tokens; name uses 16384."
+}

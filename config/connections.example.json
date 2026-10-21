@@ -1,0 +1,20 @@
+{
+  "text": {
+    "baseUrl": "http://127.0.0.1:8888/v1",
+    "model": "",
+    "apiKey": "",
+    "temperature": 0.8,
+    "maxTokens": 4096,
+    "contextTokens": 32000,
+    "structuredOutput": "auto",
+    "timeoutSeconds": 300,
+    "thinking": "off"
+  },
+  "images": {
+    "baseUrl": "http://127.0.0.1:8188",
+    "workflow": "AI/Comfy Workflow/portrait.comfy-desktop.api.json",
+    "width": 896,
+    "height": 1152,
+    "steps": 9
+  }
+}

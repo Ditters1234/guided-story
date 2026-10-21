@@ -1,0 +1,30 @@
+{
+  "modelCalls": 0,
+  "userLibraryChanged": false,
+  "correctTransfer": {
+    "accepted": true,
+    "ownerId": "ren",
+    "includedInIsolatedRecipientScene": false
+  },
+  "omittedTransfer": {
+    "accepted": true,
+    "ownerId": "iris",
+    "proseSaysRecipient": "ren",
+    "memorySaysRecipient": "ren",
+    "includedInIsolatedRecipientScene": false
+  },
+  "unsupportedTransfer": {
+    "accepted": true,
+    "ownerId": "ren",
+    "sourceAnchorIsVerbatim": true,
+    "proseContainsNoHandover": true
+  },
+  "duplicateInsteadOfTransfer": {
+    "accepted": true,
+    "matchingItemCount": 2,
+    "originalOwnerId": "iris",
+    "createdItemOwnerId": "ren"
+  },
+  "conclusion": "Raw structural dry runs still cannot establish semantic completeness. Actual generatePassage now performs targeted verification and one repair before commit; see scoping-regressions tests and live-repair evidence.",
+  "limitations": "This deliberately bypasses the guarded generation path. It does not identify what the user’s old model returned. Unreferenced, unequipped items are now omitted from a quiet scene for both holders; ownership remains relevant to explicit item records and event retrieval."
+}

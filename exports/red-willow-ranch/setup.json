@@ -1,0 +1,1277 @@
+{
+  "id": "bdeac802-d39e-45a2-8def-25726c2e7f25",
+  "revision": 0,
+  "createdAt": "2026-10-21T01:29:17.018Z",
+  "updatedAt": "2026-10-21T01:29:17.018Z",
+  "input": {
+    "title": "Red Willow Ranch",
+    "premise": "A warm slice-of-life story at a modest fictional prairie cattle ranch. Alex and Erin Morrow share a small farmhouse, twelve beef cows and two leisure riding horses, Clover and Pippin. Ben helps a few mornings a week; their neighbor June is a friend. A morning can include loading supplementary feed in the shed, driving it to the cows, making breakfast, grooming a horse or choosing a quiet ride. Other days leave room for the garden, laundry, small repairs, baking and neighborly tea. Begin at the farmhouse kitchen table after overnight drizzle, before the feeding round. Let relationships and everyday physical actions shape the story; no forced crisis or required sequence of chores.",
+    "castSize": 7,
+    "narrationStyle": "Warm, grounded slice-of-life prose. Close third-person human viewpoint, tactile rural detail, natural dialogue and gentle humour. Give small practical actions room without turning each passage into a task list.",
+    "artStyle": "Natural-light rural photography, realistic materials and colours, calm compositions, soft prairie daylight.",
+    "adultContent": false,
+    "preferences": {
+      "tense": "past",
+      "person": "third-limited",
+      "passageWords": 500,
+      "chapterWords": 2500,
+      "writingGuide": "Stay with one human viewpoint per passage. Let each scene do one manageable thing and stop at the requested boundary. Show travel, boarding, exits and handovers when they occur. Use exact whole units for tracked transfers or consumption; do not guess numerical capacity from vague words. Background routines describe possibilities, not completed events. Allow conversation, rest and unfinished chores.",
+      "contentNotes": "Adult human cast; family-friendly domestic and farm life. Affection is welcome. No explicit sexual content, cruelty or forced catastrophe."
+    }
+  },
+  "plan": {
+    "title": "Red Willow Ranch",
+    "chapterTitle": "A Morning at Home",
+    "canon": {
+      "characters": [
+        {
+          "id": "alex",
+          "name": "Alex Morrow",
+          "role": "Resident rancher",
+          "appearance": "Age (actual age): 38\nGender: man\nSpecies / form: human\nSkin / complexion: Lightly tanned skin\nBuild / silhouette: Broad shoulders, practical working build\nFace: Square jaw and short brown beard\nHair: Short brown hair\nEyes: Hazel",
+          "notes": "An adult resident or friend with ordinary knowledge of this small ranch; no hidden subplot.",
+          "outfit": "Upper-body clothing: Faded blue work shirt over a grey T-shirt\nLower-body clothing: Worn dark jeans\nFootwear: Brown house slippers\nWorn accessories: Plain wedding band",
+          "locationId": "kitchen",
+          "visual": {
+            "age": "38",
+            "apparentAge": "",
+            "gender": "man",
+            "presentation": "",
+            "species": "human",
+            "skin": "Lightly tanned skin",
+            "build": "Broad shoulders, practical working build",
+            "face": "Square jaw and short brown beard",
+            "hair": "Short brown hair",
+            "eyes": "Hazel",
+            "distinctive": ""
+          },
+          "persona": {
+            "personality": "Patient and capable; sometimes overpacks a morning with small jobs.",
+            "voice": "Plain sentences, dry humour, asks before assuming.",
+            "motives": "Keep the animals comfortable and make time at home.",
+            "history": "Has managed this small ranch with Erin for eight years."
+          },
+          "currentState": "Considering the morning jobs over breakfast; has not begun the feeding round.",
+          "wardrobe": {
+            "upper_body": "Faded blue work shirt over a grey T-shirt",
+            "lower_body": "Worn dark jeans",
+            "footwear": "Brown house slippers",
+            "accessories": "Plain wedding band"
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "erin",
+          "name": "Erin Morrow",
+          "role": "Resident partner and gardener",
+          "appearance": "Age (actual age): 36\nGender: woman\nSpecies / form: human\nSkin / complexion: Fair skin with freckles\nBuild / silhouette: Sturdy, medium height\nFace: Round face, expressive brows\nHair: Auburn hair in a loose braid\nEyes: Green",
+          "notes": "An adult resident or friend with ordinary knowledge of this small ranch; no hidden subplot.",
+          "outfit": "Upper-body clothing: Oatmeal knit cardigan over a forest-green shirt\nLower-body clothing: Dark denim trousers\nFootwear: Thick grey socks\nWorn accessories: Plain wedding band",
+          "locationId": "kitchen",
+          "visual": {
+            "age": "36",
+            "apparentAge": "",
+            "gender": "woman",
+            "presentation": "",
+            "species": "human",
+            "skin": "Fair skin with freckles",
+            "build": "Sturdy, medium height",
+            "face": "Round face, expressive brows",
+            "hair": "Auburn hair in a loose braid",
+            "eyes": "Green",
+            "distinctive": ""
+          },
+          "persona": {
+            "personality": "Warm, direct and inventive about making ordinary days pleasant.",
+            "voice": "Light teasing followed by specific practical suggestions.",
+            "motives": "Share farm work fairly, tend the garden and keep the home welcoming.",
+            "history": "Grew up in a nearby town; learned ranch routines alongside Alex."
+          },
+          "currentState": "At the kitchen table with Alex, thinking about a quiet ride later.",
+          "wardrobe": {
+            "upper_body": "Oatmeal knit cardigan over a forest-green shirt",
+            "lower_body": "Dark denim trousers",
+            "footwear": "Thick grey socks",
+            "accessories": "Plain wedding band"
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "ben",
+          "name": "Ben Cooper",
+          "role": "Part-time farm hand",
+          "appearance": "Age (actual age): 27\nGender: man\nSpecies / form: human\nSkin / complexion: Medium brown skin\nBuild / silhouette: Lean and long-limbed\nHair: Short black curls\nEyes: Dark brown\nDistinctive features: Small dimple in left cheek",
+          "notes": "An adult resident or friend with ordinary knowledge of this small ranch; no hidden subplot.",
+          "outfit": "Upper-body clothing: Rust-coloured sweatshirt\nLower-body clothing: Olive work trousers\nFootwear: Black work boots\nWorn accessories: Plain wristwatch",
+          "locationId": "stable-aisle",
+          "visual": {
+            "age": "27",
+            "apparentAge": "",
+            "gender": "man",
+            "presentation": "",
+            "species": "human",
+            "skin": "Medium brown skin",
+            "build": "Lean and long-limbed",
+            "face": "",
+            "hair": "Short black curls",
+            "eyes": "Dark brown",
+            "distinctive": "Small dimple in left cheek"
+          },
+          "persona": {
+            "personality": "Conscientious and cheerful, willing to admit what he has not learned.",
+            "voice": "Quick friendly questions; repeats an unfamiliar instruction once.",
+            "motives": "Do reliable work and become more confident with the horses.",
+            "history": "Helps three mornings a week and lives off the property."
+          },
+          "currentState": "Sweeping the stable aisle; neither horse has been brought indoors.",
+          "wardrobe": {
+            "upper_body": "Rust-coloured sweatshirt",
+            "lower_body": "Olive work trousers",
+            "footwear": "Black work boots",
+            "accessories": "Plain wristwatch"
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "june",
+          "name": "June Calloway",
+          "role": "Neighbor and experienced leisure rider",
+          "appearance": "Age (actual age): 56\nGender: woman\nSpecies / form: human\nSkin / complexion: Weathered fair skin\nBuild / silhouette: Compact, upright posture\nHair: Grey bob\nEyes: Blue\nDistinctive features: Narrow laugh lines",
+          "notes": "An adult resident or friend with ordinary knowledge of this small ranch; no hidden subplot.",
+          "outfit": "Upper-body clothing: Burgundy fleece over a cream shirt\nLower-body clothing: Faded blue jeans\nFootwear: Brown ankle boots\nWorn accessories: Reading glasses on a cord",
+          "locationId": "june-home",
+          "visual": {
+            "age": "56",
+            "apparentAge": "",
+            "gender": "woman",
+            "presentation": "",
+            "species": "human",
+            "skin": "Weathered fair skin",
+            "build": "Compact, upright posture",
+            "face": "",
+            "hair": "Grey bob",
+            "eyes": "Blue",
+            "distinctive": "Narrow laugh lines"
+          },
+          "persona": {
+            "personality": "Observant, sociable and respectful of other people's time.",
+            "voice": "Unhurried observations, practical anecdotes, warm greetings.",
+            "motives": "Enjoy neighborly company and help make riding relaxed.",
+            "history": "Has lived next door for twenty years and often joins a weekend ride."
+          },
+          "currentState": "At her own smallholding; no visit has yet been arranged.",
+          "wardrobe": {
+            "upper_body": "Burgundy fleece over a cream shirt",
+            "lower_body": "Faded blue jeans",
+            "footwear": "Brown ankle boots",
+            "accessories": "Reading glasses on a cord"
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "clover",
+          "name": "Clover",
+          "role": "Leisure riding mare",
+          "appearance": "Age (actual age): 9\nGender: mare\nSpecies / form: horse\nSkin / complexion: Chestnut coat\nBuild / silhouette: Compact riding horse\nFace: Broad white blaze\nHair: Flaxen mane and tail\nEyes: Dark brown\nDistinctive features: White socks on both hind legs",
+          "notes": "Erin usually rides this mare. A character record tracks her location and behaviour; she is not a vehicle or an inventory item.",
+          "outfit": "No human clothing; no riding tack is currently fitted.",
+          "locationId": "horse-paddock",
+          "visual": {
+            "age": "9",
+            "apparentAge": "",
+            "gender": "mare",
+            "presentation": "",
+            "species": "horse",
+            "skin": "Chestnut coat",
+            "build": "Compact riding horse",
+            "face": "Broad white blaze",
+            "hair": "Flaxen mane and tail",
+            "eyes": "Dark brown",
+            "distinctive": "White socks on both hind legs"
+          },
+          "persona": {
+            "personality": "Steady on familiar trails; curious about buckets.",
+            "voice": "Ordinary animal sounds and body language; no spoken human dialogue.",
+            "motives": "Food, water, familiar company and comfortable handling.",
+            "history": "A familiar part of the ranch."
+          },
+          "currentState": "Grazing in Horse Paddock with Pippin; untacked.",
+          "wardrobe": {
+            "upper_body": "",
+            "lower_body": "",
+            "footwear": "",
+            "accessories": ""
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "No human clothing; no riding tack is currently fitted.",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "pippin",
+          "name": "Pippin",
+          "role": "Leisure riding gelding",
+          "appearance": "Age (actual age): 12\nGender: gelding\nSpecies / form: horse\nSkin / complexion: Bay coat with black points\nBuild / silhouette: Tall, solid riding horse\nFace: Small white star\nHair: Black mane and tail\nEyes: Dark brown",
+          "notes": "Alex usually rides this gelding; Ben handles him under guidance. A rider and horse each retain their own location records.",
+          "outfit": "No human clothing; no riding tack is currently fitted.",
+          "locationId": "horse-paddock",
+          "visual": {
+            "age": "12",
+            "apparentAge": "",
+            "gender": "gelding",
+            "presentation": "",
+            "species": "horse",
+            "skin": "Bay coat with black points",
+            "build": "Tall, solid riding horse",
+            "face": "Small white star",
+            "hair": "Black mane and tail",
+            "eyes": "Dark brown",
+            "distinctive": ""
+          },
+          "persona": {
+            "personality": "Patient and sociable; pauses to inspect puddles.",
+            "voice": "Ordinary animal sounds and body language; no spoken human dialogue.",
+            "motives": "Food, water, familiar company and comfortable handling.",
+            "history": "A familiar part of the ranch."
+          },
+          "currentState": "Grazing beside Clover in Horse Paddock; untacked.",
+          "wardrobe": {
+            "upper_body": "",
+            "lower_body": "",
+            "footwear": "",
+            "accessories": ""
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "No human clothing; no riding tack is currently fitted.",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        },
+        {
+          "id": "herd",
+          "name": "Cattle Herd",
+          "role": "Twelve beef cows, tracked as one group",
+          "appearance": "Age (actual age): Adult group\nGender: cows\nSpecies / form: cattle\nSkin / complexion: Mixed red, brown and black coats\nBuild / silhouette: Twelve medium-sized beef cows\nHair: Short coats\nEyes: Dark\nDistinctive features: Small numbered ear tags",
+          "notes": "One group record represents twelve adult cows. Ordinary individual movement does not split the group; introduce individual records only if the story needs them. No calves or bulls are present.",
+          "outfit": "No human clothing; no riding tack is currently fitted.",
+          "locationId": "north-pasture",
+          "visual": {
+            "age": "Adult group",
+            "apparentAge": "",
+            "gender": "cows",
+            "presentation": "",
+            "species": "cattle",
+            "skin": "Mixed red, brown and black coats",
+            "build": "Twelve medium-sized beef cows",
+            "face": "",
+            "hair": "Short coats",
+            "eyes": "Dark",
+            "distinctive": "Small numbered ear tags"
+          },
+          "persona": {
+            "personality": "Calm familiar livestock; alert to the sound of the feed tractor.",
+            "voice": "Ordinary animal sounds and body language; no spoken human dialogue.",
+            "motives": "Food, water, familiar company and comfortable handling.",
+            "history": "A familiar part of the ranch."
+          },
+          "currentState": "Spread across North Pasture, grazing; the morning supplementary feed has not been delivered.",
+          "wardrobe": {
+            "upper_body": "",
+            "lower_body": "",
+            "footwear": "",
+            "accessories": ""
+          },
+          "injuries": "",
+          "appearanceNotes": "",
+          "outfitNotes": "No human clothing; no riding tack is currently fitted.",
+          "noNsfw": true,
+          "pinnedAppearance": false
+        }
+      ],
+      "places": [
+        {
+          "id": "ranch",
+          "name": "Red Willow Ranch",
+          "description": "A small family-run prairie cattle ranch. Farm Yard links the farmhouse, Feed Shed, horse areas and pasture gates; Farm Lane joins the county road.",
+          "visualDescription": "Gently rolling grassland, shelterbelt trees, gravel tracks and weathered red outbuildings.",
+          "parentId": null
+        },
+        {
+          "id": "house",
+          "name": "Small Farmhouse",
+          "description": "A modest one-storey home with a kitchen, sitting room, two bedrooms, bathroom and a back mudroom opening toward Farm Yard.",
+          "visualDescription": "Cream clapboard, green trim, a low shingled roof and a covered front porch.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "kitchen",
+          "name": "Farmhouse Kitchen",
+          "description": "A lived-in kitchen for breakfast, baking and planning the day. Kitchen Table, Refrigerator and Pantry Cupboard hold the named household supplies.",
+          "visualDescription": "Pale yellow walls, pine cabinets, a blue checked tablecloth and an east window over the sink.",
+          "parentId": "house"
+        },
+        {
+          "id": "sitting-room",
+          "name": "Sitting Room",
+          "description": "A comfortable room for reading, conversation, mending and resting after chores; reached from the kitchen.",
+          "visualDescription": "Faded green sofa, low bookshelf, braided rug and a broad west window.",
+          "parentId": "house"
+        },
+        {
+          "id": "main-bedroom",
+          "name": "Main Bedroom",
+          "description": "Alex and Erin share this bedroom; clothes and ordinary personal belongings are kept here.",
+          "visualDescription": "Patchwork quilt, pine chest of drawers and simple bedside lamps.",
+          "parentId": "house"
+        },
+        {
+          "id": "spare-bedroom",
+          "name": "Spare Bedroom",
+          "description": "A tidy guest room that also serves as a small sewing and paperwork space.",
+          "visualDescription": "Single bed, sewing desk, gingham curtains and a folded guest quilt.",
+          "parentId": "house"
+        },
+        {
+          "id": "bathroom",
+          "name": "Farmhouse Bathroom",
+          "description": "An ordinary bathroom for washing up after work and getting ready for the day.",
+          "visualDescription": "White tub, sage-painted cabinet, tiled floor and a small frosted window.",
+          "parentId": "house"
+        },
+        {
+          "id": "mudroom",
+          "name": "Back Mudroom",
+          "description": "The practical entrance between the kitchen and Farm Yard, with space for muddy boots, coats and a laundry basket.",
+          "visualDescription": "Boot bench, wall pegs, rubber floor mat and a back door with a glass pane.",
+          "parentId": "house"
+        },
+        {
+          "id": "porch",
+          "name": "Front Porch",
+          "description": "A sheltered place for tea, watching the weather and receiving visitors; steps lead toward Kitchen Garden and Farm Lane.",
+          "visualDescription": "Two wooden chairs, narrow porch boards and a low painted railing.",
+          "parentId": "house"
+        },
+        {
+          "id": "yard",
+          "name": "Farm Yard",
+          "description": "The gravel working hub. Feed Shed stands west, Workshop south, North Pasture gate north and Horse Yard east. There is space to park farm machinery.",
+          "visualDescription": "Compacted gravel, shallow rain-dark patches and open space between low farm buildings.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "feed-shed",
+          "name": "Feed Shed",
+          "description": "Dry livestock-feed storage with separate named stock containers. Farm machinery can be loaded outside its broad doors; the specific stock and tools are catalogued separately.",
+          "visualDescription": "Red plank walls, wide sliding doors, timber rafters and a dry concrete floor.",
+          "parentId": "yard"
+        },
+        {
+          "id": "workshop",
+          "name": "Workshop",
+          "description": "A small repair shop with a workbench and Workshop Toolbox. Suitable for minor repairs and sharpening tools.",
+          "visualDescription": "Corrugated metal walls, scarred workbench, pegboard and a fluorescent strip light.",
+          "parentId": "yard"
+        },
+        {
+          "id": "tractor",
+          "name": "Loader Tractor",
+          "description": "An operable compact loader tractor, represented as a moving place. Tractor Cab is inside it; Tractor Feed Bin is attached outside. It can travel between Farm Yard, Feed Shed and North Pasture.",
+          "visualDescription": "Faded green bodywork, black rubber tyres, orange beacon and a square glazed cab.",
+          "parentId": "yard"
+        },
+        {
+          "id": "tractor-cab",
+          "name": "Tractor Cab",
+          "description": "One driving seat, steering wheel and controls inside Loader Tractor. A driver stays in this cab while the tractor moves, and leaves it when stepping down.",
+          "visualDescription": "Scuffed black seat, dusty glass, worn steering wheel and a small rear-view mirror.",
+          "parentId": "tractor"
+        },
+        {
+          "id": "north-pasture",
+          "name": "North Pasture",
+          "description": "A fenced grazing field north of Farm Yard. Cattle Feed Trough stands beside the accessible feeding strip, with Pasture Water Trough nearby. The herd can approach the trough.",
+          "visualDescription": "Short autumn grass, wire fencing, a wide gate and a shallow rise backed by willow trees.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "hay-meadow",
+          "name": "South Hay Meadow",
+          "description": "A quiet grass field south of the yard, already cut for the season. Suitable for a boundary walk or an easy ride when the ground is firm.",
+          "visualDescription": "Pale stubble, grass margins, a low stone pile and an open southern horizon.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "horse-yard",
+          "name": "Horse Yard",
+          "description": "A separate area east of Farm Yard connecting Small Stable, Horse Paddock and Schooling Ring. Gates lead out toward Creek Loop Trail.",
+          "visualDescription": "Packed earth, timber rails and a pair of neatly hung gate chains.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "stable",
+          "name": "Small Stable",
+          "description": "A two-stall stable used for the riding horses, shelter and grooming; the aisle connects Tack Room and both stalls.",
+          "visualDescription": "Weathered red siding, dark green doors and a low roof with a ventilation cupola.",
+          "parentId": "horse-yard"
+        },
+        {
+          "id": "stable-aisle",
+          "name": "Stable Aisle",
+          "description": "A broad, uncluttered aisle where the horses can be brought in for grooming or tacking up. Hooks provide storage for feed buckets when not in use.",
+          "visualDescription": "Swept concrete, straw near stall doors and brass hooks along a timber wall.",
+          "parentId": "stable"
+        },
+        {
+          "id": "tack-room",
+          "name": "Tack Room",
+          "description": "Dry storage for Grooming Kit, saddles, bridles, halters and riding helmets. Tack is put away here when not being used.",
+          "visualDescription": "Wooden saddle racks, bridle pegs, a narrow bench and a high dusty window.",
+          "parentId": "stable"
+        },
+        {
+          "id": "clover-stall",
+          "name": "Clover Stall",
+          "description": "A bedded stall reserved for Clover, used when shelter or indoor care is wanted.",
+          "visualDescription": "Fresh straw, a half-height wooden door and a small barred window.",
+          "parentId": "stable"
+        },
+        {
+          "id": "pippin-stall",
+          "name": "Pippin Stall",
+          "description": "A bedded stall reserved for Pippin, used when shelter or indoor care is wanted.",
+          "visualDescription": "Clean straw, a broad stable door and a wall-mounted tie ring.",
+          "parentId": "stable"
+        },
+        {
+          "id": "horse-paddock",
+          "name": "Horse Paddock",
+          "description": "A secure turnout paddock for Clover and Pippin with grass, shade and Horse Water Trough. A gate opens into Horse Yard.",
+          "visualDescription": "Timber rails, cropped grass, two shade trees and a muddy patch beside the gate.",
+          "parentId": "horse-yard"
+        },
+        {
+          "id": "schooling-ring",
+          "name": "Schooling Ring",
+          "description": "A small enclosed sand arena for leisurely schooling and rebuilding confidence; it is not a competition yard.",
+          "visualDescription": "Pale sand, low timber rails and two simple ground poles.",
+          "parentId": "horse-yard"
+        },
+        {
+          "id": "garden",
+          "name": "Kitchen Garden",
+          "description": "A small garden beside the farmhouse, with late carrots, herbs and an unfinished herb-bed edging project. Garden Basket holds the small tools.",
+          "visualDescription": "Raised beds, dark soil, rosemary pots and a low woven fence.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "creek-trail",
+          "name": "Creek Loop Trail",
+          "description": "A gentle loop along the shelterbelt and creek, reached through the eastern horse gates or a southern grass track. Ordinary rides take time and return by the same gates.",
+          "visualDescription": "Willow shade, a shallow creek, grass tracks and a small wooden footbridge beside the riding ford.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "farm-lane",
+          "name": "Farm Lane",
+          "description": "A short gravel lane from Farm Yard past Front Porch to County Road. Walking to the neighboring smallholding takes about fifteen minutes.",
+          "visualDescription": "Twin wheel tracks, grass verge, mailbox and a simple ranch sign.",
+          "parentId": "ranch"
+        },
+        {
+          "id": "county-road",
+          "name": "County Road",
+          "description": "A quiet public gravel road connecting the ranch lane and June Smallholding. Larger shops are a drive away and are not part of the starting scene.",
+          "visualDescription": "Wide gravel shoulder, utility poles and open fields.",
+          "parentId": null
+        },
+        {
+          "id": "june-home",
+          "name": "June Smallholding",
+          "description": "June lives at this neighboring property beside County Road. A modest house and vegetable patch; visitors must travel here or arrange a visit.",
+          "visualDescription": "White cottage, blue gate, tall sunflowers and a gravel front path.",
+          "parentId": null
+        }
+      ],
+      "items": [
+        {
+          "id": "grain-hopper",
+          "name": "Grain Hopper",
+          "description": "A fixed dry storage hopper used only for Cattle Feed.",
+          "visualDescription": "Galvanized rectangular hopper with a blue lid.",
+          "quantity": 1,
+          "ownerId": "feed-shed",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "cattle-feed",
+          "name": "Cattle Feed",
+          "description": "Stored supplementary cattle feed. Quantity is measured in whole level feed scoops, not sacks or kilograms. Loading or pouring moves these units; only actual eating consumes them.",
+          "visualDescription": "Coarse golden-brown feed pellets.",
+          "quantity": 120,
+          "ownerId": "grain-hopper",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "feed-scoop",
+          "name": "Level Feed Scoop",
+          "description": "A reusable scoop for transferring the tracked whole-scoop feed units.",
+          "visualDescription": "Dull aluminium scoop with a short red handle.",
+          "quantity": 1,
+          "ownerId": "feed-shed",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "tractor-bin",
+          "name": "Tractor Feed Bin",
+          "description": "An attached open bin outside the cab. Can hold Cattle Feed for the feeding round and moves with Loader Tractor. Capacity is not numerically specified.",
+          "visualDescription": "Green steel hopper above a rear dispensing chute.",
+          "quantity": 1,
+          "ownerId": "tractor",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "cattle-trough",
+          "name": "Cattle Feed Trough",
+          "description": "A fixed trough on the feeding strip. Delivered feed is held here until cows actually eat it.",
+          "visualDescription": "Long low galvanized trough on metal legs.",
+          "quantity": 1,
+          "ownerId": "north-pasture",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "pasture-water",
+          "name": "Pasture Water Trough",
+          "description": "A fixed float-valve water trough, supplied and usable. Water is not tracked as a counted inventory stack.",
+          "visualDescription": "Wide dark-green trough with clear water.",
+          "quantity": 1,
+          "ownerId": "north-pasture",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "pasture-gate",
+          "name": "North Pasture Gate",
+          "description": "The gate currently closes securely, though its latch catches and could use a small adjustment.",
+          "visualDescription": "Galvanized five-bar gate and a slightly misaligned black latch.",
+          "quantity": 1,
+          "ownerId": "north-pasture",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "horse-feed-bin",
+          "name": "Horse Feed Bin",
+          "description": "A sealed dry bin reserved for Horse Pellets.",
+          "visualDescription": "Blue lidded plastic drum.",
+          "quantity": 1,
+          "ownerId": "feed-shed",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "horse-pellets",
+          "name": "Horse Pellets",
+          "description": "Horse feed tracked in whole level scoops; suitable portions can be stated in the story without inventing a veterinary feeding schedule.",
+          "visualDescription": "Small brown feed pellets.",
+          "quantity": 40,
+          "ownerId": "horse-feed-bin",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "hay-rack",
+          "name": "Hay Rack",
+          "description": "Dry storage for the already separated Hay Flakes.",
+          "visualDescription": "Broad wooden rack raised above the floor.",
+          "quantity": 1,
+          "ownerId": "feed-shed",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "hay-flakes",
+          "name": "Hay Flakes",
+          "description": "Already separated flakes of hay; one tracked unit is one whole flake. No bale-to-flake conversion is needed.",
+          "visualDescription": "Compact rectangular flakes of dry meadow hay.",
+          "quantity": 60,
+          "ownerId": "hay-rack",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "clover-bucket",
+          "name": "Clover Feed Bucket",
+          "description": "A carryable feed bucket reserved for Clover.",
+          "visualDescription": "Round burgundy bucket with a black handle.",
+          "quantity": 1,
+          "ownerId": "stable-aisle",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "pippin-bucket",
+          "name": "Pippin Feed Bucket",
+          "description": "A carryable feed bucket reserved for Pippin.",
+          "visualDescription": "Round navy bucket with a black handle.",
+          "quantity": 1,
+          "ownerId": "stable-aisle",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "horse-water",
+          "name": "Horse Water Trough",
+          "description": "A filled float-valve trough shared by both horses; its water is not a counted stack.",
+          "visualDescription": "Low black oval water trough.",
+          "quantity": 1,
+          "ownerId": "horse-paddock",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "grooming-kit",
+          "name": "Grooming Kit",
+          "description": "A portable box holding Wooden Grooming Brush, Curry Comb and Hoof Pick.",
+          "visualDescription": "Cream plastic grooming box with a navy handle.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "grooming-brush",
+          "name": "Wooden Grooming Brush",
+          "description": "A single shared brush. A completed handover changes who physically holds it; putting the kit down does not automatically put this brush back inside.",
+          "visualDescription": "Oval wooden-backed brush with soft brown bristles.",
+          "quantity": 1,
+          "ownerId": "grooming-kit",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "curry-comb",
+          "name": "Curry Comb",
+          "description": "A flexible curry comb for routine grooming.",
+          "visualDescription": "Black oval rubber curry comb.",
+          "quantity": 1,
+          "ownerId": "grooming-kit",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "hoof-pick",
+          "name": "Hoof Pick",
+          "description": "A standard hoof pick with a small brush.",
+          "visualDescription": "Blue curved handle and short steel pick.",
+          "quantity": 1,
+          "ownerId": "grooming-kit",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "clover-saddle",
+          "name": "Clover Trail Saddle",
+          "description": "The saddle normally used for Clover; stored on its rack, not on the horse.",
+          "visualDescription": "Well-kept brown leather trail saddle.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "pippin-saddle",
+          "name": "Pippin Riding Saddle",
+          "description": "The saddle normally used for Pippin; stored on its rack, not on the horse.",
+          "visualDescription": "Dark brown all-purpose leather saddle.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "clover-bridle",
+          "name": "Clover Bridle",
+          "description": "Clover's named bridle, hanging on its peg.",
+          "visualDescription": "Brown leather bridle with plain steel fittings.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "pippin-bridle",
+          "name": "Pippin Bridle",
+          "description": "Pippin's named bridle, hanging on its peg.",
+          "visualDescription": "Black leather bridle with plain steel fittings.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "clover-halter",
+          "name": "Clover Halter and Lead",
+          "description": "A halter and attached lead kept together as one set.",
+          "visualDescription": "Burgundy webbing halter and cream lead rope.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "pippin-halter",
+          "name": "Pippin Halter and Lead",
+          "description": "A halter and attached lead kept together as one set.",
+          "visualDescription": "Navy webbing halter and cream lead rope.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "erin-helmet",
+          "name": "Charcoal Riding Helmet",
+          "description": "Erin's riding helmet, stored on the tack-room shelf.",
+          "visualDescription": "Matte charcoal riding helmet.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "alex-helmet",
+          "name": "Green Riding Helmet",
+          "description": "Alex's riding helmet, stored on the tack-room shelf.",
+          "visualDescription": "Matte dark-green riding helmet.",
+          "quantity": 1,
+          "ownerId": "tack-room",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "toolbox",
+          "name": "Workshop Toolbox",
+          "description": "A portable toolbox holding Adjustable Spanner and Claw Hammer.",
+          "visualDescription": "Red metal toolbox with a black handle.",
+          "quantity": 1,
+          "ownerId": "workshop",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "spanner",
+          "name": "Adjustable Spanner",
+          "description": "A hand tool useful for adjusting the sticky gate latch.",
+          "visualDescription": "Worn silver adjustable spanner.",
+          "quantity": 1,
+          "ownerId": "toolbox",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "hammer",
+          "name": "Claw Hammer",
+          "description": "An ordinary general-purpose workshop hammer.",
+          "visualDescription": "Steel claw head and scuffed wooden handle.",
+          "quantity": 1,
+          "ownerId": "toolbox",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "kitchen-table",
+          "name": "Kitchen Table",
+          "description": "A surface container for the two mugs and Household Notebook.",
+          "visualDescription": "Scrubbed pine table under a blue checked cloth.",
+          "quantity": 1,
+          "ownerId": "kitchen",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "alex-mug",
+          "name": "Alex Blue Mug",
+          "description": "Alex's usual mug; it begins on the table, not in his hand. Drinks are not separately counted.",
+          "visualDescription": "Broad blue ceramic mug.",
+          "quantity": 1,
+          "ownerId": "kitchen-table",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "erin-mug",
+          "name": "Erin Cream Mug",
+          "description": "Erin's usual mug; it begins on the table.",
+          "visualDescription": "Cream ceramic mug with a narrow green rim.",
+          "quantity": 1,
+          "ownerId": "kitchen-table",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "household-notebook",
+          "name": "Household Notebook",
+          "description": "A shared book for shopping and optional jobs; it contains no record of today's chores being completed.",
+          "visualDescription": "Small lined notebook with a faded floral cover.",
+          "quantity": 1,
+          "ownerId": "kitchen-table",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "fridge",
+          "name": "Refrigerator",
+          "description": "A household refrigerator holding the tracked Eggs; ordinary condiments are background.",
+          "visualDescription": "White refrigerator with two small magnets.",
+          "quantity": 1,
+          "ownerId": "kitchen",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "eggs",
+          "name": "Eggs",
+          "description": "Fresh eggs counted individually; cracking eggs for breakfast reduces this stack by the exact number used.",
+          "visualDescription": "Brown-shelled eggs in a carton.",
+          "quantity": 10,
+          "ownerId": "fridge",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "pantry",
+          "name": "Pantry Cupboard",
+          "description": "A dry cupboard holding the tracked Bread Slices. Tea, flour, salt and other basic staples are background, not a complete grocery ledger.",
+          "visualDescription": "Narrow cream-painted cupboard.",
+          "quantity": 1,
+          "ownerId": "kitchen",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "bread",
+          "name": "Bread Slices",
+          "description": "Sliced bread counted as individual slices, not whole loaves.",
+          "visualDescription": "Farmhouse bread slices in a paper bag.",
+          "quantity": 12,
+          "ownerId": "pantry",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "kettle",
+          "name": "Kitchen Kettle",
+          "description": "An ordinary electric kettle; tap water and electricity are available and not counted.",
+          "visualDescription": "Brushed steel kettle with a black handle.",
+          "quantity": 1,
+          "ownerId": "kitchen",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "recipe-book",
+          "name": "Recipe Book",
+          "description": "A modest collection of familiar soups, bread and baking recipes.",
+          "visualDescription": "Soft green hardback with flour marks on the spine.",
+          "quantity": 1,
+          "ownerId": "kitchen",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "laundry-basket",
+          "name": "Laundry Basket",
+          "description": "A portable basket with a few untracked ordinary work clothes for a domestic afternoon.",
+          "visualDescription": "Woven wicker laundry basket.",
+          "quantity": 1,
+          "ownerId": "mudroom",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "alex-boots",
+          "name": "Alex Work Boots",
+          "description": "Alex's work boots, waiting on the boot mat; his current wardrobe has house slippers until he changes.",
+          "visualDescription": "Scuffed brown leather work boots.",
+          "quantity": 1,
+          "ownerId": "mudroom",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "erin-boots",
+          "name": "Erin Yard Boots",
+          "description": "Erin's outdoor boots, waiting on the boot mat.",
+          "visualDescription": "Dark-green rubber yard boots.",
+          "quantity": 1,
+          "ownerId": "mudroom",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "garden-basket",
+          "name": "Garden Basket",
+          "description": "A basket holding Garden Trowel and Gardening Gloves.",
+          "visualDescription": "Small willow basket with a bentwood handle.",
+          "quantity": 1,
+          "ownerId": "garden",
+          "equipped": false,
+          "isContainer": true
+        },
+        {
+          "id": "trowel",
+          "name": "Garden Trowel",
+          "description": "A small hand tool for the herb bed.",
+          "visualDescription": "Blue-painted handle and soil-darkened steel blade.",
+          "quantity": 1,
+          "ownerId": "garden-basket",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "garden-gloves",
+          "name": "Gardening Gloves",
+          "description": "One pair of gloves, tracked as a single set.",
+          "visualDescription": "Green canvas gloves with brown palms.",
+          "quantity": 1,
+          "ownerId": "garden-basket",
+          "equipped": false,
+          "isContainer": false
+        },
+        {
+          "id": "reading-book",
+          "name": "Evening Reading Book",
+          "description": "A gentle travel memoir available for an evening at home.",
+          "visualDescription": "Faded blue paperback with a creased spine.",
+          "quantity": 1,
+          "ownerId": "sitting-room",
+          "equipped": false,
+          "isContainer": false
+        }
+      ],
+      "relationships": [
+        {
+          "id": "alex-erin",
+          "fromId": "alex",
+          "toId": "erin",
+          "notes": "Married partners, affectionate and comfortable together; they share decisions and divide chores without keeping score."
+        },
+        {
+          "id": "alex-ben",
+          "fromId": "alex",
+          "toId": "ben",
+          "notes": "A patient employer and mentor; trusts Ben with familiar jobs and explains unfamiliar machinery."
+        },
+        {
+          "id": "erin-ben",
+          "fromId": "erin",
+          "toId": "ben",
+          "notes": "Friendly working relationship; enjoys helping him build confidence around the horses."
+        },
+        {
+          "id": "erin-june",
+          "fromId": "erin",
+          "toId": "june",
+          "notes": "Friends who trade garden cuttings and sometimes plan an easy weekend ride."
+        },
+        {
+          "id": "alex-june",
+          "fromId": "alex",
+          "toId": "june",
+          "notes": "Longstanding neighbors, comfortable sharing tea and practical help."
+        },
+        {
+          "id": "erin-clover",
+          "fromId": "erin",
+          "toId": "clover",
+          "notes": "Erin is Clover's familiar rider and handler; their trust is expressed through ordinary horse behaviour."
+        },
+        {
+          "id": "alex-pippin",
+          "fromId": "alex",
+          "toId": "pippin",
+          "notes": "Alex is Pippin's familiar rider; neither horse is a possession represented by an item record."
+        }
+      ],
+      "threads": [
+        {
+          "id": "gate-job",
+          "title": "A small latch adjustment",
+          "notes": "The pasture gate closes, but its catch is awkward. A minor repair can be fitted into a calm day; nothing has broken loose.",
+          "status": "open"
+        },
+        {
+          "id": "weekend-ride",
+          "title": "An easy ride together",
+          "notes": "Erin would like an unhurried creek-loop ride when the ground dries. June could be invited, but no invitation or arrangement has happened.",
+          "status": "open"
+        },
+        {
+          "id": "herb-bed",
+          "title": "Finishing the herb bed",
+          "notes": "A little edging remains to be chosen for the kitchen garden. Alex and Erin have different ideas and can enjoy working it out.",
+          "status": "open"
+        }
+      ],
+      "funds": 1500,
+      "cargoNotes": "Shared household operating money is 1,500 local dollars. Equipment is household property; item holder/storage records track physical custody, not legal title. No freight or deliveries are currently pending."
+    },
+    "context": {
+      "sceneBrief": {
+        "purpose": "Open with Alex and Erin at the kitchen table after light overnight rain. Let a warm breakfast conversation reveal their relationship and leave room to choose one next activity.",
+        "tension": "Only the ordinary pull between useful chores and making time for a pleasant day together.",
+        "stopAt": "End in the kitchen after a small choice or suggestion, before anyone starts or completes the outdoor chores.",
+        "viewpointId": "alex",
+        "locationId": "kitchen",
+        "castIds": [
+          "alex",
+          "erin"
+        ],
+        "scope": "next-passage",
+        "clearAfterPassage": true
+      },
+      "lore": [
+        {
+          "id": "setting",
+          "title": "The scale of the day",
+          "text": "Present-day fictional prairie country, early autumn. Overnight drizzle has passed; the morning is cool and brightening. This is a modest ranch with twelve cows and two leisure riding horses, not a large commercial operation. Ordinary meals, chores, conversations and rest are worthwhile scenes. There is no predetermined crisis or hidden mystery.",
+          "keywords": [],
+          "relatedIds": [],
+          "visibility": "always"
+        },
+        {
+          "id": "cattle-round",
+          "title": "The cattle feeding round",
+          "text": "Supplementary cattle feeding uses Cattle Feed from Grain Hopper in Feed Shed. Whole scoops can be loaded into Tractor Feed Bin on Loader Tractor, driven to North Pasture and poured into Cattle Feed Trough. Tractor Cab is inside the tractor. Choose and state any moved whole-scoop count; loading and pouring are transfers, while actual eating consumes feed. This is a possible routine, not an event already completed.",
+          "keywords": [
+            "cattle",
+            "cows",
+            "feeding",
+            "feed"
+          ],
+          "relatedIds": [
+            "feed-shed",
+            "grain-hopper",
+            "cattle-feed",
+            "feed-scoop",
+            "tractor",
+            "tractor-cab",
+            "tractor-bin",
+            "north-pasture",
+            "cattle-trough",
+            "herd"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "horse-meals",
+          "title": "Preparing the horses' feed",
+          "text": "Horse Pellets are in Horse Feed Bin and Hay Flakes in Hay Rack, both in Feed Shed. Clover Feed Bucket and Pippin Feed Bucket start in Stable Aisle. Feed can be carried to the horses or the horses brought in from Horse Paddock. Keep moved whole scoops and hay flakes explicit; no nutritional calculation is required.",
+          "keywords": [
+            "horse feeding",
+            "pellets",
+            "hay",
+            "buckets"
+          ],
+          "relatedIds": [
+            "horse-feed-bin",
+            "horse-pellets",
+            "hay-rack",
+            "hay-flakes",
+            "feed-shed",
+            "clover-bucket",
+            "pippin-bucket",
+            "stable-aisle",
+            "horse-paddock",
+            "clover",
+            "pippin"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "grooming",
+          "title": "An unhurried grooming session",
+          "text": "Grooming Kit in Tack Room contains Wooden Grooming Brush, Curry Comb and Hoof Pick. Clover and Pippin start in Horse Paddock; they can be brought to Stable Aisle. Taking a brush out, handing it over and putting it away are separate physical actions. The person holding a tool need not be its legal owner.",
+          "keywords": [
+            "groom",
+            "grooming",
+            "brush",
+            "hoof"
+          ],
+          "relatedIds": [
+            "grooming-kit",
+            "grooming-brush",
+            "curry-comb",
+            "hoof-pick",
+            "tack-room",
+            "stable-aisle",
+            "horse-paddock",
+            "clover",
+            "pippin"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "leisure-ride",
+          "title": "Preparing a leisure ride",
+          "text": "Clover uses Clover Halter and Lead, Clover Trail Saddle and Clover Bridle; Pippin uses Pippin Halter and Lead, Pippin Riding Saddle and Pippin Bridle. Charcoal Riding Helmet and Green Riding Helmet are available. The equipment is put away in Tack Room after use. Horse Paddock, Stable Aisle and Creek Loop Trail provide turnout, preparation and a gentle outing. Riding moves each rider and horse to the same destination; horses remain characters, not moving rooms.",
+          "keywords": [
+            "ride",
+            "riding",
+            "saddle",
+            "tack"
+          ],
+          "relatedIds": [
+            "clover",
+            "pippin",
+            "clover-halter",
+            "clover-saddle",
+            "clover-bridle",
+            "erin-helmet",
+            "pippin-halter",
+            "pippin-saddle",
+            "pippin-bridle",
+            "alex-helmet",
+            "tack-room",
+            "horse-paddock",
+            "stable-aisle",
+            "creek-trail"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "breakfast",
+          "title": "A simple kitchen breakfast",
+          "text": "Kitchen Table holds Alex Blue Mug, Erin Cream Mug and Household Notebook. Refrigerator holds Eggs; Pantry Cupboard holds Bread Slices. Kitchen Kettle and Recipe Book are nearby. Tap water, tea and basic staples are ordinary background. Count only explicitly tracked whole eggs or slices used, rather than inventing a complete ingredient ledger.",
+          "keywords": [
+            "breakfast",
+            "toast",
+            "eggs",
+            "tea",
+            "baking"
+          ],
+          "relatedIds": [
+            "kitchen",
+            "kitchen-table",
+            "alex-mug",
+            "erin-mug",
+            "household-notebook",
+            "fridge",
+            "eggs",
+            "pantry",
+            "bread",
+            "kettle",
+            "recipe-book"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "gate-repair",
+          "title": "Adjusting the pasture latch",
+          "text": "North Pasture Gate closes securely but its latch catches. Adjustable Spanner in Workshop Toolbox at Workshop is available for a small adjustment. A repair is optional; this is not an escaped-cattle emergency.",
+          "keywords": [
+            "repair",
+            "latch",
+            "spanner",
+            "fix"
+          ],
+          "relatedIds": [
+            "pasture-gate",
+            "spanner",
+            "toolbox",
+            "workshop",
+            "north-pasture"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "home-garden",
+          "title": "Time around the house",
+          "text": "Kitchen Garden has a small unfinished herb bed. Garden Basket there contains Garden Trowel and Gardening Gloves. Front Porch is pleasant for tea; Sitting Room has Evening Reading Book. Laundry Basket waits in Back Mudroom. These are alternatives for a quiet afternoon, not a compulsory checklist.",
+          "keywords": [
+            "garden",
+            "herbs",
+            "laundry",
+            "reading",
+            "porch"
+          ],
+          "relatedIds": [
+            "garden",
+            "garden-basket",
+            "trowel",
+            "garden-gloves",
+            "porch",
+            "sitting-room",
+            "reading-book",
+            "laundry-basket",
+            "mudroom"
+          ],
+          "visibility": "relevant"
+        },
+        {
+          "id": "neighbor",
+          "title": "Neighborly visits",
+          "text": "June Calloway starts at June Smallholding, a fifteen-minute walk from the farmhouse by Farm Lane and County Road. She can visit or be invited for tea and a future ride, but mentioning her does not make her arrive. No visit is arranged at the opening.",
+          "keywords": [
+            "june",
+            "neighbor",
+            "visit",
+            "invite"
+          ],
+          "relatedIds": [
+            "june",
+            "june-home",
+            "farm-lane",
+            "county-road",
+            "porch"
+          ],
+          "visibility": "relevant"
+        }
+      ],
+      "knowledge": [],
+      "memories": [],
+      "compaction": {
+        "epoch": 0,
+        "chapters": [],
+        "book": null
+      }
+    },
+    "factPins": {
+      "fields": [],
+      "rules": [
+        {
+          "id": "animal-behaviour",
+          "text": "Animals behave as ordinary animals and do not speak human dialogue. Keep narrative viewpoint with an adult human unless the user explicitly changes the story style."
+        },
+        {
+          "id": "tractor-model",
+          "text": "Loader Tractor is a moving place with Tractor Cab inside it; Tractor Feed Bin is an item container attached to the tractor. Driving moves the tractor place; the driver stays in the cab until exiting. Do not create a duplicate tractor item."
+        }
+      ]
+    }
+  },
+  "storyId": null
+}

@@ -1,0 +1,123 @@
+// Build first. Isolated large-world UI checks; no provider/model calls or normal library writes.
+import { createRequire } from 'node:module';
+import { createServer } from 'node:http';
+import { spawn } from 'node:child_process';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve, basename, sep } from 'node:path';
+import assert from 'node:assert/strict';
+import { zipSync, unzipSync, strFromU8, strToU8 } from 'fflate';
+
+const require = createRequire(import.meta.url);
+const { chromium } = require('C:/Users/n_tin/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const folder = mkdtempSync(join(tmpdir(), 'storyweaver-records-ui-')), data = join(folder, 'data'), config = join(folder, 'config');
+mkdirSync(data); mkdirSync(config);
+let child, browser, page, base, output = '';
+const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function api(path) { const response = await fetch(base + path); const body = await response.json(); assert.equal(response.ok, true, JSON.stringify(body)); return body; }
+async function stop() { if (!child || child.exitCode !== null) return; const done = new Promise(resolve => child.once('exit', resolve)); child.kill('SIGKILL'); await done; }
+try {
+  const probe = createServer(); await new Promise(resolve => probe.listen(0, '127.0.0.1', resolve)); const port = probe.address().port; await new Promise(resolve => probe.close(resolve)); base = `http://127.0.0.1:${port}`;
+  child = spawn(process.execPath, ['scripts/start-production.mjs'], { windowsHide: true, env: { ...process.env, STORY_PORT: String(port), STORY_DATA_DIR: data, STORY_CONFIG_DIR: config, STORY_SEED_SAMPLE: '0' }, stdio: ['ignore', 'pipe', 'pipe'] });
+  for (const stream of [child.stdout, child.stderr]) stream.on('data', chunk => output = (output + chunk).slice(-20000));
+  for (let n = 0; n < 120; n++) { if (child.exitCode !== null) throw new Error(output); try { if ((await fetch(base + '/api/setups')).ok) break; } catch {} if (n === 119) throw new Error(output); await pause(200); }
+  browser = await chromium.launch({ channel: 'msedge', headless: true }); page = await browser.newPage({ viewport: { width: 1280, height: 1000 } }); page.setDefaultTimeout(18000);
+  const errors = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto(base);
+  const setupFiles = unzipSync(readFileSync('exports/scoping-stress-test/brasswater-setup.zip')), setupDraft = JSON.parse(strFromU8(setupFiles['setup.json']));
+  setupDraft.plan.canon.items.push({ id: 'ui-search-removal', name: 'Search removal target', description: 'A temporary UI-only fixture item.', quantity: 1, ownerId: 'iris', equipped: false });
+  setupFiles['setup.json'] = strToU8(JSON.stringify(setupDraft));
+  const setupResponse = page.waitForResponse(response => response.url().endsWith('/api/setups/import') && response.request().method() === 'POST');
+  await page.getByLabel('Import a setup ZIP', { exact: true }).setInputFiles({ name: 'large-setup.zip', mimeType: 'application/zip', buffer: Buffer.from(zipSync(setupFiles)) });
+  let setup = await (await setupResponse).json();
+  await page.getByRole('heading', { name: 'Shape your story', exact: true }).waitFor();
+  const setupTabs = page.getByRole('group', { name: 'Setup sections', exact: true });
+  await setupTabs.getByRole('button', { name: 'Possessions', exact: true }).click();
+  const setupSearch = page.getByRole('searchbox', { name: 'Search possessions', exact: true });
+  await page.getByRole('search', { name: 'Search possessions', exact: true }).getByText('171 records', { exact: true }).waitFor();
+  await setupSearch.fill('iris-ferry-ticket');
+  const ticket = page.getByRole('region', { name: 'Possession · Unused ferry ticket', exact: true });
+  await ticket.getByLabel('Item name', { exact: true }).fill('Renamed ferry ticket');
+  const renamed = page.getByRole('region', { name: 'Possession · Renamed ferry ticket', exact: true });
+  await renamed.getByLabel('Description', { exact: true }).fill('An edited ticket description retained through filtering.');
+  await setupSearch.fill('no-such-item-in-the-world');
+  await page.getByText(/No possessions match this search/).waitFor();
+  await page.getByRole('search', { name: 'Search possessions', exact: true }).getByRole('button', { name: 'Clear search', exact: true }).click();
+  assert.equal(await renamed.getByLabel('Description', { exact: true }).inputValue(), 'An edited ticket description retained through filtering.');
+  await setupSearch.fill('ui-search-removal');
+  await page.getByRole('region', { name: 'Possession · Search removal target', exact: true }).getByRole('button', { name: 'Remove item', exact: true }).click();
+  await page.getByText(/No possessions match this search/).waitFor();
+  const savedResponse = page.waitForResponse(response => response.url().endsWith(`/api/setups/${setup.id}`) && response.request().method() === 'PATCH');
+  await page.getByRole('button', { name: 'Save setup draft', exact: true }).first().click(); assert.equal((await savedResponse).ok(), true);
+  await page.getByText('Setup saved locally.', { exact: true }).waitFor(); setup = await api('/api/setups/' + setup.id);
+  assert.equal(setup.plan.canon.items.length, 170); assert.equal(setup.plan.canon.items.some(item => item.id === 'ui-search-removal'), false); assert.equal(setup.plan.canon.items[0].id, setupDraft.plan.canon.items[0].id);
+  assert.equal(setup.plan.canon.items.find(item => item.id === 'iris-ferry-ticket').name, 'Renamed ferry ticket');
+  // Instructions are a local draft even when persisted record fields are clean.
+  await page.getByLabel('New possession direction', { exact: true }).fill('An unused item-design instruction.');
+  await page.getByText(/Saving the setup does not save these instructions/).waitFor();
+  assert.equal(await page.evaluate(() => { const event = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(event); return event.defaultPrevented; }), true);
+  let guarded = false; page.once('dialog', dialog => { guarded = true; return dialog.dismiss(); });
+  await page.getByRole('navigation', { name: 'Story navigation' }).getByRole('button', { name: 'Library', exact: true }).click();
+  assert.equal(guarded, true); assert.equal(await page.getByLabel('New possession direction', { exact: true }).inputValue(), 'An unused item-design instruction.');
+  await setupTabs.getByRole('button', { name: 'World', exact: true }).click(); await setupTabs.getByRole('button', { name: 'Possessions', exact: true }).click();
+  assert.equal(await page.getByLabel('New possession direction', { exact: true }).inputValue(), 'An unused item-design instruction.');
+  await page.getByRole('button', { name: 'Clear unused AI instructions', exact: true }).click();
+  assert.equal(await page.getByLabel('New possession direction', { exact: true }).inputValue(), '');
+  assert.equal(await page.evaluate(() => { const event = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(event); return event.defaultPrevented; }), false);
+  await setupSearch.fill('iris-ferry-ticket');
+  await renamed.getByLabel('Description', { exact: true }).fill('An unsaved change to discard.');
+  const dismissedReload=new Promise(resolve=>page.once('dialog',async dialog=>{await dialog.dismiss();resolve();}));await page.getByRole('button', { name: 'Reload saved setup', exact: true }).click();await dismissedReload;
+  assert.equal(await renamed.getByLabel('Description', { exact: true }).inputValue(), 'An unsaved change to discard.');
+  page.once('dialog', dialog => dialog.accept()); await page.getByRole('button', { name: 'Reload saved setup', exact: true }).click();
+  await page.getByText('Loaded the saved setup.', { exact: true }).waitFor();
+  assert.equal(await setupSearch.inputValue(), '');
+  assert.equal(await renamed.getByLabel('Description', { exact: true }).inputValue(), 'An edited ticket description retained through filtering.');
+  await setupSearch.fill('nothing-matches'); await page.getByRole('button', { name: 'Add possession', exact: true }).click();
+  assert.equal(await setupSearch.inputValue(), '');
+  await page.getByRole('region', { name: 'Possession · New possession', exact: true }).getByRole('button', { name: 'Remove item', exact: true }).click();
+  // Keyboard search and editing a title keep the same draft visible until the next search.
+  await setupTabs.getByRole('button', { name: 'Story threads', exact: true }).click();
+  const thread = setup.plan.canon.threads.at(-1); await page.getByRole('searchbox', { name: 'Search story threads', exact: true }).fill(thread.id);
+  await page.getByRole('region', { name: `Story thread · ${thread.title}`, exact: true }).getByLabel('Thread title', { exact: true }).fill('A revised thread title');
+  await page.getByRole('region', { name: 'Story thread · A revised thread title', exact: true }).getByLabel('Thread notes', { exact: true }).fill('Still editable after its title changes.');
+  await page.setViewportSize({ width: 320, height: 884 }); assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'Filtered setup must fit 320px.');
+  page.once('dialog', dialog => dialog.accept()); await page.getByRole('navigation', { name: 'Story navigation' }).getByRole('button', { name: 'Library', exact: true }).click();
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  const storyResponse = page.waitForResponse(response => response.url().endsWith('/api/import') && response.request().method() === 'POST').then(response => response.ok());
+  await page.getByLabel('Import a story ZIP', { exact: true }).setInputFiles('exports/scoping-stress-test/brasswater-story.zip');
+  assert.equal(await storyResponse, true); const story = await api('/api/stories/' + (await api('/api/stories'))[0].id);
+  await page.getByRole('navigation', { name: 'Story navigation' }).getByRole('button', { name: 'Records', exact: true }).click();
+  await page.getByRole('group', { name: 'Record sections', exact: true }).getByRole('button', { name: 'Items', exact: true }).click();
+  const recordSearch = page.getByRole('searchbox', { name: 'Search items', exact: true }), inventory = page.getByRole('region', { name: 'Inventory browser', exact: true });
+  await recordSearch.fill('iris-ferry-ticket');
+  assert.equal(await inventory.getByRole('button', { name: /^Edit / }).count(), 3, 'A matching item retains two ancestors without unrelated siblings.');
+  assert.equal(await inventory.getByRole('button', { name: 'Edit Boot repair receipt', exact: true }).count(), 0);
+  await inventory.getByRole('button', { name: 'Edit Unused ferry ticket', exact: true }).click();
+  const editor = page.getByRole('form', { name: 'item editor', exact: true });
+  await editor.getByLabel('Name', { exact: true }).fill('Unsaved ticket change');
+  await recordSearch.fill('unfindable'); await page.getByText(/No saved items match this search/).waitFor();
+  assert.equal(await editor.getByLabel('Name', { exact: true }).inputValue(), 'Unsaved ticket change');
+  assert.equal(await page.locator('.record-picker select').inputValue(), 'iris-ferry-ticket');
+  assert.match(await page.locator('.record-picker select option:checked').textContent(), /outside search/);
+  await page.getByRole('search', { name: 'Search items', exact: true }).getByRole('button', { name: 'Clear search', exact: true }).click();
+  assert.equal(await editor.getByLabel('Name', { exact: true }).inputValue(), 'Unsaved ticket change');
+  await inventory.getByRole('button', { name: 'Collapse holders', exact: true }).click(); assert.equal(await inventory.locator('details[open]').count(), 0);
+  await inventory.getByRole('button', { name: 'Expand holders', exact: true }).click(); assert.ok(await inventory.locator('details[open]').count() > 0);
+  await inventory.locator('summary').first().click(); await inventory.getByRole('button', { name: 'Expand holders', exact: true }).click();
+  assert.equal(await inventory.locator('details:not([open])').count(), 0, 'Expand works after a manually closed holder.');
+  await page.setViewportSize({ width: 320, height: 884 }); await recordSearch.fill('iris-ferry-ticket');
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'Records, inventory paths and search fit 320px.');
+  mkdirSync('test-results', { recursive: true }); await page.screenshot({ path: 'test-results/setup-records-ui-mobile.png', fullPage: true });
+  assert.equal((await api('/api/stories/' + story.id)).canon.items.find(item => item.id === 'iris-ferry-ticket').name, 'Unused ferry ticket', 'Search never saves a record draft.');
+  page.once('dialog', dialog => dialog.accept()); await page.getByRole('navigation', { name: 'Story navigation' }).getByRole('button', { name: 'Library', exact: true }).click();
+  await page.getByRole('button', { name: 'Begin a new story', exact: true }).click(); await page.getByRole('button', { name: 'Start with a manual setup', exact: true }).click();
+  await page.getByText('Setup saved locally.', { exact: true }).waitFor(); await setupTabs.getByRole('button', { name: 'Relationships', exact: true }).click();
+  assert.equal(await page.getByRole('button', { name: 'Add relationship', exact: true }).isDisabled(), true);
+  await page.getByText('Add a second cast member before creating a relationship.', { exact: true }).waitFor();
+  assert.equal((await api('/api/dev/jobs')).jobs.length, 0); assert.deepEqual(errors, []);
+  console.log('PASS: Brasswater setup/records search, accurate counts, matching storage paths without siblings, stable dirty editors, ID-safe removal, add/no-match states, holder controls, one-cast relationships and 320px layout. No model calls or normal-library writes.');
+} catch (error) {
+  mkdirSync('test-results', { recursive: true }); await page?.screenshot({ path: 'test-results/setup-records-ui-failure.png', fullPage: true }).catch(() => {}); writeFileSync('test-results/setup-records-ui-failure.log', output); throw error;
+} finally {
+  await browser?.close(); await stop(); const target = resolve(folder); assert.ok(target.startsWith(resolve(tmpdir()) + sep) && basename(target).startsWith('storyweaver-records-ui-')); rmSync(target, { recursive: true, force: true });
+}

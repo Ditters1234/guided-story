@@ -1,0 +1,502 @@
+{
+  "validatedAt": "2026-10-21T01:29:17.018Z",
+  "kind": "unfinished story setup",
+  "archive": "red-willow-ranch-setup.zip",
+  "archiveBytes": 12931,
+  "counts": {
+    "humanCharacters": 4,
+    "horses": 2,
+    "herdGroups": 1,
+    "cowsInGroup": 12,
+    "cast": 7,
+    "places": 29,
+    "items": 46,
+    "containers": 14,
+    "lore": 9,
+    "relationships": 7,
+    "threads": 3
+  },
+  "schemaAndGraph": true,
+  "archiveRoundtrip": true,
+  "inMemoryRepositoryImportExport": true,
+  "openingOnlyAlexAndErin": true,
+  "movingTractorAndParkedExit": true,
+  "feedSplitTransferConsumption": {
+    "validated": true,
+    "initialStock": 120,
+    "loaded": 12,
+    "remainingInHopper": 108,
+    "consumed": 4,
+    "remainingInTrough": 8,
+    "suppliedEffectsOnly": true
+  },
+  "realModelCalls": 0,
+  "networkCalls": 0,
+  "normalLibraryChanged": false,
+  "requestAudit": {
+    "contextTokens": 32000,
+    "method": "app conservative token estimate; mocked completions, not model-quality evidence",
+    "opening": [
+      {
+        "stage": "narration",
+        "estimatedInputTokens": 8935,
+        "outputAllowance": 4096
+      },
+      {
+        "stage": "extraction",
+        "estimatedInputTokens": 13287,
+        "outputAllowance": 4096
+      }
+    ],
+    "directions": [
+      {
+        "case": "cattle",
+        "direction": "Feed the cows.",
+        "estimatedInputTokens": 11363,
+        "activeCast": [
+          "alex",
+          "erin"
+        ],
+        "selectedPlaces": [
+          "kitchen",
+          "house",
+          "ranch",
+          "feed-shed",
+          "yard",
+          "tractor",
+          "tractor-cab",
+          "north-pasture"
+        ],
+        "items": [
+          {
+            "id": "grain-hopper",
+            "name": "Grain Hopper",
+            "holderId": "feed-shed"
+          },
+          {
+            "id": "cattle-feed",
+            "name": "Cattle Feed",
+            "holderId": "grain-hopper"
+          },
+          {
+            "id": "feed-scoop",
+            "name": "Level Feed Scoop",
+            "holderId": "feed-shed"
+          },
+          {
+            "id": "tractor-bin",
+            "name": "Tractor Feed Bin",
+            "holderId": "tractor"
+          },
+          {
+            "id": "cattle-trough",
+            "name": "Cattle Feed Trough",
+            "holderId": "north-pasture"
+          },
+          {
+            "id": "kitchen-table",
+            "name": "Kitchen Table",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "fridge",
+            "name": "Refrigerator",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry Cupboard",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "kettle",
+            "name": "Kitchen Kettle",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "recipe-book",
+            "name": "Recipe Book",
+            "holderId": "kitchen"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "case": "grooming",
+        "direction": "Groom Pippin with the Wooden Grooming Brush.",
+        "estimatedInputTokens": 11307,
+        "activeCast": [
+          "alex",
+          "erin"
+        ],
+        "selectedPlaces": [
+          "kitchen",
+          "house",
+          "ranch",
+          "pippin-stall",
+          "stable",
+          "horse-yard",
+          "stable-aisle",
+          "tack-room",
+          "horse-paddock"
+        ],
+        "items": [
+          {
+            "id": "grooming-kit",
+            "name": "Grooming Kit",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "grooming-brush",
+            "name": "Wooden Grooming Brush",
+            "holderId": "grooming-kit"
+          },
+          {
+            "id": "curry-comb",
+            "name": "Curry Comb",
+            "holderId": "grooming-kit"
+          },
+          {
+            "id": "hoof-pick",
+            "name": "Hoof Pick",
+            "holderId": "grooming-kit"
+          },
+          {
+            "id": "kitchen-table",
+            "name": "Kitchen Table",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "fridge",
+            "name": "Refrigerator",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry Cupboard",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "kettle",
+            "name": "Kitchen Kettle",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "recipe-book",
+            "name": "Recipe Book",
+            "holderId": "kitchen"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "case": "breakfast",
+        "direction": "Make eggs and toast for breakfast.",
+        "estimatedInputTokens": 9760,
+        "activeCast": [
+          "alex",
+          "erin"
+        ],
+        "selectedPlaces": [
+          "kitchen",
+          "house",
+          "ranch"
+        ],
+        "items": [
+          {
+            "id": "kitchen-table",
+            "name": "Kitchen Table",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "alex-mug",
+            "name": "Alex Blue Mug",
+            "holderId": "kitchen-table"
+          },
+          {
+            "id": "erin-mug",
+            "name": "Erin Cream Mug",
+            "holderId": "kitchen-table"
+          },
+          {
+            "id": "household-notebook",
+            "name": "Household Notebook",
+            "holderId": "kitchen-table"
+          },
+          {
+            "id": "fridge",
+            "name": "Refrigerator",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "eggs",
+            "name": "Eggs",
+            "holderId": "fridge"
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry Cupboard",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "bread",
+            "name": "Bread Slices",
+            "holderId": "pantry"
+          },
+          {
+            "id": "kettle",
+            "name": "Kitchen Kettle",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "recipe-book",
+            "name": "Recipe Book",
+            "holderId": "kitchen"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "case": "repair",
+        "direction": "Repair the sticky pasture gate latch.",
+        "estimatedInputTokens": 11557,
+        "activeCast": [
+          "alex",
+          "erin"
+        ],
+        "selectedPlaces": [
+          "kitchen",
+          "house",
+          "ranch",
+          "north-pasture",
+          "yard",
+          "workshop",
+          "feed-shed"
+        ],
+        "items": [
+          {
+            "id": "grain-hopper",
+            "name": "Grain Hopper",
+            "holderId": "feed-shed"
+          },
+          {
+            "id": "cattle-feed",
+            "name": "Cattle Feed",
+            "holderId": "grain-hopper"
+          },
+          {
+            "id": "cattle-trough",
+            "name": "Cattle Feed Trough",
+            "holderId": "north-pasture"
+          },
+          {
+            "id": "pasture-water",
+            "name": "Pasture Water Trough",
+            "holderId": "north-pasture"
+          },
+          {
+            "id": "pasture-gate",
+            "name": "North Pasture Gate",
+            "holderId": "north-pasture"
+          },
+          {
+            "id": "toolbox",
+            "name": "Workshop Toolbox",
+            "holderId": "workshop"
+          },
+          {
+            "id": "spanner",
+            "name": "Adjustable Spanner",
+            "holderId": "toolbox"
+          },
+          {
+            "id": "kitchen-table",
+            "name": "Kitchen Table",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "fridge",
+            "name": "Refrigerator",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry Cupboard",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "kettle",
+            "name": "Kitchen Kettle",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "recipe-book",
+            "name": "Recipe Book",
+            "holderId": "kitchen"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "case": "riding",
+        "direction": "Prepare for an easy ride along Creek Loop Trail.",
+        "estimatedInputTokens": 12107,
+        "activeCast": [
+          "alex",
+          "erin"
+        ],
+        "selectedPlaces": [
+          "kitchen",
+          "house",
+          "ranch",
+          "creek-trail",
+          "stable",
+          "horse-yard",
+          "stable-aisle",
+          "tack-room",
+          "horse-paddock"
+        ],
+        "items": [
+          {
+            "id": "clover-saddle",
+            "name": "Clover Trail Saddle",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "pippin-saddle",
+            "name": "Pippin Riding Saddle",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "clover-bridle",
+            "name": "Clover Bridle",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "pippin-bridle",
+            "name": "Pippin Bridle",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "clover-halter",
+            "name": "Clover Halter and Lead",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "pippin-halter",
+            "name": "Pippin Halter and Lead",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "erin-helmet",
+            "name": "Charcoal Riding Helmet",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "alex-helmet",
+            "name": "Green Riding Helmet",
+            "holderId": "tack-room"
+          },
+          {
+            "id": "kitchen-table",
+            "name": "Kitchen Table",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "fridge",
+            "name": "Refrigerator",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry Cupboard",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "kettle",
+            "name": "Kitchen Kettle",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "recipe-book",
+            "name": "Recipe Book",
+            "holderId": "kitchen"
+          }
+        ],
+        "warnings": []
+      },
+      {
+        "case": "garden",
+        "direction": "Work on the herb garden.",
+        "estimatedInputTokens": 10575,
+        "activeCast": [
+          "alex",
+          "erin"
+        ],
+        "selectedPlaces": [
+          "kitchen",
+          "house",
+          "ranch",
+          "garden",
+          "sitting-room",
+          "mudroom",
+          "porch"
+        ],
+        "items": [
+          {
+            "id": "kitchen-table",
+            "name": "Kitchen Table",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "fridge",
+            "name": "Refrigerator",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "pantry",
+            "name": "Pantry Cupboard",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "kettle",
+            "name": "Kitchen Kettle",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "recipe-book",
+            "name": "Recipe Book",
+            "holderId": "kitchen"
+          },
+          {
+            "id": "laundry-basket",
+            "name": "Laundry Basket",
+            "holderId": "mudroom"
+          },
+          {
+            "id": "garden-basket",
+            "name": "Garden Basket",
+            "holderId": "garden"
+          },
+          {
+            "id": "trowel",
+            "name": "Garden Trowel",
+            "holderId": "garden-basket"
+          },
+          {
+            "id": "garden-gloves",
+            "name": "Gardening Gloves",
+            "holderId": "garden-basket"
+          },
+          {
+            "id": "reading-book",
+            "name": "Evening Reading Book",
+            "holderId": "sitting-room"
+          }
+        ],
+        "warnings": []
+      }
+    ]
+  },
+  "limitations": "The mock opening is diagnostic only and is not in the archive. Supplied-effect checks validate graph and state handling, not live extraction quality. This is a curated starting state, not evidence that a live model will always preserve it. Feeding quantities are story inventory units, not animal-care advice. Physical holder/storage is tracked; legal title is described only in notes."
+}
